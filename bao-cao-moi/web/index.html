@@ -14,19 +14,19 @@
   --nen: #eef3f8; --mat: #ffffff; --mat2: #e3ecf5; --chu: #16263a; --mo: #54677c; --vien: #c6d4e2; --luoi: #dbe5ef;
   --nhan: #1c5d99; --nhan-chu: #ffffff; --pk: #b3261e; --pfk: #1f4eb4; --fk: #2e7d32; --dat: #fbecd2; --dat-chu: #7a4a00;
   --dau: #bdd7ee; --dau-chu: #10243a; --net: #3a5f8f; --sang: #d9480f; --cam: #fde3c8; --cam-v: #d98a1f; --lam: #dbe8fa; --lam-v: #5b7fa6;
-  --vang: #fff1c9; --vang-v: #d9b44a; --vung: rgba(28, 93, 153, .055); --ra: #d9480f; --vao: #a61e9a;
+  --vang: #fff1c9; --vang-v: #d9b44a; --vung: rgba(28, 93, 153, .055); --ra: #d9480f; --vao: #a61e9a; --tren: #15803d;
   --than: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif; --ma: "IBM Plex Mono", Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c; --luoi: #1b2a3a;
   --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f;
   --dau: #2b4a6b; --dau-chu: #e6edf5; --net: #8fb2d8; --sang: #ffa45c; --cam: #4a3216; --cam-v: #e0a24a; --lam: #24405f; --lam-v: #8fb2d8;
-  --vang: #41381c; --vang-v: #c9a84a; --vung: rgba(125, 184, 238, .07); --ra: #ffa45c; --vao: #f08be6; color-scheme: dark } }
+  --vang: #41381c; --vang-v: #c9a84a; --vung: rgba(125, 184, 238, .07); --ra: #ffa45c; --vao: #f08be6; --tren: #6fe0a0; color-scheme: dark } }
 :root[data-theme="dark"] {
   --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c; --luoi: #1b2a3a;
   --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f;
   --dau: #2b4a6b; --dau-chu: #e6edf5; --net: #8fb2d8; --sang: #ffa45c; --cam: #4a3216; --cam-v: #e0a24a; --lam: #24405f; --lam-v: #8fb2d8;
-  --vang: #41381c; --vang-v: #c9a84a; --vung: rgba(125, 184, 238, .07); --ra: #ffa45c; --vao: #f08be6; color-scheme: dark }
+  --vang: #41381c; --vang-v: #c9a84a; --vung: rgba(125, 184, 238, .07); --ra: #ffa45c; --vao: #f08be6; --tren: #6fe0a0; color-scheme: dark }
 * { box-sizing: border-box }
 html, body { height: 100% }
 body { background: var(--nen); color: var(--chu); font: 15px/1.55 var(--than); margin: 0; display: flex; flex-direction: column }
@@ -131,6 +131,7 @@ textarea { width: 100%; min-height: 150px; font: .85rem/1.5 var(--ma); padding: 
 .mo { opacity: .13 }
 .sang .du, .du.sang, .sang .mui, .mui.sang { stroke: var(--sang); stroke-width: 2.6 }
 .nut-sang .t-vo, .nut-sang .e-vo, .nut-sang .m-vo, .nut-sang .g-tron { stroke: var(--sang); stroke-width: 2.6 }
+.tren .du, .tren .mui { stroke: var(--tren); stroke-width: 2 }
 .ra .du, .ra .mui { stroke: var(--ra); stroke-width: 2.8 }
 .vao .du, .vao .mui { stroke: var(--vao); stroke-width: 2.8 }
 .nut-ra .t-vo, .nut-ra .e-vo, .nut-ra .m-vo, .nut-ra .o-vo, .nut-ra .g-tron { stroke: var(--ra); stroke-width: 2.4 }
@@ -138,7 +139,10 @@ textarea { width: 100%; min-height: 150px; font: .85rem/1.5 var(--ma); padding: 
 .nut-chon .t-vo, .nut-chon .e-vo, .nut-chon .m-vo, .nut-chon .o-vo, .nut-chon .g-tron { stroke: var(--chu); stroke-width: 3.2 }
 .vt:not(.ra, .vao, .sang, .mo) { opacity: .4 }
 .kh { display: inline-block; width: 22px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px }
-.kh.ra-m { background: var(--ra) } .kh.vao-m { background: var(--vao) }
+.kh.ra-m { background: var(--ra) } .kh.vao-m { background: var(--vao) } .kh.tren-m { background: var(--tren) }
+.ds-dg { max-height: 260px; overflow: auto; border: 1px solid var(--vien); border-radius: 4px; padding: 4px; margin: 4px 0 12px }
+.ds-dg h4 { margin: 6px 6px 2px; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; color: var(--mo) }
+.ds-dg .muc { padding: 3px 6px; font-size: .84rem }
 .lien { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 10px }
 .lien button { background: var(--mat2); border: 1px solid var(--vien); border-radius: 3px; padding: 0 6px; font: .76rem var(--ma); overflow-wrap: anywhere; text-align: left }
 .giay { fill: #fff }
@@ -190,7 +194,7 @@ function bangCot(b, gon) {
 
 /* ---------- canvas: camera ---------- */
 const NS = 'http://www.w3.org/2000/svg';
-let cam = { x: 0, y: 0, z: 1 }, cv, gCam, ma = 'quanhe', nut = {}, duongVe = [], chon = null, duongChon = null, nhomChon = null, hienVaiTro = false, vaiTroMa = { quanhe: false, erd: false, thi: true, hinh: false }, hienNhan = true, hinhChon = 0, nhomI = -1, benAn = false;
+let cam = { x: 0, y: 0, z: 1 }, cv, gCam, ma = 'quanhe', nut = {}, duongVe = [], chon = null, duongChon = null, nhomChon = null, hienVaiTro = false, vaiTroMa = { quanhe: false, erd: false, thi: true, hinh: false }, hienNhan = true, nutTruoc = null, hinhChon = 0, nhomI = -1, benAn = false;
 function apCam() {
   gCam.setAttribute('transform', `translate(${cam.x} ${cam.y}) scale(${cam.z})`);
   $('.ve').style.backgroundSize = `${26 * cam.z}px ${26 * cam.z}px`;
@@ -243,7 +247,7 @@ function ganCam() {
   const het = x => {
     con.delete(x.pointerId); vk = 0; cv.classList.remove('keo');
     if (!keo) return;
-    if (!keo.dao) { chon = keo.id && nut[keo.id].chon !== false ? keo.id : null; duongChon = null; toMau(); moBen(); }
+    if (!keo.dao) { chon = keo.id && nut[keo.id].chon !== false ? keo.id : null; duongChon = null; nutTruoc = null; toMau(); moBen(); }
     else if (keo.id) luuViTri();
     keo = null;
   };
@@ -263,7 +267,12 @@ function veBan() {
 }
 const sv = (ten, a = {}, cha) => { const n = document.createElementNS(NS, ten); for (const k in a) n.setAttribute(k, a[k]); if (cha) cha.append(n); return n; };
 const chu = (s, x, y, lop, cha) => { const t = sv('text', { x, y, class: lop }, cha); t.textContent = s; return t; };
-function luuViTri() { const v = {}; for (const k in nut) v[k] = [Math.round(nut[k].x), Math.round(nut[k].y)]; lu('viTri-' + ma, v); }
+function luuViTri() {
+  const tuy = lu('banDoTuy') || {}, cm = TILE[ma];
+  for (const k in nut) { const n = nut[k], ten = ma === 'thi' ? n.ten : k, v = [Math.round((n.x + n.w / 2) / cm), Math.round((n.y + n.h / 2) / cm)], c = BD[ten];
+    if (!c || Math.hypot(v[0] - c[0], v[1] - c[1]) > 2) { BD[ten] = v; tuy[ten] = v; } }
+  lu('banDoTuy', tuy);
+}
 
 /* ---------- sơ đồ quan hệ ---------- */
 const CAO = 24, DAU = 32, CK = 7.8;
@@ -272,18 +281,27 @@ const XEP = { b1: [['LOAIHANG', 'THUONGHIEU'], ['MATHANG'], ['DINHNGHIATHONGSO',
   b3: [['MAGIAMGIA', 'PHIEUGIAO', 'LANGIAO'], ['DONHANG'], ['CHITIETDONHANG', 'THANHTOAN']],
   b5: [['HOSODOITRA', 'LANNHANLAI'], ['CHITIETTRA', 'PHIEUBAOHANH'], ['KHOANHOAN']],
   b2: [['KHACHHANG'], ['TAIKHOAN'], ['NHANVIEN']] };
-function xayQuanHe(gNen, gDuong, gNut) {
-  const cu = lu('viTri-quanhe') || {}, kt = {};
+const TILE = { quanhe: 1, erd: 1, thi: .62 };
+const KT = {}; let BD = null;
+function tinhBanDo() {
   D.bang.forEach(b => { const c1 = Math.max(...b.cot.map(c => c.ten.length)), c2 = Math.max(...b.cot.map(c => c.kieu.length));
-    kt[b.ten] = { w: Math.max(b.ten.length * 9.6 + 34, (c1 + c2) * CK + 96), h: DAU + b.cot.length * CAO + 8, c1 }; });
+    KT[b.ten] = { w: Math.max(b.ten.length * 9.6 + 34, (c1 + c2) * CK + 96), h: DAU + b.cot.length * CAO + 8, c1 }; });
   const dat = (ma_, x0, y0) => { let x = x0, cao = 0;
-    XEP[ma_].forEach(cot => { let y = y0, r = 0; cot.forEach(t => { kt[t].x = x; kt[t].y = y; y += kt[t].h + 46; r = Math.max(r, kt[t].w); }); x += r + 130; cao = Math.max(cao, y - y0); });
+    XEP[ma_].forEach(cot => { let y = y0, r = 0; cot.forEach(t => { KT[t].x = x; KT[t].y = y; y += KT[t].h + 46; r = Math.max(r, KT[t].w); }); x += r + 130; cao = Math.max(cao, y - y0); });
     return [x - x0, cao]; };
-  const [w1, h1] = dat('b1', 0, 0), [, h4] = dat('b4', w1 + 120, 0), hd = Math.max(h1, h4) + 90;
-  const [w3, h3] = dat('b3', 0, hd), [, h5] = dat('b5', w3 + 120, hd);
-  dat('b2', w1 * .55, hd + Math.max(h3, h5) + 90);
+  // nhân viên, khách đặt giữa: đây là nơi mọi nghiệp vụ cùng nối tới
+  const [w1, h1] = dat('b1', 0, 0), [w4, h4] = dat('b4', w1 + 120, 0), y2 = Math.max(h1, h4) + 90, rong = w1 + 120 + w4;
+  const [w2, h2] = dat('b2', 0, y2); dat('b2', (rong - w2) / 2, y2);
+  const y3 = y2 + h2 + 90, [w3] = dat('b3', 0, y3); dat('b5', w3 + 120, y3);
+  BD = {}; D.bang.forEach(b => { const k = KT[b.ten]; BD[b.ten] = [k.x + k.w / 2, k.y + k.h / 2]; });
+  BD['tt_LOAIHANG_Thuộc nhóm lớn'] = [BD.LOAIHANG[0] - 40, BD.LOAIHANG[1] - 190];
+  Object.assign(BD, lu('banDoTuy') || {});
+}
+const dat1 = (n, k, cm) => { const [x, y] = BD[k] || [0, 0]; n.x = x * cm - n.w / 2; n.y = y * cm - n.h / 2; };
+function xayQuanHe(gNen, gDuong, gNut) {
+  const kt = KT;
   D.bang.forEach(b => {
-    const k = kt[b.ten], v = cu[b.ten], n = nut[b.ten] = { id: b.ten, x: v ? v[0] : k.x, y: v ? v[1] : k.y, w: k.w, h: k.h, b };
+    const k = kt[b.ten], n = nut[b.ten] = { id: b.ten, w: k.w, h: k.h, b }; dat1(n, b.ten, 1);
     const g = n.g = sv('g', { transform: `translate(${n.x} ${n.y})`, 'data-nut': b.ten }, gNut);
     sv('rect', { class: 't-vo', width: k.w, height: k.h, rx: 4 }, g);
     sv('path', { class: 't-dau', d: `M0 4a4 4 0 0 1 4-4H${k.w - 4}a4 4 0 0 1 4 4V${DAU - 2}H0z` }, g);
@@ -292,7 +310,6 @@ function xayQuanHe(gNen, gDuong, gNut) {
       chu(c.ten, 10, y, 't-cot ' + lop, g); chu(c.kieu.replace('NVARCHAR', 'Nvarchar').replace('VARCHAR', 'Varchar').replace('DECIMAL', 'Decimal').replace('INT', 'Integer').replace('DATETIME', 'Datetime').replace('DATE', 'Date').replace('BIT', 'Bit'), 10 + k.c1 * CK + 16, y, 't-kieu ' + lop, g);
       const tag = c.pk && c.fk ? 'PFK' : c.pk ? 'PK' : c.fk ? 'FK' : c.rong ? '' : 'NN'; chu(tag, k.w - 9, y, 't-tag ' + lop, g); });
   });
-  D.quanHe.nhom.forEach(m => { m.r = sv('rect', { class: 'vung-nhom', rx: 10 }, gNen); m.t = chu(`${m.so} · ${m.ten}`, 0, 0, 'vung-ten', gNen); });
   duongVe = D.quanHe.canh.map(c => ({ ...c, a: c.con, b: c.cha, vt: c.cha === 'NHANVIEN', g: sv('g', {}, gDuong) }));
   duongVe.forEach(d => { d.p = sv('path', { class: 'du' + (d.lien ? '' : ' dut') }, d.g); d.m = sv('path', { class: 'mui' }, d.g); if (d.nhan) d.t = chu(d.nhan, 0, 0, 'nhan-du', d.g); });
 }
@@ -312,20 +329,22 @@ function veQuanHe() {
     if (d.t) { const mx = .125 * xa + .375 * (xa + sa * k) + .375 * (xb + sb * k) + .125 * xb, my = (ya + yb) / 2; d.t.setAttribute('x', mx); d.t.setAttribute('y', my - 5); }
   });
 }
+function taoVung(gNen) { D.quanHe.nhom.forEach(m => { m.r = sv('rect', { class: 'vung-nhom', rx: 10 }, gNen); m.t = chu(ma === 'quanhe' ? `${m.so} · ${m.ten}` : m.ten, 0, 0, 'vung-ten', gNen); }); }
 function veVung() {
-  if (ma !== 'quanhe') return;
-  D.quanHe.nhom.forEach(m => { const k = khungDo(m.bang.map(t => nut[t]));
-    m.r.setAttribute('x', k.x0 - 26); m.r.setAttribute('y', k.y0 - 50); m.r.setAttribute('width', k.x1 - k.x0 + 52); m.r.setAttribute('height', k.y1 - k.y0 + 76);
-    m.t.setAttribute('x', k.x0 - 12); m.t.setAttribute('y', k.y0 - 26); });
+  if (ma === 'hinh') return;
+  const dem = ma === 'thi' ? 34 : 26, tim = t => ma === 'thi' ? Object.values(nut).find(n => n.ten === t) : nut[t];
+  D.quanHe.nhom.forEach(m => { const ds = m.bang.map(tim).filter(Boolean); if (!ds.length) return; const k = khungDo(ds);
+    m.r.setAttribute('x', k.x0 - dem); m.r.setAttribute('y', k.y0 - 50); m.r.setAttribute('width', k.x1 - k.x0 + dem * 2); m.r.setAttribute('height', k.y1 - k.y0 + 50 + dem);
+    m.t.setAttribute('x', k.x0 - dem + 14); m.t.setAttribute('y', k.y0 - 26); });
 }
 
 /* ---------- ERD ---------- */
 function xayErd(gNen, gDuong, gNut) {
-  const cu = lu('viTri-erd') || {}, giu = new Set(D.erd.giu);
+  const giu = new Set(D.erd.giu);
   D.erd.nut.forEach(u => {
     const dai = u.nhan.length, E = u.loai === 'E';
-    const w = E ? Math.max(120, dai * 9.4 + 30) : Math.max(92, dai * 8 + 42), h = E ? (u.id === 'NHANVIEN' ? 76 : 46) : 50, v = cu[u.id];
-    const n = nut[u.id] = { id: u.id, x: (v ? v[0] : u.x * 1.6), y: (v ? v[1] : u.y * .72), w, h, loai: u.loai, chon: true };
+    const w = E ? Math.max(120, dai * 9.4 + 30) : Math.max(92, dai * 8 + 42), h = E ? (u.id === 'NHANVIEN' ? 76 : 46) : 50;
+    const n = nut[u.id] = { id: u.id, w, h, loai: u.loai, chon: true }; dat1(n, u.id, TILE.erd);
     const g = n.g = sv('g', { transform: `translate(${n.x} ${n.y})`, 'data-nut': u.id }, gNut);
     if (E) sv('rect', { class: 'e-vo', width: w, height: h, rx: 2 }, g);
     else sv('ellipse', { class: u.loai === 'M' ? 'm-vo' : 'o-vo', cx: w / 2, cy: h / 2, rx: w / 2, ry: h / 2 }, g);
@@ -365,12 +384,12 @@ function veErd() {
 /* ---------- đồ thị quan hệ ---------- */
 const BK = 25;
 function xayThi(gNen, gDuong, gNut) {
-  const cu = lu('viTri-thi') || {}, vao = new Set(D.duong.map(d => d.mach[0]));
+  const vao = new Set(D.duong.map(d => d.mach[0]));
   sv('path', { d: 'M0 0L9 3.5L0 7z', fill: 'var(--net)' }, sv('marker', { id: 'mt', viewBox: '0 0 9 7', refX: 8, refY: 3.5, markerWidth: 9, markerHeight: 7, orient: 'auto', markerUnits: 'userSpaceOnUse' }, sv('defs', {}, gNen)));
   sv('path', { d: 'M0 0L9 3.5L0 7z', fill: 'var(--sang)' }, sv('marker', { id: 'mts', viewBox: '0 0 9 7', refX: 8, refY: 3.5, markerWidth: 11, markerHeight: 9, orient: 'auto', markerUnits: 'userSpaceOnUse' }, gNen.querySelector('defs')));
   sv('path', { d: 'M0 0L9 3.5L0 7z', fill: 'var(--vao)' }, sv('marker', { id: 'mtv', viewBox: '0 0 9 7', refX: 8, refY: 3.5, markerWidth: 11, markerHeight: 9, orient: 'auto', markerUnits: 'userSpaceOnUse' }, gNen.querySelector('defs')));
-  D.thi.nut.forEach(u => { const v = cu[u.so], k = String(u.so);
-    const n = nut[k] = { id: k, ten: u.ten, so: u.so, x: v ? v[0] : u.x, y: v ? v[1] : u.y, w: BK * 2, h: BK * 2 };
+  D.thi.nut.forEach(u => { const k = String(u.so);
+    const n = nut[k] = { id: k, ten: u.ten, so: u.so, w: BK * 2, h: BK * 2 }; dat1(n, u.ten, TILE.thi);
     const g = n.g = sv('g', { transform: `translate(${n.x} ${n.y})`, 'data-nut': k }, gNut);
     sv('circle', { class: 'g-tron' + (vao.has(u.ten) ? ' vao' : ''), cx: BK, cy: BK, r: BK }, g); chu(u.so, BK, BK + 5, 'g-so', g); chu(u.ten, BK, BK * 2 + 15, 'g-ten', g); });
   duongVe = D.cung.map(c => { const [a, b] = c.cung.split(' → '), d = { ...c, a, b, vt: b === '8', g: sv('g', { class: b === '8' ? 'vt' : '' }, gDuong) }; d.p = sv('path', { class: 'du', 'marker-end': 'url(#mt)' }, d.g); return d; });
@@ -385,33 +404,38 @@ function veThi() {
 
 /* ---------- ghép chung ---------- */
 function veDuong() { ({ quanhe: veQuanHe, erd: veErd, thi: veThi, hinh() {} })[ma](); }
+// tên nút trên đồ thị của một phần tử đang chọn; SERIMATHANG gộp vào nút HANGCOSERI
+function tenTrenDo(k) { const t = ma === 'thi' ? nut[k]?.ten : k; return t === 'SERIMATHANG' ? 'HANGCOSERI' : t; }
+function duongQua(k) { const t = tenTrenDo(k); return D.duong.filter(d => d.mach.includes(t)); }
 function toMau() {
-  const dsNut = Object.values(nut); let giu = null, canh = null;
+  const dsNut = Object.values(nut), tren = new Set(); let giu = null, canh = null;
   if (duongChon) {
     const mach = ma === 'thi' ? duongChon.mach.map(t => String(D.thi.nut.find(n => n.ten === t)?.so)) : duongChon.mach;
     giu = new Set(mach); canh = new Set(mach.slice(1).map((x, i) => mach[i] + '>' + x));
   } else if (chon) {
     giu = new Set([chon]); canh = new Set();
     duongVe.forEach(d => { if (d.a === chon || d.b === chon) { giu.add(d.a); giu.add(d.b); canh.add(d.a + '>' + d.b); } });
+    duongQua(chon).forEach(d => { const m = ma === 'thi' ? d.mach.map(t => String(D.thi.nut.find(n => n.ten === t)?.so)) : d.mach;
+      m.forEach((x, i) => { if (nut[x]) giu.add(x); if (i) { canh.add(m[i - 1] + '>' + x); tren.add(m[i - 1] + '>' + x); } }); });
   } else if (nhomChon) giu = new Set(nhomChon);
   const coChon = !!chon && !duongChon, kRa = new Set(), kVao = new Set();
   if (coChon) duongVe.forEach(d => { if (d.a === chon && d.b !== chon) kRa.add(d.b); if (d.b === chon && d.a !== chon) kVao.add(d.a); });
   dsNut.forEach(n => { n.g.classList.toggle('mo', !!giu && !giu.has(n.id)); n.g.classList.toggle('nut-sang', !!duongChon && giu.has(n.id));
     n.g.classList.toggle('nut-chon', coChon && n.id === chon); n.g.classList.toggle('nut-ra', kRa.has(n.id)); n.g.classList.toggle('nut-vao', kVao.has(n.id) && !kRa.has(n.id)); });
   duongVe.forEach(d => { const s = !!canh && canh.has(d.a + '>' + d.b), ra = coChon && d.a === chon, vao = coChon && d.b === chon && d.a !== chon; d.sangDuong = s;
-    d.g.classList.toggle('sang', s && !!duongChon); d.g.classList.toggle('ra', ra); d.g.classList.toggle('vao', vao);
+    d.g.classList.toggle('sang', s && !!duongChon); d.g.classList.toggle('ra', ra); d.g.classList.toggle('vao', vao); d.g.classList.toggle('tren', !ra && !vao && tren.has(d.a + '>' + d.b));
     if (ma === 'thi') d.p.setAttribute('marker-end', vao ? 'url(#mtv)' : s ? 'url(#mts)' : 'url(#mt)');
     d.g.classList.toggle('mo', giu ? (canh ? !s : !(giu.has(d.a) && giu.has(d.b))) : false); if (d.t) d.t.classList.toggle('luon', s); });
   veDuong(); apCam();
 }
 function dungCanh() {
   hienVaiTro = vaiTroMa[ma]; $('#vaiTro').setAttribute('aria-pressed', hienVaiTro);
-  const noi = $('#cam'); noi.innerHTML = ''; nut = {}; duongVe = []; chon = null; nhomChon = null; nhomI = -1;
+  const noi = $('#cam'); noi.innerHTML = ''; nut = {}; duongVe = []; chon = null; nutTruoc = null; nhomChon = null; nhomI = -1;
   const gNen = sv('g', {}, noi), gDuong = sv('g', {}, noi), gNut = sv('g', {}, noi);
   if (ma === 'hinh') { const h = D.hinh[hinhChon], tam = document.createElement('div'); tam.innerHTML = h.svg; const s = tam.querySelector('svg'), vb = s.viewBox.baseVal;
     s.setAttribute('x', 0); s.setAttribute('y', 0); s.setAttribute('width', vb.width); s.setAttribute('height', vb.height); sv('rect', { class: 'giay', width: vb.width, height: vb.height, rx: 6 }, gNen); gNen.append(s);
     nut.__ = { id: '__', x: 0, y: 0, w: vb.width, h: vb.height, g: sv('g', {}, gNut) }; }
-  else ({ quanhe: xayQuanHe, erd: xayErd, thi: xayThi })[ma](gNen, gDuong, gNut);
+  else { taoVung(gNen); ({ quanhe: xayQuanHe, erd: xayErd, thi: xayThi })[ma](gNen, gDuong, gNut); }
   veDuong(); veVung(); toMau(); requestAnimationFrame(() => { if (hien === 'canvas' && $('.ve')) vua(); });
   veChip(); moBen();
   ['vaiTro', 'nhanBat', 'xepLai'].forEach(k => { $('#' + k).hidden = ma === 'hinh'; });
@@ -422,7 +446,7 @@ function veChip() {
   const hop = $('#chip');
   if (ma === 'hinh') { hop.innerHTML = `<select id="chonHinh" aria-label="Chọn hình">${[...new Set(D.hinh.map(h => h.nhom))].map(n => `<optgroup label="${n}">${D.hinh.map((h, i) => h.nhom === n ? `<option value="${i}" ${i === hinhChon ? 'selected' : ''}>${h.so}. ${e(h.ten)}</option>` : '').join('')}</optgroup>`).join('')}</select>`;
     $('#chonHinh').onchange = x => { hinhChon = +x.target.value; dungCanh(); }; return; }
-  if (ma === 'thi') { hop.innerHTML = '<span class="tt" style="margin:0">Viền cam là nút vào. Chọn một con đường ở khung bên để xem nó đi qua những nút nào.</span>'; return; }
+  if (ma === 'thi') { hop.innerHTML = '<span class="tt" style="margin:0">Viền cam là nút vào. Bấm một nút để xem các con đường đi qua nút đó.</span>'; return; }
   hop.innerHTML = `<button class="chip" aria-pressed="${nhomI < 0}" data-i="-1">Tất cả</button>` + ds.map((m, i) => `<button class="chip" title="${e(m.so + ': ' + m.ten)}" aria-pressed="${nhomI === i}" data-i="${i}">${e(m.ten.replace('Trách nhiệm: ai làm, ai duyệt từng khâu', 'Trách nhiệm'))}</button>`).join('');
   hop.querySelectorAll('.chip').forEach(b => b.onclick = () => { nhomI = +b.dataset.i; duongChon = null; chon = null;
     nhomChon = nhomI < 0 ? null : ds[nhomI].bang.filter(t => nut[t]);
@@ -433,21 +457,25 @@ function moBen() {
   const ben = $('.ben'); if (!ben) return;
   const chonDuong = `<h3 style="margin-top:0">Con đường truy xuất</h3><select id="dgChon" aria-label="Chọn con đường truy xuất" style="width:100%"><option value="">Chọn một trong 61 đường</option>${D.duong.map(d => `<option value="${d.so}" ${duongChon === d ? 'selected' : ''}>Đường ${d.so}: ${d.mach.join(' → ')}</option>`).join('')}</select>`;
   let noi = '';
-  if (duongChon) { const d = duongChon; noi = `<div class="mach">${d.mach.map(n => `<span class="n">${n}</span>`).join('<span class="m">→</span>')}</div><p style="font-size:.88rem;margin:0">${e(d.yNghia)}</p><pre>${e(d.sql)}</pre>${ketQua(d.sql)}`; }
+  if (duongChon) { const d = duongChon; noi = `${nutTruoc ? `<button class="nut" id="veNut" style="margin-bottom:8px">Quay lại các đường của nút</button>` : ''}<div class="mach">${d.mach.map(n => `<span class="n">${n}</span>`).join('<span class="m">→</span>')}</div><p style="font-size:.88rem;margin:0">${e(d.yNghia)}</p><pre>${e(d.sql)}</pre>${ketQua(d.sql)}`; }
   else if (chon) {
     const ten = ma === 'thi' ? nut[chon].ten : chon, b = TONG[ten];
     const tenNut = k => ma === 'quanhe' ? k : ma === 'thi' ? nut[k].ten : D.erd.nut.find(u => u.id === k)?.nhan || k;
     const dsLk = (mang, lay) => mang.length ? `<div class="lien">${mang.map(d => `<button data-c="${e(lay(d))}">${e(tenNut(lay(d)))}</button>`).join('')}</div>` : '<p class="tt" style="margin:4px 0 10px">Không có</p>';
     const ra = duongVe.filter(d => d.a === chon && d.b !== chon), vao = duongVe.filter(d => d.b === chon && d.a !== chon);
-    const lienKet = `<p class="tt" style="margin-bottom:0"><span class="kh ra-m"></span>Đi ra: ${ra.length}</p>${dsLk(ra, d => d.b)}<p class="tt" style="margin:0"><span class="kh vao-m"></span>Đi vào: ${vao.length}</p>${dsLk(vao, d => d.a)}`;
+    const qua = duongQua(chon), tn = tenTrenDo(chon), nhomDg = (tieu, ds) => ds.length ? `<h4>${tieu} (${ds.length})</h4>` + ds.map(d => `<button class="muc" data-dg="${d.so}">Đường ${d.so}<small class="ma">${d.mach.join(' → ')}</small></button>`).join('') : '';
+    const dsDg = qua.length ? `<div class="ds-dg">${nhomDg('Bắt đầu từ nút này', qua.filter(d => d.mach[0] === tn))}${nhomDg('Đi qua nút này', qua.filter(d => d.mach[0] !== tn && d.mach.at(-1) !== tn))}${nhomDg('Kết thúc ở nút này', qua.filter(d => d.mach[0] !== tn && d.mach.at(-1) === tn))}</div>` : '';
+    const lienKet = `<p class="tt" style="margin-bottom:0"><span class="kh ra-m"></span>Đi ra: ${ra.length}</p>${dsLk(ra, d => d.b)}<p class="tt" style="margin:0"><span class="kh vao-m"></span>Đi vào: ${vao.length}</p>${dsLk(vao, d => d.a)}<p class="tt" style="margin:0 0 2px"><span class="kh tren-m"></span>Con đường truy xuất qua nút: ${qua.length}</p>${dsDg}`;
     if (b) {
       noi = `<h2 class="ma">${b.ten}</h2><p class="ghi" style="margin-bottom:6px">${e(b.moTa)} · ${LOAI[b.loai] || ''}</p>${lienKet}<div class="hang"><span class="dc ${b.truoc === 'BCNF' ? '' : 'xau'}">Trước: ${e(b.truoc)}</span><span class="dc">Sau: ${e(b.sau)}</span></div><p class="tt">Khóa: <span class="ma">${e(b.khoa)}</span></p>${bangCot(b, true)}<h3>Dữ liệu minh họa</h3>${ketQua(`SELECT * FROM ${b.ten} LIMIT 8`)}`; }
     else { const u = D.erd.nut.find(x => x.id === chon); noi = `<h2>${e(u ? u.nhan : chon)}</h2><p class="ghi">Mối kết hợp.</p>${lienKet}`; }
   } else if (ma === 'hinh') { const h = D.hinh[hinhChon]; noi = `<h2>${h.so}. ${e(h.ten)}</h2><p class="ghi">Hình vector, phóng to không vỡ nét. Dùng con lăn chuột để phóng to, kéo để di chuyển.</p>`; }
-  else noi = `<h2>${ma === 'erd' ? 'Mô hình ERD' : ma === 'thi' ? 'Đồ thị quan hệ' : 'Sơ đồ quan hệ'}</h2><p class="ghi">Bấm một ${ma === 'quanhe' ? 'bảng' : 'nút'} để làm sáng các liên kết và xem chi tiết. Kéo ${ma === 'quanhe' ? 'bảng' : 'nút'} để xếp lại, cuộn chuột để phóng to, kéo nền để di chuyển.</p>${
+  else noi = `<h2>${ma === 'erd' ? 'Mô hình ERD' : ma === 'thi' ? 'Đồ thị quan hệ' : 'Sơ đồ quan hệ'}</h2><p class="ghi">Bấm một ${ma === 'quanhe' ? 'bảng' : 'nút'} để làm sáng các liên kết và xem chi tiết. Kéo ${ma === 'quanhe' ? 'bảng' : 'nút'} để xếp lại, cuộn chuột để phóng to, kéo nền để di chuyển.</p><p class="tt">Ba sơ đồ dùng chung một bản đồ: mỗi bảng nằm cùng một chỗ, kéo ở sơ đồ này thì sơ đồ kia cũng đổi theo.</p>${
     ma === 'erd' ? '<p class="tt">Chữ nhật vàng là thực thể, oval xanh là mối kết hợp có thuộc tính, oval cam là mối kết hợp còn lại.</p>' : ma === 'quanhe' ? '<p class="tt"><span class="pk">Đỏ</span> khóa chính, <span class="pfk">xanh lam</span> vừa khóa chính vừa khóa ngoại, <span class="fk">xanh lục</span> khóa ngoại, xám cột cho phép rỗng. Nét liền: khóa ngoại nằm trong khóa chính.</p>' : '<p class="tt">25 nút, 43 cung, 8 nút vào.</p>'}`;
   ben.innerHTML = (ma === 'hinh' ? '' : chonDuong) + `<div style="margin-top:12px">${noi}</div>`;
-  const s = $('#dgChon'); if (s) s.onchange = () => chonDg(+s.value);
+  const s = $('#dgChon'); if (s) s.onchange = () => { nutTruoc = null; chonDg(+s.value); };
+  ben.querySelectorAll('[data-dg]').forEach(x => x.onclick = () => { nutTruoc = chon; chonDg(+x.dataset.dg); });
+  const v = $('#veNut'); if (v) v.onclick = () => { chon = nutTruoc; nutTruoc = null; duongChon = null; toMau(); moBen(); vua(); };
   ben.querySelectorAll('[data-c]').forEach(x => x.onclick = () => { if (nut[x.dataset.c]) { chon = x.dataset.c; toMau(); moBen(); } });
   ben.querySelectorAll('[data-t]').forEach(x => x.onclick = () => { const k = ma === 'thi' ? String(D.thi.nut.find(n => n.ten === x.dataset.t)?.so) : x.dataset.t; if (nut[k]) { chon = k; toMau(); moBen(); } });
 }
@@ -469,7 +497,7 @@ function veCanvas(g) {
   $('#to').onclick = () => giua(1.3); $('#nho').onclick = () => giua(.77);
   $('#vaiTro').onclick = x => { hienVaiTro = vaiTroMa[ma] = !hienVaiTro; x.currentTarget.setAttribute('aria-pressed', hienVaiTro); veDuong(); };
   $('#nhanBat').onclick = x => { hienNhan = !hienNhan; x.currentTarget.setAttribute('aria-pressed', hienNhan); apCam(); };
-  $('#xepLai').onclick = () => { try { localStorage.removeItem('viTri-' + ma); } catch {} dungCanh(); };
+  $('#xepLai').onclick = () => { try { localStorage.removeItem('banDoTuy'); } catch {} tinhBanDo(); dungCanh(); };
   $('#benNut').onclick = () => { benAn = !benAn; $('#gian').classList.toggle('an', benAn); requestAnimationFrame(apCam); };
   ganKeoBen();
   $('#tim').oninput = x => { const v = x.target.value.trim().toUpperCase(), k = ma === 'thi' ? String(D.thi.nut.find(n => n.ten === v)?.so) : v; if (nut[k]) { chon = k; duongChon = null; toMau(); moBen(); vua([nut[k]]); } };
@@ -522,13 +550,14 @@ const trang = {
     $('#tim2', g).oninput = loc; loc();
   },
   duong(g) {
-    const vao = [...new Set(D.duong.map(d => d.mach[0]))]; let c = 10, loc = 'Tất cả', tim = '';
-    const ve1 = () => { const ds = D.duong.filter(d => (loc === 'Tất cả' || d.mach[0] === loc) && (!tim || (d.mach.join(' ') + d.yNghia).toUpperCase().includes(tim))), d = D.duong.find(x => x.so === c);
+    const vao = [...new Set(D.duong.map(d => d.mach[0]))]; let c = 10, loc = 'Tất cả', tim = '', qua = '';
+    const ve1 = () => { const ds = D.duong.filter(d => (loc === 'Tất cả' || d.mach[0] === loc) && (!qua || d.mach.includes(qua)) && (!tim || (d.mach.join(' ') + d.yNghia).toUpperCase().includes(tim))), d = D.duong.find(x => x.so === c);
       g.innerHTML = `<div class="cuon-trang le"><div class="rong"><h2>61 con đường truy xuất</h2><p class="ghi">Kết quả do SQLite chạy ngay trong trình duyệt trên dữ liệu minh họa.</p>
-      <div class="loc">${['Tất cả', ...vao].map(n => `<button class="chip" aria-pressed="${n === loc}" data-v="${n}">${n}</button>`).join('')}<input type="search" id="tim3" aria-label="Lọc đường" placeholder="Lọc, ví dụ KHACHHANG" value="${e(tim)}"></div>
+      <div class="loc">${['Tất cả', ...vao].map(n => `<button class="chip" aria-pressed="${n === loc}" data-v="${n}">${n}</button>`).join('')}<select id="quaNut" aria-label="Lọc theo nút đi qua"><option value="">Đi qua nút bất kỳ</option>${D.thi.nut.slice().sort((a, b) => a.so - b.so).map(n => `<option value="${n.ten}" ${n.ten === qua ? 'selected' : ''}>${n.so}. ${n.ten}</option>`).join('')}</select><input type="search" id="tim3" aria-label="Lọc đường" placeholder="Lọc, ví dụ KHACHHANG" value="${e(tim)}"></div>
       <div class="hai"><div class="khung ds">${ds.length ? ds.map(x => `<button class="muc" aria-current="${x.so === c}" data-s="${x.so}">Đường ${x.so}<small class="ma">${x.mach.join(' → ')}</small></button>`).join('') : '<p class="tt" style="padding:8px">Không có đường nào khớp.</p>'}</div>
       <div class="khung chi"><div class="hang" style="justify-content:space-between"><h2 style="margin:0">Đường ${d.so}</h2><span class="hang"><button class="nut" data-xem="thi">Xem trên đồ thị</button><button class="nut" data-xem="quanhe">Xem trên sơ đồ quan hệ</button></span></div><div class="mach">${d.mach.map(n => `<span class="n">${n}</span>`).join('<span class="m">→</span>')}</div><p>${e(d.yNghia)}</p><pre>${e(d.sql)}</pre>${ketQua(d.sql)}<p class="tt">Báo cáo ghi ${d.dong} dòng.</p></div></div></div></div>`;
       g.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { loc = b.dataset.v; ve1(); });
+      $('#quaNut', g).onchange = x => { qua = x.target.value; const dau = D.duong.find(d => (loc === 'Tất cả' || d.mach[0] === loc) && (!qua || d.mach.includes(qua))); if (dau) c = dau.so; ve1(); };
       g.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { c = +b.dataset.s; ve1(); });
       g.querySelectorAll('[data-xem]').forEach(b => b.onclick = () => { ma = b.dataset.xem; hien = 'canvas'; ve(); requestAnimationFrame(() => requestAnimationFrame(() => chonDg(c))); });
       const o = $('#tim3', g); o.oninput = () => { tim = o.value.trim().toUpperCase(); ve1(); const m = $('#tim3', g); m.focus(); m.setSelectionRange(m.value.length, m.value.length); }; };
@@ -561,6 +590,7 @@ function ve() {
 }
 addEventListener('resize', () => { if (hien === 'canvas' && $('#keoBen')) datBen(rongBen, true); });
 const dau = location.hash.slice(1); if (TABS.some(t => t[0] === dau)) hien = dau;
+tinhBanDo();
 ve();
 khoiDong();
 </script>

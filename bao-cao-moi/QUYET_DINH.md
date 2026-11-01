@@ -303,3 +303,7 @@ Sao lưu: `chuong_docx/_sao_luu/truoc_doc_157_trang/`.
 - Hình 2.2–2.6 dùng nhãn cạnh thường thay cho xlabel để nhãn không đè bảng. Hàng tiêu đề mọi bảng dính với dòng đầu để không nằm một mình cuối trang.
 - Giả thiết mới: ThoiDiemNhap là lúc chiếc được ghi seri vào kho, có thể khác ThoiDiemNhan và ThoiDiemXacNhan. Đổi "bán ở đâu" thành "lần bán gần nhất theo đơn nào".
 - Lời cam đoan không còn nói có thư mục tools đi kèm. Các câu nhắc tools/fd.py, tools/dothi.py, sql/... ở chương 2, 3 vẫn giữ để chỉ nguồn kiểm tra.
+
+## 30. Trang bìa theo báo cáo mẫu (02/11/2026)
+
+- Trang bìa thêm khung twistedLines1 (chỉ trang đầu) và bảng logo HUTECH, chép đúng từ `BaoCaoCSDLNC_ThamKhao.docx`. Phần chữ của bìa giữ nguyên. Bìa chỉ nằm trong bản ghép, không nằm trong `chuong_docx/`.
