@@ -6,7 +6,7 @@ Báo cáo mới môn Cơ sở dữ liệu nâng cao, đề tài PowerTech (Nhóm
 |---|---|
 | `PowerTech_CSDLNC_Bao_cao_ghep.docx` | **Bản nộp**, ghép từ `chuong_docx/` (A4, có mục lục, bảng, hình) |
 | `PowerTech_CSDLNC_Bao_cao_moi.docx` | Bản sinh tự động, Chương 1 là bản cũ; chỉ dùng làm nền để ghép, không nộp |
-| `PowerTech_CSDLNC_Bao_cao_ghep.pdf` | Bản PDF xuất từ Word từ bản ghép (151 trang A4, gồm phụ lục 61 câu SQL) để in; xuất lại sau mỗi lần dựng docx |
+| `PowerTech_CSDLNC_Bao_cao_ghep.pdf` | Bản PDF xuất từ Word từ bản ghép (152 trang A4, gồm phụ lục 61 câu SQL) để in; xuất lại sau mỗi lần dựng docx |
 | `chuong/` | Nội dung từng phần dạng Markdown: `00` phần đầu, `01`–`04` bốn chương, `05` tài liệu tham khảo |
 | `chuong_docx/` | 4 file Word, mỗi file một chương, tách từ bản nộp để sửa riêng từng chương (xem "Tách và ghép chương") |
 | `chuong_docx/_sao_luu/`, `chuong_docx/_cho_chuong2/` | Bản gốc Chương 1 trước khi viết lại; Use case và lưu đồ cắt khỏi Chương 1; đã đưa vào Chương 2 mục 2.4 (xem `QUYET_DINH.md` mục 9 và cuối file), file này chỉ để tham khảo |

@@ -437,8 +437,8 @@ for f in FILES:
             add_list_item(b, refmap)
         elif t == 'table':
             cap = b['cap']
-            caption('Bảng', cap['chap'], cap['n'], conv_text(cap['title'], refmap), above=True)
             build_table(b['rows'], 16.0, refmap)
+            caption('Bảng', cap['chap'], cap['n'], conv_text(cap['title'], refmap), above=False)
             doc.add_paragraph().paragraph_format.space_after = Pt(4)
         elif t == 'img':
             cap = b['cap']

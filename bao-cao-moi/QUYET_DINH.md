@@ -293,6 +293,7 @@ Sao lưu: `chuong_docx/_sao_luu/truoc_doc_157_trang/`.
 
 - Theo mục 1.7.2 của báo cáo mẫu, Twot muốn một sơ đồ toàn bộ lược đồ, chấp nhận chữ nhỏ nhưng không rối và in vừa một trang A4. Máy không cài Toad Data Modeler; chú thích ghi "vẽ theo ký hiệu", không ghi là xuất từ Toad.
 - `tools/ve_so_do_tong.py` tự đặt bảng và tự đi từng đường vuông góc vì Graphviz `ortho` đi đường rối. Các bảng có khóa ngoại tới NHANVIEN gom vào một trục dọc giữa hai cột, bảng có hai khóa ngoại tới NHANVIEN vẽ chung một nhánh. Script kiểm đủ 44 cặp bảng con – bảng cha, không đường nào xuyên bảng, các chỗ cắt còn lại đều vuông góc.
-- Đặt ở 2.1.5, là Hình 2.1 trên một trang A4 dọc lề hẹp (trang 53), theo yêu cầu in dọc của Twot. Các hình 2.1–2.19 cũ thành 2.2–2.20; các số hình trong những mục trước của file này là số cũ. Bản nộp 151 trang.
+- Đặt ở 2.1.5, là Hình 2.1 trên một trang A4 dọc lề hẹp (trang 54), theo yêu cầu in dọc của Twot. Các hình 2.1–2.19 cũ thành 2.2–2.20; các số hình trong những mục trước của file này là số cũ. Bản nộp 152 trang.
 - Hình tổng quát không ghi tên mối kết hợp trên đường nối để khỏi rối; tên có ở các hình nhóm và Chương 1.
+- Theo yêu cầu của Twot, tên của cả 61 bảng đặt bên dưới bảng và căn giữa, giống tên hình; dòng cuối bảng dính với tên bảng để tên không tách trang. `ghep_docx.py` sinh theo cùng cách.
 - Không mở file `PowerTech_CSDLNC_Bao_cao_ghep.docx` bằng Word COM ở đúng đường dẫn đó vì bị treo; xử lý trên bản sao trong thư mục tạm rồi chép về.
