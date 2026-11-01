@@ -14,5 +14,5 @@ digraph G {
   l -> c [label=<mọi hàng nhận lại>,];
   c -> a [label=<Kỹ thuật kiểm tra,<BR/>Quản lý duyệt>,];
   c -> x [label=<đã mở hộp<BR/>hoặc lỗi thật>,];
-  n2 [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Mỗi lần vào, ra, chuyển nhóm ghi một dòng <B>GIAO DỊCH KHO</B>.<BR/>Chuyển nhóm không làm tăng tổng số hàng thực tế.>];
+  n2 [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Mỗi lần vào, ra ghi một dòng <B>GIAO DỊCH KHO</B>;<BR/>mỗi lần chuyển nhóm ghi hai dòng (chuyển ra, chuyển vào).<BR/>Chuyển nhóm không làm đổi tổng số hàng thực tế.>];
 }

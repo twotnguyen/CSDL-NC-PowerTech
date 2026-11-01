@@ -2,11 +2,11 @@ digraph G {
   rankdir=TB; splines=polyline; nodesep=0.5; ranksep=0.75; pad=0.25;
   node [fontname="Helvetica", fontsize=12, margin="0.18,0.1"]; edge [fontname="Helvetica", fontsize=10.5, color="#444444"];
   m [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#F8CECC"><B>M: lưu chung ảnh và thông số</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT"><U>DuongDanAnh</U></TD></TR><TR><TD ALIGN="LEFT"><U>MaTS</U></TD></TR><TR><TD ALIGN="LEFT">GiaTriTS</TD></TR></TABLE>>];
-  r1 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#DAE8FC"><B>R₁ = GIATRITHONGSO</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT"><U>MaTS</U></TD></TR><TR><TD ALIGN="LEFT">GiaTriTS</TD></TR></TABLE>>];
-  r2 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#FFE6CC"><B>R₂ (BCNF, chưa 4NF)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT"><U>DuongDanAnh</U></TD></TR><TR><TD ALIGN="LEFT"><U>MaTS</U></TD></TR></TABLE>>];
-  r21 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#D5E8D4"><B>R₂₁ = ANHMATHANG</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT">DuongDanAnh</TD></TR><TR><TD ALIGN="LEFT">…</TD></TR></TABLE>>];
-  r22 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#D5E8D4"><B>R₂₂(MaSP, MaTS) (đã có trong R₁)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT"><U>MaTS</U></TD></TR></TABLE>>];
-  m -> r1 [label="MaSP,MaTS → GiaTriTS"]; m -> r2; r2 -> r21 [label="MaSP ↠ DuongDanAnh"]; r2 -> r22 [label="MaSP ↠ MaTS"];
+  r1 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#DAE8FC"><B>R<SUB>1</SUB> = GIATRITHONGSO</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT"><U>MaTS</U></TD></TR><TR><TD ALIGN="LEFT">GiaTriTS</TD></TR></TABLE>>];
+  r2 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#FFE6CC"><B>R<SUB>2</SUB> (BCNF, chưa 4NF)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT"><U>DuongDanAnh</U></TD></TR><TR><TD ALIGN="LEFT"><U>MaTS</U></TD></TR></TABLE>>];
+  r21 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#D5E8D4"><B>R<SUB>21</SUB> = ANHMATHANG</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT">DuongDanAnh</TD></TR><TR><TD ALIGN="LEFT">…</TD></TR></TABLE>>];
+  r22 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#D5E8D4"><B>R<SUB>22</SUB>(MaSP, MaTS) (đã có trong R<SUB>1</SUB>)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSP</U></TD></TR><TR><TD ALIGN="LEFT"><U>MaTS</U></TD></TR></TABLE>>];
+  m -> r1 [label="MaSP,MaTS → GiaTriTS"]; m -> r2; r2 -> r21 [label="MaSP →→ DuongDanAnh"]; r2 -> r22 [label="MaSP →→ MaTS"];
   { rank=same; r1; r2 }
   { rank=same; r21; r22 }
 }

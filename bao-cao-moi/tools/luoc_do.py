@@ -33,10 +33,10 @@ rel('LOAIHANG', 'co_ban', 'Loại hàng',
 rel('THUONGHIEU', 'co_ban', 'Thương hiệu',
     [('MaTH', 'INT', 'NN', 'Mã thương hiệu'), ('TenTH', 'NVARCHAR(100)', 'NN', 'Tên thương hiệu'),
      ('MoTaTH', 'NVARCHAR(500)', 'NULL', 'Mô tả thương hiệu')],
-    ['MaTH'], ['MaTH -> TenTH,MoTaTH'],
-    'Mỗi thương hiệu được phân biệt bằng mã thương hiệu (MaTH), có tên (TenTH) và mô tả (MoTaTH). Hai thương hiệu có '
-    'thể trùng tên nên tên không dùng để phân biệt.',
-    'MaTH là số tự nhiên tăng dần. TenTH không rỗng, tối đa 100 ký tự.')
+    ['MaTH'], ['MaTH -> TenTH,MoTaTH', 'TenTH -> MaTH,MoTaTH'],
+    'Mỗi thương hiệu được phân biệt bằng mã thương hiệu (MaTH), có tên (TenTH) không trùng với thương hiệu khác và mô tả (MoTaTH).',
+    'MaTH là số tự nhiên tăng dần. TenTH không rỗng, không trùng, tối đa 100 ký tự.',
+    uniques=[('TenTH',)])
 
 rel('MATHANG', 'co_ban', 'Mặt hàng',
     [('MaSP', 'INT', 'NN', 'Mã mặt hàng (nội bộ)'), ('SKU', 'VARCHAR(50)', 'NN', 'Mã hàng thương mại'),
@@ -141,11 +141,13 @@ rel('NHACUNGCAP', 'ngoai', 'Nhà cung cấp',
      ('NguoiLienHeNCC', 'NVARCHAR(100)', 'NULL', 'Người liên hệ'), ('SDTNCC', 'VARCHAR(15)', 'NULL', 'Số điện thoại'),
      ('DiaChiNCC', 'NVARCHAR(300)', 'NULL', 'Địa chỉ'), ('MaSoThueNCC', 'VARCHAR(14)', 'NULL', 'Mã số thuế'),
      ('TinhTrangHT', 'NVARCHAR(20)', 'NN', 'Tình trạng hợp tác')],
-    ['MaNCC'], ['MaNCC -> TenNCC,NguoiLienHeNCC,SDTNCC,DiaChiNCC,MaSoThueNCC,TinhTrangHT'],
-    'Mỗi nhà cung cấp (nhà phân phối, đại lý chính hãng) được phân biệt bằng mã nhà cung cấp (MaNCC), có tên công ty, '
-    'người liên hệ, số điện thoại, địa chỉ, mã số thuế và tình trạng hợp tác. Tên công ty và thông tin liên hệ có thể '
-    'trùng nên không dùng để phân biệt.',
-    'MaNCC là số tự nhiên tăng dần. TenNCC không rỗng. TinhTrangHT chỉ nhận "Đang hợp tác" hoặc "Ngừng hợp tác".')
+    ['MaNCC'], ['MaNCC -> TenNCC,NguoiLienHeNCC,SDTNCC,DiaChiNCC,MaSoThueNCC,TinhTrangHT',
+                'TenNCC -> MaNCC,NguoiLienHeNCC,SDTNCC,DiaChiNCC,MaSoThueNCC,TinhTrangHT'],
+    'Mỗi nhà cung cấp (nhà phân phối, đại lý chính hãng) được phân biệt bằng mã nhà cung cấp (MaNCC), có tên công ty '
+    'không trùng với nhà cung cấp khác, người liên hệ, số điện thoại, địa chỉ, mã số thuế và tình trạng hợp tác. Thông tin liên hệ có thể '
+    'trùng hoặc thay đổi nên không dùng để phân biệt.',
+    'MaNCC là số tự nhiên tăng dần. TenNCC không rỗng, không trùng. TinhTrangHT chỉ nhận "Đang hợp tác" hoặc "Ngừng hợp tác".',
+    uniques=[('TenNCC',)])
 
 rel('MAGIAMGIA', 'nghiep_vu', 'Mã giảm giá',
     [('MaMG', 'INT', 'NN', 'Mã nội bộ'), ('CodeMG', 'VARCHAR(30)', 'NN', 'Mã khách nhập'),
@@ -178,8 +180,7 @@ rel('DONHANG', 'nghiep_vu', 'Đơn hàng',
     ['MaDH'], ['MaDH -> SoDH,ThoiDiemLap,KenhBan,MaKH,MaNV,TenNguoiNhan,SDTNhan,DiaChiGiao,PhiGiao,GiamGia,MaMG,TinhTrangDH,DieuKienCoc,GhiChuDH',
                'SoDH -> MaDH,ThoiDiemLap,KenhBan,MaKH,MaNV,TenNguoiNhan,SDTNhan,DiaChiGiao,PhiGiao,GiamGia,MaMG,TinhTrangDH,DieuKienCoc,GhiChuDH'],
     'Mỗi đơn hàng có mã (MaDH) và số đơn (SoDH) không trùng, ghi ngày giờ lập (ThoiDiemLap), kênh bán (KenhBan), nhân viên '
-    'lập (MaNV, rỗng khi khách tự đặt trên trang web) và khách hàng (MaKH) nếu có. Với đơn cần giao, đơn ghi tên, số điện thoại, địa chỉ người nhận, phí giao, '
-    'khoản giảm giá và mã giảm giá đã dùng (MaMG), được chốt khi cửa hàng xác nhận đơn. Đơn có tình trạng (TinhTrangDH) '
+    'lập (MaNV, rỗng khi khách tự đặt trên trang web) và khách hàng (MaKH) nếu có. Đơn ghi khoản giảm giá và mã giảm giá đã dùng (MaMG); với đơn cần giao còn ghi tên, số điện thoại, địa chỉ người nhận và phí giao. Các giá trị này được chốt khi cửa hàng xác nhận đơn. Đơn có tình trạng (TinhTrangDH) '
     'và, với đơn đặt cọc, ghi điều kiện cọc đã thỏa thuận (DieuKienCoc).',
     'SoDH không trùng. KenhBan chỉ nhận "Quầy", "Trang web", "Điện thoại" hoặc "Tin nhắn". TinhTrangDH chỉ nhận "Chờ xác '
     'nhận", "Đã xác nhận", "Đang chuẩn bị", "Đang giao", "Hoàn tất" hoặc "Đã hủy". PhiGiao và GiamGia không âm. Mỗi đơn '
@@ -296,16 +297,17 @@ rel('HANGCOSERI', 'nghiep_vu', 'Chiếc hàng có số seri',
 rel('GIAODICHKHO', 'nghiep_vu', 'Giao dịch kho',
     [('MaGDK', 'INT', 'NN', 'Mã giao dịch kho'), ('MaSP', 'INT', 'NN', 'Mặt hàng'),
      ('NhomKho', 'NVARCHAR(20)', 'NN', 'Đủ điều kiện bán, chờ kiểm tra hoặc chờ xử lý'),
-     ('LoaiBienDong', 'NVARCHAR(20)', 'NN', 'Nhập, xuất bán, nhận lại hoặc chuyển nhóm'),
+     ('LoaiBienDong', 'NVARCHAR(20)', 'NN', 'Nhập, xuất bán, nhận lại, chuyển ra hoặc chuyển vào'),
      ('SoLuongGD', 'INT', 'NN', 'Số lượng thay đổi (luôn dương)'), ('ThoiDiemGD', 'DATETIME', 'NN', 'Thời điểm'),
      ('MaNV', 'INT', 'NULL', 'Nhân viên thực hiện'), ('LoaiChungTu', 'NVARCHAR(20)', 'NULL', 'Loại chứng từ gốc'),
      ('MaChungTu', 'INT', 'NULL', 'Mã chứng từ gốc'), ('GhiChuGD', 'NVARCHAR(500)', 'NULL', 'Ghi chú')],
     ['MaGDK'], ['MaGDK -> MaSP,NhomKho,LoaiBienDong,SoLuongGD,ThoiDiemGD,MaNV,LoaiChungTu,MaChungTu,GhiChuGD'],
-    'Mỗi lần hàng vào hoặc ra kho (nhập, bán, nhận lại, chuyển nhóm) là một giao dịch kho có mã (MaGDK), '
+    'Mỗi lần hàng vào hoặc ra kho (nhập, bán, nhận lại) là một giao dịch kho có mã (MaGDK); mỗi lần chuyển nhóm là hai giao dịch đối ứng '
+    '(chuyển ra khỏi nhóm cũ, chuyển vào nhóm mới). Mỗi giao dịch '
     'ghi mặt hàng, nhóm kho bị ảnh hưởng, loại biến động, số lượng, thời điểm, nhân viên thực hiện và chứng từ gốc. '
     'Số lượng hàng trong kho được tính từ các giao dịch này, không lưu thành một cột riêng.',
-    'SoLuongGD lớn hơn 0; hướng tăng hoặc giảm do LoaiBienDong quy định. NhomKho chỉ nhận "Đủ điều kiện bán", "Chờ '
-    'kiểm tra" hoặc "Chờ xử lý". (LoaiChungTu, MaChungTu) trỏ tới nhiều loại chứng từ nên không khai báo được khóa ngoại.',
+    'SoLuongGD lớn hơn 0; Nhập, Nhận lại, Chuyển vào làm tăng, Xuất bán, Chuyển ra làm giảm. NhomKho chỉ nhận "Đủ điều kiện bán", "Chờ '
+    'kiểm tra" hoặc "Chờ xử lý". Chuyển ra và Chuyển vào ghi thành cặp cùng mặt hàng, số lượng và chứng từ; số lượng tính được của một nhóm không âm (kiểm khi ghi). (LoaiChungTu, MaChungTu) trỏ tới nhiều loại chứng từ nên không khai báo được khóa ngoại.',
     fks=[(['MaSP'], 'MATHANG', ['MaSP']), (['MaNV'], 'NHANVIEN', ['MaNV'])])
 
 rel('HOSODOITRA', 'nghiep_vu', 'Hồ sơ đổi trả',
@@ -319,8 +321,7 @@ rel('HOSODOITRA', 'nghiep_vu', 'Hồ sơ đổi trả',
     '(MaNV), ngày đề nghị, trường hợp (LoaiTruongHop), lý do, tình trạng và hình thức xử lý (đổi hàng hoặc hoàn tiền). '
     'Một đơn có thể có nhiều hồ sơ, miễn tổng số lượng trả không vượt số đã giao.',
     'LoaiTruongHop chỉ nhận "Giao sai, thiếu hoặc hư hỏng", "Lỗi nhà sản xuất" hoặc "Khách đổi ý". HinhThucXuLy chỉ '
-    'nhận "Đổi hàng" hoặc "Hoàn tiền". Hồ sơ chỉ được lập trong thời hạn quy định theo từng trường hợp (48 giờ, 7 hoặc '
-    '30 ngày kể từ khi nhận hàng).',
+    'nhận "Đổi hàng" hoặc "Hoàn tiền". Hồ sơ chỉ được lập trong thời hạn quy định theo từng trường hợp (48 giờ kể từ khi nhận hàng; 7 hoặc 30 ngày kể từ ngày mua).',
     fks=[(['MaDH'], 'DONHANG', ['MaDH']), (['MaNV'], 'NHANVIEN', ['MaNV'])])
 
 rel('CHITIETTRA', 'mkh', 'Chi tiết trả hàng',
@@ -348,7 +349,7 @@ rel('LANNHANLAI', 'nghiep_vu', 'Lần nhận lại hàng',
     'Mỗi lần cửa hàng nhận hàng trả về có mã (MaNhanLai), thuộc một hồ sơ đổi trả (MaHS), ghi thời điểm nhận. Mọi hàng '
     'nhận về vào nhóm chờ kiểm tra; nhân viên kỹ thuật (MaNV) kiểm tra, ghi kết luận và nhóm kho sau kiểm tra, người quản '
     'lý (MaNVDuyet) duyệt ở ThoiDiemDuyet.',
-    'NhomSauKiemTra chỉ nhận "Đủ điều kiện bán", "Chờ xử lý" hoặc "Không bán được". Hàng chỉ chuyển nhóm sau khi có '
+    'NhomSauKiemTra chỉ nhận "Đủ điều kiện bán" hoặc "Chờ xử lý"; hàng không bán được thuộc nhóm chờ xử lý và lý do ghi ở KetLuan. Hàng chỉ chuyển nhóm sau khi có '
     'ThoiDiemDuyet. ThoiDiemDuyet và MaNVDuyet cùng rỗng hoặc cùng có giá trị. Việc chuyển nhóm không làm tăng tổng số hàng '
     'thực tế trong kho.',
     fks=[(['MaHS'], 'HOSODOITRA', ['MaHS']), (['MaNV'], 'NHANVIEN', ['MaNV']), (['MaNVDuyet'], 'NHANVIEN', ['MaNV'])])
@@ -374,7 +375,7 @@ rel('PHIEUBAOHANH', 'nghiep_vu', 'Phiếu tiếp nhận bảo hành',
      ('MaSeri', 'INT', 'NULL', 'Chiếc hàng bảo hành (hàng có seri)'), ('MaSP', 'INT', 'NN', 'Mặt hàng bảo hành'),
      ('MaDH', 'INT', 'NN', 'Đơn mua gốc'), ('SoDongDH', 'INT', 'NN', 'Dòng mua gốc'),
      ('MoTaLoi', 'NVARCHAR(500)', 'NN', 'Mô tả lỗi'), ('PhuKienDiKem', 'NVARCHAR(300)', 'NULL', 'Ghi chú phụ kiện đi kèm (văn bản tự do)'),
-     ('NgayNhan', 'DATE', 'NN', 'Ngày nhận'), ('NgayHenTra', 'DATE', 'NN', 'Ngày hẹn trả'),
+     ('NgayNhan', 'DATE', 'NN', 'Ngày nhận'), ('NgayHenTra', 'DATE', 'NULL', 'Ngày hẹn trả (rỗng nếu từ chối)'),
      ('NgayTraThucTe', 'DATE', 'NULL', 'Ngày trả thực tế'), ('TinhTrangBH', 'NVARCHAR(20)', 'NN', 'Tình trạng phiếu'),
      ('KetQuaBH', 'NVARCHAR(30)', 'NULL', 'Kết quả (sửa xong, đổi mới, hoàn tiền...)'),
      ('LyDoTuChoi', 'NVARCHAR(300)', 'NULL', 'Lý do từ chối bảo hành'), ('MaNV', 'INT', 'NN', 'Nhân viên tiếp nhận')],
@@ -385,7 +386,7 @@ rel('PHIEUBAOHANH', 'nghiep_vu', 'Phiếu tiếp nhận bảo hành',
     '(MaSP), dòng mua gốc (MaDH, SoDongDH), mô tả lỗi, ghi chú phụ kiện đi kèm, ngày nhận, ngày hẹn trả, ngày trả thực tế, tình '
     'trạng, kết quả, lý do từ chối nếu có và nhân viên tiếp nhận (MaNV). Mặt hàng được ghi sẵn trên phiếu để tra cứu nhanh. '
     'Mỗi dòng mua và mỗi chiếc hàng chỉ thuộc một mặt hàng.',
-    'NgayHenTra không trước NgayNhan. TinhTrangBH chỉ nhận "Đã tiếp nhận", "Đang kiểm tra", "Đang gửi hãng", "Đã có kết '
+    'NgayHenTra nếu có không trước NgayNhan; phiếu từ chối không có ngày hẹn. TinhTrangBH chỉ nhận "Đã tiếp nhận", "Đang kiểm tra", "Đang gửi hãng", "Đã có kết '
     'quả", "Đã trả khách" hoặc "Từ chối". LyDoTuChoi không rỗng khi TinhTrangBH là "Từ chối". MaSP phải trùng MaSP của '
     'dòng mua gốc và của chiếc hàng. Các PTH có vế trái là MaSeri chỉ xét trên phiếu có MaSeri.',
     fks=[(['MaSeri'], 'HANGCOSERI', ['MaSeri']), (['MaDH', 'SoDongDH'], 'CHITIETDONHANG', ['MaDH', 'SoDongDH']),
@@ -431,7 +432,7 @@ def improved():
     bh['tantu'] = bh['tantu'].replace('mặt hàng (MaSP), ', '').replace(
         'Mặt hàng được ghi sẵn trên phiếu để tra cứu nhanh. Mỗi dòng mua và mỗi chiếc hàng chỉ thuộc một mặt hàng.',
         'Mặt hàng bảo hành suy ra từ dòng mua gốc (hoặc từ chiếc hàng).')
-    bh['rangbuoc'] = ('NgayHenTra không trước NgayNhan. TinhTrangBH chỉ nhận "Đã tiếp nhận", "Đang kiểm tra", "Đang gửi '
+    bh['rangbuoc'] = ('NgayHenTra nếu có không trước NgayNhan; phiếu từ chối không có ngày hẹn. TinhTrangBH chỉ nhận "Đã tiếp nhận", "Đang kiểm tra", "Đang gửi '
                       'hãng", "Đã có kết quả", "Đã trả khách" hoặc "Từ chối". LyDoTuChoi không rỗng khi TinhTrangBH là '
                       '"Từ chối". Nếu có MaSeri thì mặt hàng của chiếc hàng phải trùng mặt hàng của dòng mua gốc.')
     # HANGCOSERI: tách SERIMATHANG (SoSeri, MaSP) khỏi HANGCOSERI

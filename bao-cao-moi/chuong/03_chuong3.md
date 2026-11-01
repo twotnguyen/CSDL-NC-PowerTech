@@ -1,15 +1,15 @@
 # CHƯƠNG 3: KẾT QUẢ THỰC NGHIỆM
 
-Chương này biểu diễn lược đồ sau cải tiến (26 quan hệ, mục 2.3.6) thành đồ thị quan hệ theo thuật toán B1–B7 của giáo trình, nêu các con đường truy xuất và ngữ nghĩa của từng con đường, rồi viết truy vấn SQL cho các con đường đó. Phép tính do `tools/dothi.py` đối chiếu; các truy vấn đều đã chạy thử trên dữ liệu minh họa nhỏ (`sql/02_du_lieu_minh_hoa.sql`, 26 bảng, không vi phạm khóa ngoại) và đều trả về ít nhất một dòng.
+Chương này biểu diễn lược đồ sau cải tiến (26 quan hệ, mục 2.3.6) thành đồ thị quan hệ theo thuật toán B1–B7 của giáo trình, nêu các con đường truy xuất và ngữ nghĩa của từng con đường, rồi viết truy vấn SQL cho các con đường đó. Phép tính do `tools/dothi.py` đối chiếu; các truy vấn đều đã chạy thử trên SQLite và SQL Server LocalDB 17.0 với dữ liệu minh họa nhỏ (`sql/02_du_lieu_minh_hoa.sql`, 26 bảng, không vi phạm khóa ngoại) và đều trả về ít nhất một dòng.
 
 ## 3.1 ĐỒ THỊ QUAN HỆ
 
 **Quy ước áp dụng** (giáo trình cho phép nhiều đồ thị cho cùng một lược đồ; mục 10.4):
 
 - **Q1.** Mỗi quan hệ dùng khóa chính làm khóa ưu tiên (giáo trình 10.4.2: khi cài đặt chọn một khóa ưu tiên).
-- **Q2.** Hai cột là cùng một thuộc tính khi nối nhau bằng khóa ngoại. Các cột MaNV ở những chứng từ khác nhau là vai trò khác nhau của nhân viên (lập đơn, xác nhận thu, giao hàng, nhập hàng…) nên không tính là cùng thuộc tính khi xét giao ở Bước 3, nhưng mỗi cột vẫn cho một cung tới NHANVIEN. Các cột vai trò có tên khác (MaNVThu, MaNVXacNhan, MaNVDuyet, MaNVChi) không vẽ thành cung song song và được truy xuất bằng cách nối thêm cột đó (truy vấn K7).
+- **Q2.** Hai cột là cùng một thuộc tính khi nối nhau bằng khóa ngoại. Các cột MaNV ở những chứng từ khác nhau là vai trò khác nhau của nhân viên (lập đơn, xác nhận thu, giao hàng, nhập hàng…) nên không tính là cùng thuộc tính khi xét giao ở Bước 3, nhưng mỗi cột vẫn cho một cung tới NHANVIEN. Các cột vai trò có tên khác (MaNVThu, MaNVXacNhan, MaNVDuyet, MaNVChi) không vẽ thành cung song song và được truy xuất bằng cách nối thêm cột đó (truy vấn K6, K7).
 - **Q3.** PTH_Thừa và lồng khóa tính đúng theo công thức của Bài 10 (xem Bước 4); không thêm quy tắc nào khác.
-- **Q4.** Khuyên (cung từ một nút về chính nó) là liên kết loại hàng cha – con (MaLoaiCha); nằm ngoài thuật toán.
+- **Q4.** Khuyên (cung từ một nút về chính nó) là liên kết loại hàng cha – con (MaLoaiCha). Theo Bài 9, khuyên vẫn là một cung nên có thể nối vào cuối mạch đi. Nhóm vẫn vẽ khuyên nhưng không tách thành đường riêng, vì truy hồi cây loại hàng cần truy vấn đệ quy riêng. Nếu tính như vậy thì 11 đường kết thúc ở LOAIHANG có thêm một đường nối khuyên, tổng cộng 72 đường.
 
 **Bước 1: Biến C thành phân rã đồng nhất C_d.** Hai quan hệ có khóa tương hỗ thì gộp thành một nút. HANGCOSERI và SERIMATHANG đều có khóa {MaSeri} nên gộp; quan hệ gộp là HANGCOSERI(MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap), tức hình dạng ban đầu của quan hệ này. Các quan hệ còn lại giữ nguyên: **25 nút**.
 
@@ -232,6 +232,8 @@ Từ bảng trên, mỗi nút Nⱼ ∈ Cung(Nᵢ) cho một cung có hướng c�
 | KHOANHOAN | KHOANHOAN(MaHoan, SoTienHoan, PhuongThucHoan, ThoiDiemDuyetHoan, ThoiDiemChi, MaNVChi) | MaNV, MaTT, MaHS, MaPhieuBH |
 | PHIEUBAOHANH | PHIEUBAOHANH(MaPhieuBH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi) | MaNV, MaDH, SoDongDH, MaSeri |
 
+*Bảng 3.91: Quan hệ nút sau mịn hóa*
+
 **Bước 7: Tạo cung vô hướng.** Không có nút Nₖ nào thỏa điều kiện (quan hệ chỉ gồm thuộc tính khóa, có đúng hai cung ra và không có cung vào): quan hệ nối n–n của lược đồ đều có thuộc tính riêng (GIATRITHONGSO có GiaTriTS; CHITIET* có số lượng, giá). Vì vậy không có cung vô hướng và đồ thị quan hệ chỉ có cung có hướng.
 
 NHANVIEN nhận 12 cung vai trò nên nếu vẽ chung thì các cung này che phần còn lại. Vì vậy Hình 3.1 vẽ phần chính của đồ thị, gồm các nút có tên và 31 cung không có giao cắt; Hình 3.2 vẽ đầy đủ 25 nút và 43 cung.
@@ -324,9 +326,9 @@ Mỗi cung có hai con đường: xuôi theo cung (cho một bộ, (1,1,1) hoặ
 | 10 | 16 → 15 → 12 → 7 | Cho biết lần giao hàng thuộc phiếu giao nào; phiếu giao đó lập cho đơn hàng nào; đơn hàng đó do khách hàng nào đặt (nếu có hồ sơ khách). | 4 |
 | 11 | 16 → 15 → 12 → 8 | Cho biết lần giao hàng thuộc phiếu giao nào; phiếu giao đó lập cho đơn hàng nào; đơn hàng đó do nhân viên nào lập. | 1 |
 | 12 | 16 → 15 → 12 → 11 → 8 | Cho biết lần giao hàng thuộc phiếu giao nào; phiếu giao đó lập cho đơn hàng nào; đơn hàng đó áp dụng mã giảm giá nào (nếu có); mã giảm giá đó do nhân viên nào tạo. | 1 |
-| 13 | 20 → 3 → 1 | Cho biết giao dịch kho liên quan đến mặt hàng nào; mặt hàng đó thuộc loại hàng nào. | 4 |
-| 14 | 20 → 3 → 2 | Cho biết giao dịch kho liên quan đến mặt hàng nào; mặt hàng đó mang thương hiệu nào. | 4 |
-| 15 | 20 → 8 | Cho biết giao dịch kho do nhân viên nào thực hiện. | 4 |
+| 13 | 20 → 3 → 1 | Cho biết giao dịch kho liên quan đến mặt hàng nào; mặt hàng đó thuộc loại hàng nào. | 6 |
+| 14 | 20 → 3 → 2 | Cho biết giao dịch kho liên quan đến mặt hàng nào; mặt hàng đó mang thương hiệu nào. | 6 |
+| 15 | 20 → 8 | Cho biết giao dịch kho do nhân viên nào thực hiện. | 6 |
 | 16 | 22 → 19 → 3 → 1 | Cho biết dòng trả hàng ghi chiếc hàng có seri nào; chiếc hàng có seri đó là chiếc của mặt hàng nào; mặt hàng đó thuộc loại hàng nào. | 1 |
 | 17 | 22 → 19 → 3 → 2 | Cho biết dòng trả hàng ghi chiếc hàng có seri nào; chiếc hàng có seri đó là chiếc của mặt hàng nào; mặt hàng đó mang thương hiệu nào. | 1 |
 | 18 | 22 → 19 → 13 → 3 → 1 | Cho biết dòng trả hàng ghi chiếc hàng có seri nào; chiếc hàng có seri đó bán gần nhất ở dòng đơn nào; dòng đơn đó bán mặt hàng nào; mặt hàng đó thuộc loại hàng nào. | 1 |
@@ -399,7 +401,9 @@ JOIN   <nút 2>   a2 ON a1.<khóa ngoại> = a2.<khóa>
 ...
 ```
 
-Với nút HANGCOSERI (gộp từ HANGCOSERI và SERIMATHANG) câu lệnh nối thêm SERIMATHANG theo MaSeri để lấy lại đủ số seri và mặt hàng. Đã sinh **61 câu lệnh**, lưu ở `sql/03_truy_van_cac_duong_truy_xuat.sql`; mỗi câu đã chạy thử và đều trả về ít nhất một dòng (cột cuối bảng 3.5).
+Cung có bản số (0,-,1) ứng với khóa ngoại cho phép rỗng. Các câu lệnh dùng nối trong nên chỉ trả những bộ có giá trị ở cột đó: chẳng hạn đường 10, 38 không gồm đơn của khách vãng lai, đường 11 không gồm đơn khách tự đặt chưa có nhân viên lập. Khi cần giữ cả các bộ này thì đổi sang LEFT JOIN, như K4, K6 ở mục 3.3.3.
+
+Với nút HANGCOSERI (gộp từ HANGCOSERI và SERIMATHANG) câu lệnh nối thêm SERIMATHANG theo MaSeri để lấy lại đủ số seri và mặt hàng. Đã sinh **61 câu lệnh**, lưu ở `sql/03_truy_van_cac_duong_truy_xuat.sql` và in đầy đủ ở Phụ lục; mỗi câu đã chạy thử và đều trả về ít nhất một dòng (cột cuối bảng 3.5).
 
 ### 3.3.2 Một số câu truy vấn của các con đường
 
@@ -484,28 +488,27 @@ ORDER BY dh.ThoiDiemLap, ct.SoDongDH;
 **K2. Doanh thu tiền hàng theo loại hàng trong tháng 10/2026 (không tính đơn đã hủy, chưa trừ giảm giá và hoàn tiền)** (đường: CHITIETDONHANG → DONHANG; CHITIETDONHANG → MATHANG → LOAIHANG; 3 dòng trên dữ liệu minh họa)
 
 ```sql
-SELECT lh.TenLoai, SUM(ct.SoLuongBan * ct.DonGiaChot) AS DoanhThuTienHang
+SELECT lh.MaLoai, lh.TenLoai, SUM(ct.SoLuongBan * ct.DonGiaChot) AS DoanhThuTienHang
 FROM CHITIETDONHANG ct
 JOIN DONHANG dh ON dh.MaDH = ct.MaDH
 JOIN MATHANG mh ON mh.MaSP = ct.MaSP
 JOIN LOAIHANG lh ON lh.MaLoai = mh.MaLoai
 WHERE dh.TinhTrangDH <> 'Đã hủy'
   AND dh.ThoiDiemLap >= '2026-10-01' AND dh.ThoiDiemLap < '2026-11-01'
-GROUP BY lh.TenLoai
+GROUP BY lh.MaLoai, lh.TenLoai
 ORDER BY DoanhThuTienHang DESC;
 ```
 
-**K3. Số lượng hàng trong kho theo mặt hàng và nhóm kho, tính từ giao dịch kho** (đường: GIAODICHKHO → MATHANG; 3 dòng trên dữ liệu minh họa)
+**K3. Số lượng hàng trong kho theo mặt hàng và nhóm kho, tính từ giao dịch kho** (đường: GIAODICHKHO → MATHANG; 4 dòng trên dữ liệu minh họa)
 
 ```sql
-SELECT mh.TenSP, gd.NhomKho,
-       SUM(CASE WHEN gd.LoaiBienDong IN ('Nhập', 'Nhận lại') THEN gd.SoLuongGD
-                WHEN gd.LoaiBienDong = 'Xuất bán' THEN -gd.SoLuongGD
-                ELSE 0 END) AS SoLuong
+SELECT mh.MaSP, mh.TenSP, gd.NhomKho,
+       SUM(CASE WHEN gd.LoaiBienDong IN ('Nhập', 'Nhận lại', 'Chuyển vào') THEN gd.SoLuongGD
+                ELSE -gd.SoLuongGD END) AS SoLuong
 FROM GIAODICHKHO gd
 JOIN MATHANG mh ON mh.MaSP = gd.MaSP
-GROUP BY mh.TenSP, gd.NhomKho
-ORDER BY mh.TenSP, gd.NhomKho;
+GROUP BY mh.MaSP, mh.TenSP, gd.NhomKho
+ORDER BY mh.MaSP, gd.NhomKho;
 ```
 
 **K4. Truy vết một chiếc hàng theo số seri: nhập từ đâu, lần bán gần nhất cho ai** (đường: SERIMATHANG ⇒ HANGCOSERI → CHITIETPHIEUNHAP → PHIEUNHAP → NHACUNGCAP; HANGCOSERI → CHITIETDONHANG → DONHANG → KHACHHANG; 1 dòng trên dữ liệu minh họa)
@@ -524,27 +527,32 @@ LEFT JOIN KHACHHANG kh ON kh.MaKH = dh.MaKH
 WHERE sm.MaSP = 2 AND sm.SoSeri = 'S1T-0001';
 ```
 
-**K5. Hồ sơ đổi trả của một đơn kèm số tiền đã hoàn** (đường: HOSODOITRA ⇒ CHITIETTRA; HOSODOITRA ⇒ KHOANHOAN → THANHTOAN; 1 dòng trên dữ liệu minh họa)
+**K5. Các dòng trả của từng hồ sơ đổi trả trong một đơn, kèm tổng tiền đã chi hoàn của hồ sơ** (đường: HOSODOITRA ⇒ CHITIETTRA; HOSODOITRA ⇒ KHOANHOAN; 1 dòng trên dữ liệu minh họa)
 
 ```sql
-SELECT hd.MaHS, hd.LoaiTruongHop, ct.SoDongDH, ct.SoLuongTra, kc.SoTienHoan, tt.SoTien AS SoTienDaThu
+SELECT hd.MaHS, hd.LoaiTruongHop, ct.SoDongTra, ct.SoDongDH, ct.SoLuongTra, h.TongHoan
 FROM HOSODOITRA hd
 JOIN CHITIETTRA ct ON ct.MaHS = hd.MaHS
-LEFT JOIN KHOANHOAN kc ON kc.MaHS = hd.MaHS
-LEFT JOIN THANHTOAN tt ON tt.MaTT = kc.MaTT
-WHERE hd.MaDH = 2;
+LEFT JOIN (SELECT MaHS, SUM(SoTienHoan) AS TongHoan
+           FROM KHOANHOAN
+           WHERE MaHS IS NOT NULL AND ThoiDiemChi IS NOT NULL
+           GROUP BY MaHS) h ON h.MaHS = hd.MaHS
+WHERE hd.MaDH = 2
+ORDER BY hd.MaHS, ct.SoDongTra;
 ```
 
-**K6. Ai đã lập đơn, thu tiền và giao một đơn hàng, và người đó có chức vụ gì (truy trách nhiệm)** (đường: DONHANG → NHANVIEN (lập); DONHANG ⇐ THANHTOAN → NHANVIEN (xác nhận thu); DONHANG ⇐ PHIEUGIAO → NHANVIEN (giao); 1 dòng trên dữ liệu minh họa)
+**K6. Ai đã lập đơn, xác nhận tiền, thu tiền khi giao và giao một đơn hàng, và người đó có chức vụ gì (truy trách nhiệm)** (đường: DONHANG → NHANVIEN (lập); DONHANG ⇐ THANHTOAN → NHANVIEN (xác nhận tiền, cột MaNV; thu khi giao, cột MaNVThu); DONHANG ⇐ PHIEUGIAO → NHANVIEN (giao); 1 dòng trên dữ liệu minh họa)
 
 ```sql
 SELECT dh.SoDH, nl.HoLotNV AS HoLotNguoiLap, nl.TenNV AS TenNguoiLap, nl.ChucVu AS ChucVuNguoiLap,
-       tt.MaTT, tt.PhuongThuc, nt.HoLotNV AS HoLotNguoiThu, nt.TenNV AS TenNguoiThu,
+       tt.MaTT, tt.PhuongThuc, nx.HoLotNV AS HoLotNguoiXacNhan, nx.TenNV AS TenNguoiXacNhan, nx.ChucVu AS ChucVuNguoiXacNhan,
+       nt.HoLotNV AS HoLotNguoiThu, nt.TenNV AS TenNguoiThu, nt.ChucVu AS ChucVuNguoiThu,
        pg.MaGiao, ng.HoLotNV AS HoLotNguoiGiao, ng.TenNV AS TenNguoiGiao, ng.ChucVu AS ChucVuNguoiGiao
 FROM DONHANG dh
 LEFT JOIN NHANVIEN nl ON nl.MaNV = dh.MaNV
 LEFT JOIN THANHTOAN tt ON tt.MaDH = dh.MaDH
-LEFT JOIN NHANVIEN nt ON nt.MaNV = tt.MaNV
+LEFT JOIN NHANVIEN nx ON nx.MaNV = tt.MaNV
+LEFT JOIN NHANVIEN nt ON nt.MaNV = tt.MaNVThu
 LEFT JOIN PHIEUGIAO pg ON pg.MaDH = dh.MaDH
 LEFT JOIN NHANVIEN ng ON ng.MaNV = pg.MaNV
 WHERE dh.SoDH = 'DH-0002';
@@ -574,22 +582,31 @@ ORDER BY nv.ChucVu, nv.MaNV;
 **K9. Phiếu bảo hành đã quá ngày hẹn trả mà chưa trả khách, kèm khách cần liên hệ** (đường: PHIEUBAOHANH → CHITIETDONHANG → DONHANG → KHACHHANG; 1 dòng trên dữ liệu minh họa)
 
 ```sql
+WITH ThamSo AS (SELECT '2026-11-01' AS NgayTraCuu)
 SELECT bh.MaPhieuBH, bh.NgayNhan, bh.NgayHenTra, bh.TinhTrangBH, ct.TenHangChot, dh.SoDH, kh.HoLotKH, kh.TenKH, kh.SDTKH
 FROM PHIEUBAOHANH bh
+CROSS JOIN ThamSo ts
 JOIN CHITIETDONHANG ct ON ct.MaDH = bh.MaDH AND ct.SoDongDH = bh.SoDongDH
 JOIN DONHANG dh ON dh.MaDH = ct.MaDH
 LEFT JOIN KHACHHANG kh ON kh.MaKH = dh.MaKH
-WHERE bh.NgayTraThucTe IS NULL AND bh.NgayHenTra < '2026-11-01'
+WHERE bh.NgayTraThucTe IS NULL AND bh.NgayHenTra < ts.NgayTraCuu
 ORDER BY bh.NgayHenTra;
 ```
 
-Ghi chú: K3 quy ước chiều biến động theo LoaiBienDong (Nhập và Nhận lại làm tăng; Xuất bán làm giảm; Chuyển nhóm cần thêm nhóm đích nên chưa tính); quy ước dấu của sổ kho chưa chốt với cửa hàng và là điểm cần xác nhận.
+Ghi chú:
+
+- **K2, K3:** gộp theo mã (MaLoai, MaSP) vì tên không duy nhất; gộp theo tên sẽ cộng chung hai loại hoặc hai mặt hàng trùng tên.
+- **K3:** Nhập, Nhận lại, Chuyển vào làm tăng; Xuất bán, Chuyển ra làm giảm. Mỗi lần chuyển nhóm ghi hai dòng đối ứng nên tổng số hàng không đổi. Đây là quy ước ghi sổ do nhóm đặt (giả thiết). Một nhóm có thể hiện số lượng 0 sau khi đã chuyển hết hàng.
+- **K4:** chỉ cho lần bán gần nhất, không thay cho lịch sử đầy đủ. Các lần bán trước của chiếc hàng tra từ các dòng CHITIETTRA có MaSeri đó, qua HOSODOITRA tới đơn gốc.
+- **K5:** chỉ cộng khoản đã chi (ThoiDiemChi khác rỗng); khoản đã duyệt mà chưa chi không tính. Tiền hoàn được cộng theo hồ sơ trước khi nối, vì nối trực tiếp CHITIETTRA với KHOANHOAN theo MaHS sẽ nhân dòng (2 dòng trả và 2 khoản hoàn cho 4 dòng). Nhóm đã thử thêm trường hợp nhiều dòng và nhiều khoản này.
+- **K6:** phân biệt người xác nhận đã nhận tiền (THANHTOAN.MaNV) với người giao hàng thu tiền (THANHTOAN.MaNVThu); người thu rỗng khi không phải khoản thu khi giao.
+- **K9:** ngày tra cứu đặt ở một chỗ (ThamSo.NgayTraCuu); ngày trong câu lệnh là ví dụ theo dữ liệu minh họa.
 
 ## 3.4 NGÕ VÀO TRA CỨU VÀ CHỈ MỤC ĐỀ XUẤT
 
 Giáo trình Bài 9 nhấn mạnh phép kết là thao tác chính và cần chỉ mục cho cột nối. Hai nhóm chỉ mục đề xuất, suy từ đồ thị:
 
-1. **Ngõ vào tra cứu theo khóa riêng** (người dùng cung cấp giá trị): đã có chỉ mục tự động từ UNIQUE: SKU (MATHANG), SoDH (DONHANG), SoPhieu (PHIEUNHAP), CodeMG (MAGIAMGIA), (MaSP, SoSeri) (SERIMATHANG), (MaSP, ViTriAnh) (ANHMATHANG), MaDH (PHIEUGIAO), TenDangNhap, MaKH, MaNV (TAIKHOAN). Cần thêm chỉ mục tìm khách theo SDTKH và nhân viên theo tên (TenKH, TenNV).
+1. **Ngõ vào tra cứu theo khóa riêng** (người dùng cung cấp giá trị): đã có chỉ mục tự động từ UNIQUE: SKU (MATHANG), TenTH (THUONGHIEU), TenNCC (NHACUNGCAP), SoDH (DONHANG), SoPhieu (PHIEUNHAP), CodeMG (MAGIAMGIA), (MaSP, SoSeri) (SERIMATHANG), (MaSP, ViTriAnh) (ANHMATHANG), MaDH (PHIEUGIAO), TenDangNhap, MaKH, MaNV (TAIKHOAN). Cần thêm chỉ mục tìm khách theo SDTKH và nhân viên theo tên (TenKH, TenNV).
 2. **Cột khóa ngoại của cung** nên có chỉ mục để phép nối theo chiều ngược (từ cha xuống n con) nhanh: DONHANG(MaKH), DONHANG(MaNV), CHITIETDONHANG(MaSP), THANHTOAN(MaDH), HOSODOITRA(MaDH), KHOANHOAN(MaTT), KHOANHOAN(MaHS), LANNHANLAI(MaHS), GIAODICHKHO(MaSP, ThoiDiemGD), PHIEUBAOHANH(MaDH, SoDongDH), HANGCOSERI(MaDH, SoDongDH), HANGCOSERI(MaPN, SoDongPN), và các khóa ngoại phụ tới NHANVIEN (MaNVDuyet, MaNVChi, MaNVThu, MaNVXacNhan) để tra “một nhân viên đã duyệt, chi, thu những gì”.
 
 Khẳng định tốc độ cần đo trên dữ liệu thật; báo cáo chưa đo hiệu năng.

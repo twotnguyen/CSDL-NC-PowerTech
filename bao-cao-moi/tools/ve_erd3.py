@@ -67,6 +67,8 @@ def dung(keep, nv_chon=False, chi_nv=False):
             continue
         if nv_chon and parent == 'NHANVIEN' and child not in NV_GIU:
             continue
+        if nv_chon and verb == 'Trả chiếc':     # Hình 1.1 giữ cỡ chữ đọc được; liên kết này vẽ ở Hình 1.6
+            continue
         if child == parent:                     # quan hệ tự thân: oval là nút riêng nối với thực thể bằng hai đường
             r = f'tt_{child}_{verb}'
             nuts[r] = Nut(r, 'S', verb, size_of(verb, 13, False, 26), 36)

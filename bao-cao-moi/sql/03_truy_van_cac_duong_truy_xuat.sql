@@ -100,7 +100,7 @@ JOIN NHANVIEN nv ON mg.MaNV = nv.MaNV;
 
 -- Đường 13: GIAODICHKHO → MATHANG → LOAIHANG
 -- Cho biết giao dịch kho liên quan đến mặt hàng nào; mặt hàng đó thuộc loại hàng nào.
--- Số dòng trên dữ liệu minh họa: 4
+-- Số dòng trên dữ liệu minh họa: 6
 SELECT gd.MaGDK, mh.MaSP, lh.MaLoai
 FROM GIAODICHKHO gd
 JOIN MATHANG mh ON gd.MaSP = mh.MaSP
@@ -108,7 +108,7 @@ JOIN LOAIHANG lh ON mh.MaLoai = lh.MaLoai;
 
 -- Đường 14: GIAODICHKHO → MATHANG → THUONGHIEU
 -- Cho biết giao dịch kho liên quan đến mặt hàng nào; mặt hàng đó mang thương hiệu nào.
--- Số dòng trên dữ liệu minh họa: 4
+-- Số dòng trên dữ liệu minh họa: 6
 SELECT gd.MaGDK, mh.MaSP, th.MaTH
 FROM GIAODICHKHO gd
 JOIN MATHANG mh ON gd.MaSP = mh.MaSP
@@ -116,7 +116,7 @@ JOIN THUONGHIEU th ON mh.MaTH = th.MaTH;
 
 -- Đường 15: GIAODICHKHO → NHANVIEN
 -- Cho biết giao dịch kho do nhân viên nào thực hiện.
--- Số dòng trên dữ liệu minh họa: 4
+-- Số dòng trên dữ liệu minh họa: 6
 SELECT gd.MaGDK, nv.MaNV
 FROM GIAODICHKHO gd
 JOIN NHANVIEN nv ON gd.MaNV = nv.MaNV;

@@ -78,9 +78,9 @@ Ràng buộc: MaLoai là số tự nhiên tăng dần. TenLoai không rỗng, t�
 
 **2/ THUONGHIEU(<u>MaTH</u>, TenTH, MoTaTH)**
 
-Tân từ: Mỗi thương hiệu được phân biệt bằng mã thương hiệu (MaTH), có tên (TenTH) và mô tả (MoTaTH). Hai thương hiệu có thể trùng tên nên tên không dùng để phân biệt.
+Tân từ: Mỗi thương hiệu được phân biệt bằng mã thương hiệu (MaTH), có tên (TenTH) không trùng với thương hiệu khác và mô tả (MoTaTH).
 
-Ràng buộc: MaTH là số tự nhiên tăng dần. TenTH không rỗng, tối đa 100 ký tự.
+Ràng buộc: MaTH là số tự nhiên tăng dần. TenTH không rỗng, không trùng, tối đa 100 ký tự.
 
 **3/ MATHANG(<u>MaSP</u>, SKU, TenSP, MoTaSP, GiaNiemYet, GiaKhuyenMai, ThoiHanBH, TinhTrangKD, CoSeri, <span style="text-decoration: underline dashed">MaLoai</span>, <span style="text-decoration: underline dashed">MaTH</span>)**
 
@@ -126,9 +126,9 @@ Ràng buộc: MaTK là số tự nhiên tăng dần. TenDangNhap không rỗng, 
 
 **10/ NHACUNGCAP(<u>MaNCC</u>, TenNCC, NguoiLienHeNCC, SDTNCC, DiaChiNCC, MaSoThueNCC, TinhTrangHT)**
 
-Tân từ: Mỗi nhà cung cấp (nhà phân phối, đại lý chính hãng) được phân biệt bằng mã nhà cung cấp (MaNCC), có tên công ty, người liên hệ, số điện thoại, địa chỉ, mã số thuế và tình trạng hợp tác. Tên công ty và thông tin liên hệ có thể trùng nên không dùng để phân biệt.
+Tân từ: Mỗi nhà cung cấp (nhà phân phối, đại lý chính hãng) được phân biệt bằng mã nhà cung cấp (MaNCC), có tên công ty không trùng với nhà cung cấp khác, người liên hệ, số điện thoại, địa chỉ, mã số thuế và tình trạng hợp tác. Thông tin liên hệ có thể trùng hoặc thay đổi nên không dùng để phân biệt.
 
-Ràng buộc: MaNCC là số tự nhiên tăng dần. TenNCC không rỗng. TinhTrangHT chỉ nhận "Đang hợp tác" hoặc "Ngừng hợp tác".
+Ràng buộc: MaNCC là số tự nhiên tăng dần. TenNCC không rỗng, không trùng. TinhTrangHT chỉ nhận "Đang hợp tác" hoặc "Ngừng hợp tác".
 
 **11/ MAGIAMGIA(<u>MaMG</u>, CodeMG, TenChuongTrinh, LoaiGiam, MucGiam, DonToiThieu, GiamToiDa, NgayBatDau, NgayKetThuc, GioiHanLuot, <span style="text-decoration: underline dashed">MaNV</span>)**
 
@@ -138,7 +138,7 @@ Ràng buộc: CodeMG không rỗng, không trùng. LoaiGiam chỉ nhận "Phần
 
 **12/ DONHANG(<u>MaDH</u>, SoDH, ThoiDiemLap, KenhBan, <span style="text-decoration: underline dashed">MaKH</span>, <span style="text-decoration: underline dashed">MaNV</span>, TenNguoiNhan, SDTNhan, DiaChiGiao, PhiGiao, GiamGia, <span style="text-decoration: underline dashed">MaMG</span>, TinhTrangDH, DieuKienCoc, GhiChuDH)**
 
-Tân từ: Mỗi đơn hàng có mã (MaDH) và số đơn (SoDH) không trùng, ghi ngày giờ lập (ThoiDiemLap), kênh bán (KenhBan), nhân viên lập (MaNV, rỗng khi khách tự đặt trên trang web) và khách hàng (MaKH) nếu có. Với đơn cần giao, đơn ghi tên, số điện thoại, địa chỉ người nhận, phí giao, khoản giảm giá và mã giảm giá đã dùng (MaMG), được chốt khi cửa hàng xác nhận đơn. Đơn có tình trạng (TinhTrangDH) và, với đơn đặt cọc, ghi điều kiện cọc đã thỏa thuận (DieuKienCoc).
+Tân từ: Mỗi đơn hàng có mã (MaDH) và số đơn (SoDH) không trùng, ghi ngày giờ lập (ThoiDiemLap), kênh bán (KenhBan), nhân viên lập (MaNV, rỗng khi khách tự đặt trên trang web) và khách hàng (MaKH) nếu có. Đơn ghi khoản giảm giá và mã giảm giá đã dùng (MaMG); với đơn cần giao còn ghi tên, số điện thoại, địa chỉ người nhận và phí giao. Các giá trị này được chốt khi cửa hàng xác nhận đơn. Đơn có tình trạng (TinhTrangDH) và, với đơn đặt cọc, ghi điều kiện cọc đã thỏa thuận (DieuKienCoc).
 
 Ràng buộc: SoDH không trùng. KenhBan chỉ nhận "Quầy", "Trang web", "Điện thoại" hoặc "Tin nhắn". TinhTrangDH chỉ nhận "Chờ xác nhận", "Đã xác nhận", "Đang chuẩn bị", "Đang giao", "Hoàn tất" hoặc "Đã hủy". PhiGiao và GiamGia không âm. Mỗi đơn dùng tối đa một mã giảm giá. Đơn bán tại quầy không có người nhận hàng nên TenNguoiNhan, SDTNhan, DiaChiGiao rỗng. Đơn có KenhBan khác "Trang web" phải có MaNV. Khách tự hủy được đơn khi đơn còn "Chờ xác nhận"; sau khi cửa hàng xác nhận thì do cửa hàng xử lý.
 
@@ -186,15 +186,15 @@ Ràng buộc: MaSeri là số tự nhiên tăng dần. Cặp (MaSP, SoSeri) khô
 
 **20/ GIAODICHKHO(<u>MaGDK</u>, <span style="text-decoration: underline dashed">MaSP</span>, NhomKho, LoaiBienDong, SoLuongGD, ThoiDiemGD, <span style="text-decoration: underline dashed">MaNV</span>, LoaiChungTu, MaChungTu, GhiChuGD)**
 
-Tân từ: Mỗi lần hàng vào hoặc ra kho (nhập, bán, nhận lại, chuyển nhóm) là một giao dịch kho có mã (MaGDK), ghi mặt hàng, nhóm kho bị ảnh hưởng, loại biến động, số lượng, thời điểm, nhân viên thực hiện và chứng từ gốc. Số lượng hàng trong kho được tính từ các giao dịch này, không lưu thành một cột riêng.
+Tân từ: Mỗi lần hàng vào hoặc ra kho (nhập, bán, nhận lại) là một giao dịch kho có mã (MaGDK); mỗi lần chuyển nhóm là hai giao dịch đối ứng (chuyển ra khỏi nhóm cũ, chuyển vào nhóm mới). Mỗi giao dịch ghi mặt hàng, nhóm kho bị ảnh hưởng, loại biến động, số lượng, thời điểm, nhân viên thực hiện và chứng từ gốc. Số lượng hàng trong kho được tính từ các giao dịch này, không lưu thành một cột riêng.
 
-Ràng buộc: SoLuongGD lớn hơn 0; hướng tăng hoặc giảm do LoaiBienDong quy định. NhomKho chỉ nhận "Đủ điều kiện bán", "Chờ kiểm tra" hoặc "Chờ xử lý". (LoaiChungTu, MaChungTu) trỏ tới nhiều loại chứng từ nên không khai báo được khóa ngoại.
+Ràng buộc: SoLuongGD lớn hơn 0; Nhập, Nhận lại, Chuyển vào làm tăng, Xuất bán, Chuyển ra làm giảm. NhomKho chỉ nhận "Đủ điều kiện bán", "Chờ kiểm tra" hoặc "Chờ xử lý". Chuyển ra và Chuyển vào ghi thành cặp cùng mặt hàng, số lượng và chứng từ; số lượng tính được của một nhóm không âm (kiểm khi ghi). (LoaiChungTu, MaChungTu) trỏ tới nhiều loại chứng từ nên không khai báo được khóa ngoại.
 
 **21/ HOSODOITRA(<u>MaHS</u>, <span style="text-decoration: underline dashed">MaDH</span>, <span style="text-decoration: underline dashed">MaNV</span>, NgayDeNghi, LoaiTruongHop, LyDoDoiTra, TinhTrangHS, HinhThucXuLy)**
 
 Tân từ: Mỗi hồ sơ đổi trả có mã (MaHS), lập cho một đơn gốc (MaDH), nhân viên tiếp nhận (MaNV), ngày đề nghị, trường hợp (LoaiTruongHop), lý do, tình trạng và hình thức xử lý (đổi hàng hoặc hoàn tiền). Một đơn có thể có nhiều hồ sơ, miễn tổng số lượng trả không vượt số đã giao.
 
-Ràng buộc: LoaiTruongHop chỉ nhận "Giao sai, thiếu hoặc hư hỏng", "Lỗi nhà sản xuất" hoặc "Khách đổi ý". HinhThucXuLy chỉ nhận "Đổi hàng" hoặc "Hoàn tiền". Hồ sơ chỉ được lập trong thời hạn quy định theo từng trường hợp (48 giờ, 7 hoặc 30 ngày kể từ khi nhận hàng).
+Ràng buộc: LoaiTruongHop chỉ nhận "Giao sai, thiếu hoặc hư hỏng", "Lỗi nhà sản xuất" hoặc "Khách đổi ý". HinhThucXuLy chỉ nhận "Đổi hàng" hoặc "Hoàn tiền". Hồ sơ chỉ được lập trong thời hạn quy định theo từng trường hợp (48 giờ kể từ khi nhận hàng; 7 hoặc 30 ngày kể từ ngày mua).
 
 **22/ CHITIETTRA(<u>MaHS</u><sup>FK</sup>, <u>SoDongTra</u>, <span style="text-decoration: underline dashed">SoDongDH</span>, <span style="text-decoration: underline dashed">MaDH</span>, SoLuongTra, <span style="text-decoration: underline dashed">MaSeri</span>)**
 
@@ -206,7 +206,7 @@ Ràng buộc: SoLuongTra lớn hơn 0, bằng 1 khi có MaSeri, và tổng số 
 
 Tân từ: Mỗi lần cửa hàng nhận hàng trả về có mã (MaNhanLai), thuộc một hồ sơ đổi trả (MaHS), ghi thời điểm nhận. Mọi hàng nhận về vào nhóm chờ kiểm tra; nhân viên kỹ thuật (MaNV) kiểm tra, ghi kết luận và nhóm kho sau kiểm tra, người quản lý (MaNVDuyet) duyệt ở ThoiDiemDuyet.
 
-Ràng buộc: NhomSauKiemTra chỉ nhận "Đủ điều kiện bán", "Chờ xử lý" hoặc "Không bán được". Hàng chỉ chuyển nhóm sau khi có ThoiDiemDuyet. ThoiDiemDuyet và MaNVDuyet cùng rỗng hoặc cùng có giá trị. Việc chuyển nhóm không làm tăng tổng số hàng thực tế trong kho.
+Ràng buộc: NhomSauKiemTra chỉ nhận "Đủ điều kiện bán" hoặc "Chờ xử lý"; hàng không bán được thuộc nhóm chờ xử lý và lý do ghi ở KetLuan. Hàng chỉ chuyển nhóm sau khi có ThoiDiemDuyet. ThoiDiemDuyet và MaNVDuyet cùng rỗng hoặc cùng có giá trị. Việc chuyển nhóm không làm tăng tổng số hàng thực tế trong kho.
 
 **24/ KHOANHOAN(<u>MaHoan</u>, <span style="text-decoration: underline dashed">MaTT</span>, <span style="text-decoration: underline dashed">MaHS</span>, <span style="text-decoration: underline dashed">MaPhieuBH</span>, <span style="text-decoration: underline dashed">MaNV</span>, SoTienHoan, PhuongThucHoan, ThoiDiemDuyetHoan, ThoiDiemChi, <span style="text-decoration: underline dashed">MaNVChi</span>)**
 
@@ -218,7 +218,7 @@ Ràng buộc: SoTienHoan lớn hơn 0. Tổng SoTienHoan của một MaTT không
 
 Tân từ: Mỗi phiếu tiếp nhận bảo hành có mã (MaPhieuBH), ghi chiếc hàng (MaSeri) nếu có seri, mặt hàng (MaSP), dòng mua gốc (MaDH, SoDongDH), mô tả lỗi, ghi chú phụ kiện đi kèm, ngày nhận, ngày hẹn trả, ngày trả thực tế, tình trạng, kết quả, lý do từ chối nếu có và nhân viên tiếp nhận (MaNV). Mặt hàng được ghi sẵn trên phiếu để tra cứu nhanh. Mỗi dòng mua và mỗi chiếc hàng chỉ thuộc một mặt hàng.
 
-Ràng buộc: NgayHenTra không trước NgayNhan. TinhTrangBH chỉ nhận "Đã tiếp nhận", "Đang kiểm tra", "Đang gửi hãng", "Đã có kết quả", "Đã trả khách" hoặc "Từ chối". LyDoTuChoi không rỗng khi TinhTrangBH là "Từ chối". MaSP phải trùng MaSP của dòng mua gốc và của chiếc hàng. Các PTH có vế trái là MaSeri chỉ xét trên phiếu có MaSeri.
+Ràng buộc: NgayHenTra nếu có không trước NgayNhan; phiếu từ chối không có ngày hẹn. TinhTrangBH chỉ nhận "Đã tiếp nhận", "Đang kiểm tra", "Đang gửi hãng", "Đã có kết quả", "Đã trả khách" hoặc "Từ chối". LyDoTuChoi không rỗng khi TinhTrangBH là "Từ chối". MaSP phải trùng MaSP của dòng mua gốc và của chiếc hàng. Các PTH có vế trái là MaSeri chỉ xét trên phiếu có MaSeri.
 
 ### 2.1.4 Danh sách thông tin các bảng
 
@@ -238,7 +238,7 @@ Kiểu dữ liệu theo SQL chuẩn (tiền là đồng Việt Nam, kiểu DECIM
 | Tên thuộc tính | Ý nghĩa | Kiểu dữ liệu | Độ dài | Ràng buộc |
 |---|---|---|---|---|
 | MaTH | Mã thương hiệu | Integer |  | PK |
-| TenTH | Tên thương hiệu | Nvarchar | 100 | Not Null |
+| TenTH | Tên thương hiệu | Nvarchar | 100 | Not Null, Unique |
 | MoTaTH | Mô tả thương hiệu | Nvarchar | 500 | Null |
 
 **3/ Bảng MATHANG** (Mặt hàng)
@@ -326,7 +326,7 @@ Kiểu dữ liệu theo SQL chuẩn (tiền là đồng Việt Nam, kiểu DECIM
 | Tên thuộc tính | Ý nghĩa | Kiểu dữ liệu | Độ dài | Ràng buộc |
 |---|---|---|---|---|
 | MaNCC | Mã nhà cung cấp | Integer |  | PK |
-| TenNCC | Tên công ty | Nvarchar | 200 | Not Null |
+| TenNCC | Tên công ty | Nvarchar | 200 | Not Null, Unique |
 | NguoiLienHeNCC | Người liên hệ | Nvarchar | 100 | Null |
 | SDTNCC | Số điện thoại | Varchar | 15 | Null |
 | DiaChiNCC | Địa chỉ | Nvarchar | 300 | Null |
@@ -465,7 +465,7 @@ Kiểu dữ liệu theo SQL chuẩn (tiền là đồng Việt Nam, kiểu DECIM
 | MaGDK | Mã giao dịch kho | Integer |  | PK |
 | MaSP | Mặt hàng | Integer |  | FK, Not Null |
 | NhomKho | Đủ điều kiện bán, chờ kiểm tra hoặc chờ xử lý | Nvarchar | 20 | Not Null |
-| LoaiBienDong | Nhập, xuất bán, nhận lại hoặc chuyển nhóm | Nvarchar | 20 | Not Null |
+| LoaiBienDong | Nhập, xuất bán, nhận lại, chuyển ra hoặc chuyển vào | Nvarchar | 20 | Not Null |
 | SoLuongGD | Số lượng thay đổi (luôn dương) | Integer |  | Not Null |
 | ThoiDiemGD | Thời điểm | Datetime |  | Not Null |
 | MaNV | Nhân viên thực hiện | Integer |  | FK, Null |
@@ -537,7 +537,7 @@ Kiểu dữ liệu theo SQL chuẩn (tiền là đồng Việt Nam, kiểu DECIM
 | MoTaLoi | Mô tả lỗi | Nvarchar | 500 | Not Null |
 | PhuKienDiKem | Ghi chú phụ kiện đi kèm (văn bản tự do) | Nvarchar | 300 | Null |
 | NgayNhan | Ngày nhận | Date |  | Not Null |
-| NgayHenTra | Ngày hẹn trả | Date |  | Not Null |
+| NgayHenTra | Ngày hẹn trả (rỗng nếu từ chối) | Date |  | Null |
 | NgayTraThucTe | Ngày trả thực tế | Date |  | Null |
 | TinhTrangBH | Tình trạng phiếu | Nvarchar | 20 | Not Null |
 | KetQuaBH | Kết quả (sửa xong, đổi mới, hoàn tiền...) | Nvarchar | 30 | Null |
@@ -574,16 +574,18 @@ Các hình dưới đây vẽ lược đồ sau cải tiến theo từng nhóm: 
 
 Với mỗi quan hệ, báo cáo trình bày theo khuôn: (1) tập PTH F kèm căn cứ; (2) phủ tối thiểu theo 3 bước của bài giảng (B1 tách vế phải, B2 bỏ thuộc tính thừa ở vế trái bằng bao đóng, B3 bỏ PTH dư thừa); (3) khóa theo thuật toán nguồn N, trung gian TG, đích D; (4) dạng chuẩn từng mức. Phép tính đều đã được đối chiếu bằng chương trình `tools/fd.py` (tính lại bao đóng, khóa và dạng chuẩn); lời giải trong báo cáo vẫn trình bày từng bước.
 
-Phụ thuộc hàm rút từ tân từ và quy tắc nghiệp vụ, **không** rút từ dữ liệu mẫu (dữ liệu mẫu không chứng minh được một PTH). Cột F chỉ ghi các PTH không hiển nhiên. Các giả thiết nghiệp vụ nhóm tự đặt:
+Phụ thuộc hàm rút từ tân từ và quy tắc nghiệp vụ, **không** rút từ dữ liệu mẫu (dữ liệu mẫu không chứng minh được một PTH). Tập F chỉ ghi các PTH không hiển nhiên. Các giả thiết nghiệp vụ nhóm tự đặt:
 
 - **G1**: Số seri chỉ duy nhất trong cùng một mặt hàng; hai mặt hàng khác nhau (hai hãng) có thể in cùng một số seri. Lý do: số seri do từng hãng tự đánh, cửa hàng không kiểm soát được việc trùng giữa các hãng.
 - **G2**: Mỗi dòng của đơn hàng và mỗi dòng của phiếu nhập chỉ chứa đúng một mặt hàng; cùng một mặt hàng có thể ở nhiều dòng nếu khác giá hoặc khác lô.
 - **G3**: Cửa hàng tìm khách hàng và nhân viên theo tên gọi (một phần của họ tên), nên họ tên là thuộc tính kép theo tiêu chí của bài giảng (phép thử: phải dùng `LIKE` trên một phần của giá trị).
-- **G4**: Với các PTH có vế trái chứa cột cho phép rỗng (MaSeri, MaDH, SoDongDH ở HANGCOSERI và PHIEUBAOHANH; MaSeri ở CHITIETTRA; MaKH, MaNV ở TAIKHOAN), PTH chỉ xét trên những bộ mà các cột đó khác rỗng; khóa chứa các cột này chỉ là khóa trên những bộ đó.
-- **G5**: Mã hàng thương mại (SKU), số đơn hàng (SoDH), số phiếu nhập (SoPhieu), mã khách nhập của mã giảm giá (CodeMG) và tên đăng nhập (TenDangNhap) không trùng nhau giữa các bản ghi cùng loại; mỗi đơn hàng có tối đa một phiếu giao.
+- **G4**: Với các PTH có vế trái chứa cột cho phép rỗng (MaDH, SoDongDH ở HANGCOSERI; MaSeri ở PHIEUBAOHANH và CHITIETTRA; MaKH, MaNV ở TAIKHOAN), PTH chỉ xét trên những bộ mà các cột đó khác rỗng. Đây là PTH có điều kiện; tập thuộc tính suy ra từ các PTH này chỉ là ràng buộc duy nhất có điều kiện, không phải khóa của toàn quan hệ.
+- **G5**: Mã hàng thương mại (SKU), số đơn hàng (SoDH), số phiếu nhập (SoPhieu), tên thương hiệu (TenTH), tên nhà cung cấp (TenNCC), mã khách nhập của mã giảm giá (CodeMG) và tên đăng nhập (TenDangNhap) không trùng nhau giữa các bản ghi cùng loại; mỗi đơn hàng có tối đa một phiếu giao.
 - **G6**: Mỗi tài khoản thuộc đúng một khách hàng hoặc đúng một nhân viên; mỗi khách và mỗi nhân viên có tối đa một tài khoản. Mỗi nhân viên có một chức vụ chính (ChucVu); quyền hạn của tài khoản nhân viên theo chức vụ đó.
 
 Dạng chuẩn dùng định nghĩa của giáo trình: DC1 mọi thuộc tính đơn; DC2 không phụ thuộc một phần vào khóa; DC3 không phụ thuộc bắc cầu vào khóa (hay với mọi PTH không hiển nhiên X → A, X là siêu khóa hoặc A là thuộc tính khóa); BCNF (BCK) mọi PTH không hiển nhiên có vế trái chứa khóa. Mọi khóa ứng viên đều được xét, không chỉ khóa chính.
+
+**Phạm vi của G4.** Khóa ứng viên phải xác định duy nhất bộ trên mọi thể hiện hợp lệ của toàn quan hệ. Vì vậy một tập thuộc tính chỉ duy nhất trên những bộ khác rỗng (như MaKH của TAIKHOAN) là **ràng buộc duy nhất có điều kiện**, không phải khóa ứng viên; khi cài đặt, nó là UNIQUE có điều kiện `WHERE ... IS NOT NULL`. Báo cáo kiểm TAIKHOAN, HANGCOSERI, CHITIETTRA, PHIEUBAOHANH ở hai phạm vi: (a) **toàn quan hệ**, chỉ dùng PTH có vế trái không rỗng, cho khóa của toàn quan hệ; (b) **trên các bộ khác rỗng**, dùng thêm PTH có điều kiện để phát hiện dư thừa. Phép tính từng bước ở các mục sau trình bày phạm vi (b) vì đủ PTH hơn, và ghi rõ dòng nào là khóa có điều kiện. Cả 4 quan hệ này có dạng chuẩn như nhau ở hai phạm vi, nên kết luận dạng chuẩn không dựa vào khóa có điều kiện.
 
 ### 2.2.2 Lược đồ quan hệ LOAIHANG
 
@@ -624,29 +626,41 @@ Xét LĐQH THUONGHIEU(<u>MaTH</u>, TenTH, MoTaTH).
 **Các phụ thuộc hàm:**
 
 - f1: MaTH → TenTH,MoTaTH — khóa chính xác định mọi thuộc tính còn lại.
+- f2: TenTH → MaTH,MoTaTH — ràng buộc UNIQUE: giá trị không trùng nên cũng xác định mọi thuộc tính.
 
 **Phủ tối thiểu của F_THUONGHIEU:**
 
-Bước 1: Tách vế phải, thu được 2 PTH, mỗi PTH một thuộc tính ở vế phải: MaTH → TenTH; MaTH → MoTaTH.
+Bước 1: Tách vế phải, thu được 4 PTH, mỗi PTH một thuộc tính ở vế phải: MaTH → TenTH; MaTH → MoTaTH; TenTH → MaTH; TenTH → MoTaTH.
 
 Bước 2: Không thực hiện vì mọi PTH đều có vế trái là một thuộc tính (đã đầy đủ).
 
-Bước 3: Không có PTH dư thừa vì không PTH nào suy ra được từ các PTH còn lại.
+Bước 3: Loại các PTH dư thừa (xét từ PTH cuối lên đầu để giữ các PTH của khóa chính):
 
-Vậy phủ tối thiểu của F_THUONGHIEU là G_THUONGHIEU = {MaTH → TenTH; MaTH → MoTaTH}. (G ≡ F: đã kiểm tra bằng bao đóng.)
+- TenTH → MoTaTH: bỏ nó vẫn có TenTH⁺ ∋ MoTaTH.
+
+Vậy phủ tối thiểu của F_THUONGHIEU là G_THUONGHIEU = {MaTH → TenTH; MaTH → MoTaTH; TenTH → MaTH}. (G ≡ F: đã kiểm tra bằng bao đóng.)
 
 **Xác định khóa:**
 
-N = {MaTH}; TG = ∅; D = {TenTH, MoTaTH}.
+N = ∅; TG = {MaTH, TenTH}; D = {MoTaTH}.
 
-{MaTH}⁺ = {MaTH, TenTH, MoTaTH} = Q⁺. Vậy khóa duy nhất là {MaTH}.
+Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):
+
+| Mᵢ | Kᵢ | Kᵢ⁺ | Kết luận |
+|---|---|---|---|
+| ∅ | ∅ | ∅ | không |
+| {MaTH} | {MaTH} | Q⁺ | khóa |
+| {TenTH} | {TenTH} | Q⁺ | khóa |
+| {MaTH, TenTH} | {MaTH, TenTH} | Q⁺ | siêu khóa |
+
+Các khóa: {MaTH}; {TenTH}.
 
 **Xác định dạng chuẩn:**
 
 - Đạt dạng chuẩn 1 vì mọi thuộc tính của THUONGHIEU đều là thuộc tính đơn.
-- Đạt dạng chuẩn 2 vì mọi khóa chỉ có một thuộc tính ({MaTH}).
+- Đạt dạng chuẩn 2 vì mọi khóa chỉ có một thuộc tính ({MaTH}; {TenTH}).
 - Đạt dạng chuẩn 3 vì không có thuộc tính không khóa nào phụ thuộc bắc cầu vào khóa.
-- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: {MaTH}.
+- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: {MaTH}; {TenTH}.
 - Kết luận: **THUONGHIEU đạt dạng chuẩn BCNF**.
 
 ### 2.2.4 Lược đồ quan hệ MATHANG
@@ -710,8 +724,8 @@ Bước 2: Xét vế trái {MaSP, ViTriAnh}: (ViTriAnh)⁺ = {ViTriAnh}; (MaSP)�
 
 Bước 3: Loại các PTH dư thừa (xét từ PTH cuối lên đầu để giữ các PTH của khóa chính):
 
-- MaSP,ViTriAnh → DuongDanAnh: bỏ nó vẫn có MaSP,ViTriAnh⁺ ∋ DuongDanAnh.
-- MaSP,ViTriAnh → LaAnhChinh: bỏ nó vẫn có MaSP,ViTriAnh⁺ ∋ LaAnhChinh.
+- MaSP,ViTriAnh → DuongDanAnh: bỏ nó vẫn có (MaSP,ViTriAnh)⁺ ∋ DuongDanAnh.
+- MaSP,ViTriAnh → LaAnhChinh: bỏ nó vẫn có (MaSP,ViTriAnh)⁺ ∋ LaAnhChinh.
 
 Vậy phủ tối thiểu của F_ANHMATHANG là G_ANHMATHANG = {MaAnh → MaSP; MaAnh → ViTriAnh; MaAnh → DuongDanAnh; MaAnh → LaAnhChinh; MaSP,ViTriAnh → MaAnh}. (G ≡ F: đã kiểm tra bằng bao đóng.)
 
@@ -906,8 +920,8 @@ Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):
 | ∅ | ∅ | ∅ | không |
 | {MaTK} | {MaTK} | Q⁺ | khóa |
 | {TenDangNhap} | {TenDangNhap} | Q⁺ | khóa |
-| {MaKH} | {MaKH} | Q⁺ | khóa |
-| {MaNV} | {MaNV} | Q⁺ | khóa |
+| {MaKH} | {MaKH} | Q⁺ | khóa có điều kiện (G4) |
+| {MaNV} | {MaNV} | Q⁺ | khóa có điều kiện (G4) |
 | {MaTK, TenDangNhap} | {MaTK, TenDangNhap} | Q⁺ | siêu khóa |
 | {MaTK, MaKH} | {MaTK, MaKH} | Q⁺ | siêu khóa |
 | {MaTK, MaNV} | {MaTK, MaNV} | Q⁺ | siêu khóa |
@@ -920,15 +934,18 @@ Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):
 | {TenDangNhap, MaKH, MaNV} | {TenDangNhap, MaKH, MaNV} | Q⁺ | siêu khóa |
 | {MaTK, TenDangNhap, MaKH, MaNV} | {MaTK, TenDangNhap, MaKH, MaNV} | Q⁺ | siêu khóa |
 
-Các khóa: {MaTK}; {TenDangNhap}; {MaKH}; {MaNV}.
+Các khóa: {MaTK}; {TenDangNhap}.
+Khóa có điều kiện: {MaKH}; {MaNV}; chỉ có hiệu lực trên các bộ khác rỗng ở cột cho phép rỗng (G4), không phải khóa của toàn quan hệ.
 
 **Xác định dạng chuẩn:**
 
 - Đạt dạng chuẩn 1 vì mọi thuộc tính của TAIKHOAN đều là thuộc tính đơn.
-- Đạt dạng chuẩn 2 vì mọi khóa chỉ có một thuộc tính ({MaTK}; {TenDangNhap}; {MaKH}; {MaNV}).
+- Đạt dạng chuẩn 2 vì mọi khóa chỉ có một thuộc tính ({MaTK}; {TenDangNhap}).
 - Đạt dạng chuẩn 3 vì không có thuộc tính không khóa nào phụ thuộc bắc cầu vào khóa.
-- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: {MaTK}; {TenDangNhap}; {MaKH}; {MaNV}.
+- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: {MaTK}; {TenDangNhap}; {MaKH} (khóa có điều kiện, trên các bộ khác rỗng); {MaNV} (khóa có điều kiện, trên các bộ khác rỗng).
 - Kết luận: **TAIKHOAN đạt dạng chuẩn BCNF**.
+
+Kiểm tra ở phạm vi toàn quan hệ (không dùng PTH có điều kiện, khóa {MaTK}; {TenDangNhap}): dạng chuẩn không đổi, vẫn là BCNF.
 
 ### 2.2.11 Lược đồ quan hệ NHACUNGCAP
 
@@ -937,29 +954,41 @@ Xét LĐQH NHACUNGCAP(<u>MaNCC</u>, TenNCC, NguoiLienHeNCC, SDTNCC, DiaChiNCC, M
 **Các phụ thuộc hàm:**
 
 - f1: MaNCC → TenNCC,NguoiLienHeNCC,SDTNCC,DiaChiNCC,MaSoThueNCC,TinhTrangHT — khóa chính xác định mọi thuộc tính còn lại.
+- f2: TenNCC → MaNCC,NguoiLienHeNCC,SDTNCC,DiaChiNCC,MaSoThueNCC,TinhTrangHT — ràng buộc UNIQUE: giá trị không trùng nên cũng xác định mọi thuộc tính.
 
 **Phủ tối thiểu của F_NHACUNGCAP:**
 
-Bước 1: Tách vế phải, thu được 6 PTH, mỗi PTH một thuộc tính ở vế phải: MaNCC → TenNCC; MaNCC → NguoiLienHeNCC; MaNCC → SDTNCC; MaNCC → DiaChiNCC; MaNCC → MaSoThueNCC; MaNCC → TinhTrangHT.
+Bước 1: Tách vế phải, thu được 12 PTH, mỗi PTH một thuộc tính ở vế phải: MaNCC → {TenNCC, NguoiLienHeNCC, SDTNCC, DiaChiNCC, MaSoThueNCC, TinhTrangHT} (6 PTH); TenNCC → {MaNCC, NguoiLienHeNCC, SDTNCC, DiaChiNCC, MaSoThueNCC, TinhTrangHT} (6 PTH).
 
 Bước 2: Không thực hiện vì mọi PTH đều có vế trái là một thuộc tính (đã đầy đủ).
 
-Bước 3: Không có PTH dư thừa vì không PTH nào suy ra được từ các PTH còn lại.
+Bước 3: Loại các PTH dư thừa (xét từ PTH cuối lên đầu để giữ các PTH của khóa chính):
 
-Vậy phủ tối thiểu của F_NHACUNGCAP là G_NHACUNGCAP = {MaNCC → TenNCC; MaNCC → NguoiLienHeNCC; MaNCC → SDTNCC; MaNCC → DiaChiNCC; MaNCC → MaSoThueNCC; MaNCC → TinhTrangHT}. (G ≡ F: đã kiểm tra bằng bao đóng.)
+- TenNCC → {NguoiLienHeNCC, SDTNCC, DiaChiNCC, MaSoThueNCC, TinhTrangHT} (5 PTH): mỗi PTH suy ra được từ các PTH còn lại theo luật bắc cầu (ví dụ bỏ nó vẫn có TenNCC⁺ ∋ NguoiLienHeNCC).
+
+Vậy phủ tối thiểu của F_NHACUNGCAP là G_NHACUNGCAP = {MaNCC → TenNCC; MaNCC → NguoiLienHeNCC; MaNCC → SDTNCC; MaNCC → DiaChiNCC; MaNCC → MaSoThueNCC; MaNCC → TinhTrangHT; TenNCC → MaNCC}. (G ≡ F: đã kiểm tra bằng bao đóng.)
 
 **Xác định khóa:**
 
-N = {MaNCC}; TG = ∅; D = {TenNCC, NguoiLienHeNCC, SDTNCC, DiaChiNCC, MaSoThueNCC, TinhTrangHT}.
+N = ∅; TG = {MaNCC, TenNCC}; D = {NguoiLienHeNCC, SDTNCC, DiaChiNCC, MaSoThueNCC, TinhTrangHT}.
 
-{MaNCC}⁺ = {MaNCC, TenNCC, NguoiLienHeNCC, SDTNCC, DiaChiNCC, MaSoThueNCC, TinhTrangHT} = Q⁺. Vậy khóa duy nhất là {MaNCC}.
+Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):
+
+| Mᵢ | Kᵢ | Kᵢ⁺ | Kết luận |
+|---|---|---|---|
+| ∅ | ∅ | ∅ | không |
+| {MaNCC} | {MaNCC} | Q⁺ | khóa |
+| {TenNCC} | {TenNCC} | Q⁺ | khóa |
+| {MaNCC, TenNCC} | {MaNCC, TenNCC} | Q⁺ | siêu khóa |
+
+Các khóa: {MaNCC}; {TenNCC}.
 
 **Xác định dạng chuẩn:**
 
 - Đạt dạng chuẩn 1 vì mọi thuộc tính của NHACUNGCAP đều là thuộc tính đơn.
-- Đạt dạng chuẩn 2 vì mọi khóa chỉ có một thuộc tính ({MaNCC}).
+- Đạt dạng chuẩn 2 vì mọi khóa chỉ có một thuộc tính ({MaNCC}; {TenNCC}).
 - Đạt dạng chuẩn 3 vì không có thuộc tính không khóa nào phụ thuộc bắc cầu vào khóa.
-- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: {MaNCC}.
+- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: {MaNCC}; {TenNCC}.
 - Kết luận: **NHACUNGCAP đạt dạng chuẩn BCNF**.
 
 ### 2.2.12 Lược đồ quan hệ MAGIAMGIA
@@ -1297,148 +1326,27 @@ Vậy phủ tối thiểu của F_HANGCOSERI là G_HANGCOSERI = {MaSeri → {SoS
 
 N = ∅; TG = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH}; D = {TinhTrangSeri, ThoiDiemNhap}.
 
-Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):
+Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG). TG có 7 thuộc tính nên có 128 tổ hợp; đã tính đủ bao đóng, trong đó 41 tổ hợp có Kᵢ⁺ ≠ Q⁺ và 83 tổ hợp là siêu khóa vì chứa một khóa. Bảng chỉ ghi các tổ hợp là khóa:
 
 | Mᵢ | Kᵢ | Kᵢ⁺ | Kết luận |
 |---|---|---|---|
-| ∅ | ∅ | ∅ | không |
 | {MaSeri} | {MaSeri} | Q⁺ | khóa |
-| {SoSeri} | {SoSeri} | {SoSeri} | không |
-| {MaSP} | {MaSP} | {MaSP} | không |
-| {MaPN} | {MaPN} | {MaPN} | không |
-| {SoDongPN} | {SoDongPN} | {SoDongPN} | không |
-| {MaDH} | {MaDH} | {MaDH} | không |
-| {SoDongDH} | {SoDongDH} | {SoDongDH} | không |
-| {MaSeri, SoSeri} | {MaSeri, SoSeri} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP} | {MaSeri, MaSP} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN} | {MaSeri, MaPN} | Q⁺ | siêu khóa |
-| {MaSeri, SoDongPN} | {MaSeri, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, MaDH} | {MaSeri, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoDongDH} | {MaSeri, SoDongDH} | Q⁺ | siêu khóa |
 | {SoSeri, MaSP} | {SoSeri, MaSP} | Q⁺ | khóa |
-| {SoSeri, MaPN} | {SoSeri, MaPN} | {SoSeri, MaPN} | không |
-| {SoSeri, SoDongPN} | {SoSeri, SoDongPN} | {SoSeri, SoDongPN} | không |
-| {SoSeri, MaDH} | {SoSeri, MaDH} | {SoSeri, MaDH} | không |
-| {SoSeri, SoDongDH} | {SoSeri, SoDongDH} | {SoSeri, SoDongDH} | không |
-| {MaSP, MaPN} | {MaSP, MaPN} | {MaSP, MaPN} | không |
-| {MaSP, SoDongPN} | {MaSP, SoDongPN} | {MaSP, SoDongPN} | không |
-| {MaSP, MaDH} | {MaSP, MaDH} | {MaSP, MaDH} | không |
-| {MaSP, SoDongDH} | {MaSP, SoDongDH} | {MaSP, SoDongDH} | không |
-| {MaPN, SoDongPN} | {MaPN, SoDongPN} | {MaSP, MaPN, SoDongPN} | không |
-| {MaPN, MaDH} | {MaPN, MaDH} | {MaPN, MaDH} | không |
-| {MaPN, SoDongDH} | {MaPN, SoDongDH} | {MaPN, SoDongDH} | không |
-| {SoDongPN, MaDH} | {SoDongPN, MaDH} | {SoDongPN, MaDH} | không |
-| {SoDongPN, SoDongDH} | {SoDongPN, SoDongDH} | {SoDongPN, SoDongDH} | không |
-| {MaDH, SoDongDH} | {MaDH, SoDongDH} | {MaSP, MaDH, SoDongDH} | không |
-| {MaSeri, SoSeri, MaSP} | {MaSeri, SoSeri, MaSP} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN} | {MaSeri, SoSeri, MaPN} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, SoDongPN} | {MaSeri, SoSeri, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaDH} | {MaSeri, SoSeri, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, SoDongDH} | {MaSeri, SoSeri, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN} | {MaSeri, MaSP, MaPN} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, SoDongPN} | {MaSeri, MaSP, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaDH} | {MaSeri, MaSP, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, SoDongDH} | {MaSeri, MaSP, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN, SoDongPN} | {MaSeri, MaPN, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN, MaDH} | {MaSeri, MaPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN, SoDongDH} | {MaSeri, MaPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoDongPN, MaDH} | {MaSeri, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoDongPN, SoDongDH} | {MaSeri, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaDH, SoDongDH} | {MaSeri, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN} | {SoSeri, MaSP, MaPN} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, SoDongPN} | {SoSeri, MaSP, SoDongPN} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaDH} | {SoSeri, MaSP, MaDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, SoDongDH} | {SoSeri, MaSP, SoDongDH} | Q⁺ | siêu khóa |
 | {SoSeri, MaPN, SoDongPN} | {SoSeri, MaPN, SoDongPN} | Q⁺ | khóa |
-| {SoSeri, MaPN, MaDH} | {SoSeri, MaPN, MaDH} | {SoSeri, MaPN, MaDH} | không |
-| {SoSeri, MaPN, SoDongDH} | {SoSeri, MaPN, SoDongDH} | {SoSeri, MaPN, SoDongDH} | không |
-| {SoSeri, SoDongPN, MaDH} | {SoSeri, SoDongPN, MaDH} | {SoSeri, SoDongPN, MaDH} | không |
-| {SoSeri, SoDongPN, SoDongDH} | {SoSeri, SoDongPN, SoDongDH} | {SoSeri, SoDongPN, SoDongDH} | không |
-| {SoSeri, MaDH, SoDongDH} | {SoSeri, MaDH, SoDongDH} | Q⁺ | khóa |
-| {MaSP, MaPN, SoDongPN} | {MaSP, MaPN, SoDongPN} | {MaSP, MaPN, SoDongPN} | không |
-| {MaSP, MaPN, MaDH} | {MaSP, MaPN, MaDH} | {MaSP, MaPN, MaDH} | không |
-| {MaSP, MaPN, SoDongDH} | {MaSP, MaPN, SoDongDH} | {MaSP, MaPN, SoDongDH} | không |
-| {MaSP, SoDongPN, MaDH} | {MaSP, SoDongPN, MaDH} | {MaSP, SoDongPN, MaDH} | không |
-| {MaSP, SoDongPN, SoDongDH} | {MaSP, SoDongPN, SoDongDH} | {MaSP, SoDongPN, SoDongDH} | không |
-| {MaSP, MaDH, SoDongDH} | {MaSP, MaDH, SoDongDH} | {MaSP, MaDH, SoDongDH} | không |
-| {MaPN, SoDongPN, MaDH} | {MaPN, SoDongPN, MaDH} | {MaSP, MaPN, SoDongPN, MaDH} | không |
-| {MaPN, SoDongPN, SoDongDH} | {MaPN, SoDongPN, SoDongDH} | {MaSP, MaPN, SoDongPN, SoDongDH} | không |
-| {MaPN, MaDH, SoDongDH} | {MaPN, MaDH, SoDongDH} | {MaSP, MaPN, MaDH, SoDongDH} | không |
-| {SoDongPN, MaDH, SoDongDH} | {SoDongPN, MaDH, SoDongDH} | {MaSP, SoDongPN, MaDH, SoDongDH} | không |
-| {MaSeri, SoSeri, MaSP, MaPN} | {MaSeri, SoSeri, MaSP, MaPN} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, SoDongPN} | {MaSeri, SoSeri, MaSP, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, MaDH} | {MaSeri, SoSeri, MaSP, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, SoDongDH} | {MaSeri, SoSeri, MaSP, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN, SoDongPN} | {MaSeri, SoSeri, MaPN, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN, MaDH} | {MaSeri, SoSeri, MaPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN, SoDongDH} | {MaSeri, SoSeri, MaPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, SoDongPN, MaDH} | {MaSeri, SoSeri, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, SoDongPN, SoDongDH} | {MaSeri, SoSeri, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaDH, SoDongDH} | {MaSeri, SoSeri, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN, SoDongPN} | {MaSeri, MaSP, MaPN, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN, MaDH} | {MaSeri, MaSP, MaPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN, SoDongDH} | {MaSeri, MaSP, MaPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, SoDongPN, MaDH} | {MaSeri, MaSP, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, SoDongPN, SoDongDH} | {MaSeri, MaSP, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaDH, SoDongDH} | {MaSeri, MaSP, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN, SoDongPN, MaDH} | {MaSeri, MaPN, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN, SoDongPN, SoDongDH} | {MaSeri, MaPN, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN, MaDH, SoDongDH} | {MaSeri, MaPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoDongPN, MaDH, SoDongDH} | {MaSeri, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN, SoDongPN} | {SoSeri, MaSP, MaPN, SoDongPN} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN, MaDH} | {SoSeri, MaSP, MaPN, MaDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN, SoDongDH} | {SoSeri, MaSP, MaPN, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, SoDongPN, MaDH} | {SoSeri, MaSP, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, SoDongPN, SoDongDH} | {SoSeri, MaSP, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaDH, SoDongDH} | {SoSeri, MaSP, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaPN, SoDongPN, MaDH} | {SoSeri, MaPN, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaPN, SoDongPN, SoDongDH} | {SoSeri, MaPN, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaPN, MaDH, SoDongDH} | {SoSeri, MaPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, SoDongPN, MaDH, SoDongDH} | {SoSeri, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSP, MaPN, SoDongPN, MaDH} | {MaSP, MaPN, SoDongPN, MaDH} | {MaSP, MaPN, SoDongPN, MaDH} | không |
-| {MaSP, MaPN, SoDongPN, SoDongDH} | {MaSP, MaPN, SoDongPN, SoDongDH} | {MaSP, MaPN, SoDongPN, SoDongDH} | không |
-| {MaSP, MaPN, MaDH, SoDongDH} | {MaSP, MaPN, MaDH, SoDongDH} | {MaSP, MaPN, MaDH, SoDongDH} | không |
-| {MaSP, SoDongPN, MaDH, SoDongDH} | {MaSP, SoDongPN, MaDH, SoDongDH} | {MaSP, SoDongPN, MaDH, SoDongDH} | không |
-| {MaPN, SoDongPN, MaDH, SoDongDH} | {MaPN, SoDongPN, MaDH, SoDongDH} | {MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | không |
-| {MaSeri, SoSeri, MaSP, MaPN, SoDongPN} | {MaSeri, SoSeri, MaSP, MaPN, SoDongPN} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, MaPN, MaDH} | {MaSeri, SoSeri, MaSP, MaPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, MaPN, SoDongDH} | {MaSeri, SoSeri, MaSP, MaPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, SoDongPN, MaDH} | {MaSeri, SoSeri, MaSP, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, SoDongPN, SoDongDH} | {MaSeri, SoSeri, MaSP, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, MaDH, SoDongDH} | {MaSeri, SoSeri, MaSP, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN, SoDongPN, MaDH} | {MaSeri, SoSeri, MaPN, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN, SoDongPN, SoDongDH} | {MaSeri, SoSeri, MaPN, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN, MaDH, SoDongDH} | {MaSeri, SoSeri, MaPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, SoDongPN, MaDH, SoDongDH} | {MaSeri, SoSeri, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN, SoDongPN, MaDH} | {MaSeri, MaSP, MaPN, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN, SoDongPN, SoDongDH} | {MaSeri, MaSP, MaPN, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN, MaDH, SoDongDH} | {MaSeri, MaSP, MaPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, SoDongPN, MaDH, SoDongDH} | {MaSeri, MaSP, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaPN, SoDongPN, MaDH, SoDongDH} | {MaSeri, MaPN, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN, SoDongPN, MaDH} | {SoSeri, MaSP, MaPN, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN, SoDongPN, SoDongDH} | {SoSeri, MaSP, MaPN, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN, MaDH, SoDongDH} | {SoSeri, MaSP, MaPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, SoDongPN, MaDH, SoDongDH} | {SoSeri, MaSP, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH} | {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | {MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | {MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | không |
-| {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH} | {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, SoDongDH} | {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, MaPN, MaDH, SoDongDH} | {MaSeri, SoSeri, MaSP, MaPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, SoDongPN, MaDH, SoDongDH} | {MaSeri, SoSeri, MaSP, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaPN, SoDongPN, MaDH, SoDongDH} | {MaSeri, SoSeri, MaPN, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | {MaSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | {SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
-| {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH} | Q⁺ | siêu khóa |
+| {SoSeri, MaDH, SoDongDH} | {SoSeri, MaDH, SoDongDH} | Q⁺ | khóa có điều kiện (G4) |
 
-Các khóa: {MaSeri}; {SoSeri, MaSP}; {SoSeri, MaPN, SoDongPN}; {SoSeri, MaDH, SoDongDH}.
+Các khóa: {MaSeri}; {SoSeri, MaSP}; {SoSeri, MaPN, SoDongPN}.
+Khóa có điều kiện: {SoSeri, MaDH, SoDongDH}; chỉ có hiệu lực trên các bộ khác rỗng ở cột cho phép rỗng (G4), không phải khóa của toàn quan hệ.
 
 **Xác định dạng chuẩn:**
 
 - Đạt dạng chuẩn 1 vì mọi thuộc tính của HANGCOSERI đều là thuộc tính đơn.
-- Đạt dạng chuẩn 2 vì mọi thuộc tính không khóa (TinhTrangSeri, ThoiDiemNhap) phụ thuộc đầy đủ vào khóa: không có tập con thật sự của khóa nào xác định chúng.
+- Đạt dạng chuẩn 2 vì mọi thuộc tính không khóa (MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap) phụ thuộc đầy đủ vào khóa: không có tập con thật sự của khóa nào xác định chúng.
 - Đạt dạng chuẩn 3 vì mọi PTH không hiển nhiên hoặc có vế trái là siêu khóa hoặc có vế phải là thuộc tính khóa (MaSP là thuộc tính khóa vì thuộc khóa {SoSeri, MaSP}).
 - Không đạt BCNF vì có PTH {MaPN, SoDongPN} → MaSP; {MaDH, SoDongDH} → MaSP có vế trái không chứa khóa.
 - Kết luận: **HANGCOSERI đạt dạng chuẩn 3NF**.
+
+Kiểm tra ở phạm vi toàn quan hệ (không dùng PTH có điều kiện, khóa {MaSeri}; {SoSeri, MaSP}; {SoSeri, MaPN, SoDongPN}): dạng chuẩn không đổi, vẫn là 3NF.
 
 ### 2.2.21 Lược đồ quan hệ GIAODICHKHO
 
@@ -1536,10 +1444,11 @@ Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):
 |---|---|---|---|
 | ∅ | {MaHS} | {MaHS, MaDH} | không |
 | {SoDongTra} | {MaHS, SoDongTra} | Q⁺ | khóa |
-| {MaSeri} | {MaHS, MaSeri} | Q⁺ | khóa |
+| {MaSeri} | {MaHS, MaSeri} | Q⁺ | khóa có điều kiện (G4) |
 | {SoDongTra, MaSeri} | {MaHS, SoDongTra, MaSeri} | Q⁺ | siêu khóa |
 
-Các khóa: {MaHS, SoDongTra}; {MaHS, MaSeri}.
+Các khóa: {MaHS, SoDongTra}.
+Khóa có điều kiện: {MaHS, MaSeri}; chỉ có hiệu lực trên các bộ khác rỗng ở cột cho phép rỗng (G4), không phải khóa của toàn quan hệ.
 
 **Xác định dạng chuẩn:**
 
@@ -1548,6 +1457,8 @@ Các khóa: {MaHS, SoDongTra}; {MaHS, MaSeri}.
 - Không đạt dạng chuẩn 3 vì chưa đạt dạng chuẩn 2.
 - Không đạt BCNF vì chưa đạt dạng chuẩn 3.
 - Kết luận: **CHITIETTRA đạt dạng chuẩn 1NF**.
+
+Kiểm tra ở phạm vi toàn quan hệ (không dùng PTH có điều kiện, khóa {MaHS, SoDongTra}): dạng chuẩn không đổi, vẫn là 1NF.
 
 ### 2.2.24 Lược đồ quan hệ LANNHANLAI
 
@@ -1649,20 +1560,22 @@ N = {MaPhieuBH}; TG = {MaSeri, MaDH, SoDongDH}; D = {MaSP, MoTaLoi, PhuKienDiKem
 - Không đạt BCNF vì chưa đạt dạng chuẩn 3.
 - Kết luận: **PHIEUBAOHANH đạt dạng chuẩn 2NF**.
 
+Kiểm tra ở phạm vi toàn quan hệ (không dùng PTH có điều kiện, khóa {MaPhieuBH}): dạng chuẩn không đổi, vẫn là 2NF.
+
 ### 2.2.27 Đánh giá lược đồ ban đầu
 
-| STT | Quan hệ | Khóa (mọi khóa ứng viên) | Dạng chuẩn |
+| STT | Quan hệ | Khóa của toàn quan hệ | Dạng chuẩn |
 |---|---|---|---|
 | 1 | LOAIHANG | {MaLoai} | BCNF |
-| 2 | THUONGHIEU | {MaTH} | BCNF |
+| 2 | THUONGHIEU | {MaTH}; {TenTH} | BCNF |
 | 3 | MATHANG | {MaSP}; {SKU} | BCNF |
 | 4 | ANHMATHANG | {MaAnh}; {MaSP, ViTriAnh} | BCNF |
 | 5 | DINHNGHIATHONGSO | {MaTS} | BCNF |
 | 6 | GIATRITHONGSO | {MaSP, MaTS} | BCNF |
 | 7 | KHACHHANG | {MaKH} | chưa đạt 1NF |
 | 8 | NHANVIEN | {MaNV} | chưa đạt 1NF |
-| 9 | TAIKHOAN | {MaTK}; {TenDangNhap}; {MaKH}; {MaNV} | BCNF |
-| 10 | NHACUNGCAP | {MaNCC} | BCNF |
+| 9 | TAIKHOAN | {MaTK}; {TenDangNhap} (có điều kiện: {MaKH}; {MaNV}) | BCNF |
+| 10 | NHACUNGCAP | {MaNCC}; {TenNCC} | BCNF |
 | 11 | MAGIAMGIA | {MaMG}; {CodeMG} | BCNF |
 | 12 | DONHANG | {MaDH}; {SoDH} | BCNF |
 | 13 | CHITIETDONHANG | {MaDH, SoDongDH} | BCNF |
@@ -1671,15 +1584,17 @@ N = {MaPhieuBH}; TG = {MaSeri, MaDH, SoDongDH}; D = {MaSP, MoTaLoi, PhuKienDiKem
 | 16 | LANGIAO | {MaGiao, SoLan} | BCNF |
 | 17 | PHIEUNHAP | {MaPN}; {SoPhieu} | BCNF |
 | 18 | CHITIETPHIEUNHAP | {MaPN, SoDongPN} | BCNF |
-| 19 | HANGCOSERI | {MaSeri}; {SoSeri, MaSP}; {SoSeri, MaPN, SoDongPN}; {SoSeri, MaDH, SoDongDH} | 3NF |
+| 19 | HANGCOSERI | {MaSeri}; {SoSeri, MaSP}; {SoSeri, MaPN, SoDongPN} (có điều kiện: {SoSeri, MaDH, SoDongDH}) | 3NF |
 | 20 | GIAODICHKHO | {MaGDK} | BCNF |
 | 21 | HOSODOITRA | {MaHS} | BCNF |
-| 22 | CHITIETTRA | {MaHS, SoDongTra}; {MaHS, MaSeri} | 1NF |
+| 22 | CHITIETTRA | {MaHS, SoDongTra} (có điều kiện: {MaHS, MaSeri}) | 1NF |
 | 23 | LANNHANLAI | {MaNhanLai} | BCNF |
 | 24 | KHOANHOAN | {MaHoan} | BCNF |
 | 25 | PHIEUBAOHANH | {MaPhieuBH} | 2NF |
 
 *Bảng 2.2: Đánh giá dạng chuẩn của 25 quan hệ ban đầu*
+
+Phần “có điều kiện” là ràng buộc duy nhất trên các bộ khác rỗng (G4), không phải khóa của toàn quan hệ.
 
 Thống kê: 1NF: 1 quan hệ, 2NF: 1 quan hệ, 3NF: 1 quan hệ, BCNF: 20 quan hệ, chưa đạt 1NF: 2 quan hệ. Dạng chuẩn của cả lược đồ là dạng chuẩn thấp nhất của các quan hệ, tức **chưa đạt 1NF** (do KHACHHANG và NHANVIEN có họ tên là thuộc tính kép). Ngay cả khi tách họ tên, lược đồ vẫn chỉ đạt 1NF vì CHITIETTRA còn phụ thuộc bộ phận (1NF), PHIEUBAOHANH còn phụ thuộc bắc cầu (2NF) và HANGCOSERI còn vi phạm BCNF (3NF). Các quan hệ này được cải tiến ở mục 2.3.
 
@@ -1702,7 +1617,7 @@ Tiêu chí này áp dụng thống nhất cho mọi cột văn bản: một cộ
 ### 2.3.3 CHITIETTRA: từ 1NF lên BCNF
 
 Ánh xạ chữ cái: A = MaHS, B = SoDongTra, C = SoDongDH, D = MaDH, E = SoLuongTra, F = MaSeri.
-F (phủ tối thiểu G): MaHS,SoDongTra → SoDongDH; MaHS → MaDH; MaHS,SoDongTra → SoLuongTra; MaHS,SoDongTra → MaSeri; MaHS,MaSeri → SoDongTra. Các khóa: {MaHS, SoDongTra}; {MaHS, MaSeri} (khóa thứ hai chỉ xét trên dòng trả có số seri, giả thiết G4). Vi phạm: MaHS → MaDH có vế trái là một phần của khóa nên MaDH phụ thuộc bộ phận (chưa đạt 2NF).
+F (phủ tối thiểu G): MaHS,SoDongTra → SoDongDH; MaHS → MaDH; MaHS,SoDongTra → SoLuongTra; MaHS,SoDongTra → MaSeri; MaHS,MaSeri → SoDongTra. Khóa: {MaHS, SoDongTra}; khóa có điều kiện trên dòng trả có số seri: {MaHS, MaSeri} (G4). Vi phạm: MaHS → MaDH có vế trái là một phần của khóa nên MaDH phụ thuộc bộ phận (chưa đạt 2NF).
 
 **Phân rã theo thuật toán.** B1: loại khỏi F PTH có VT ∪ VP = Q⁺ (PTH của khóa chính MaHS,SoDongTra → SoDongDH,MaDH,SoLuongTra,MaSeri); còn F* = {MaHS,MaSeri → SoDongTra; MaHS → MaDH} ≠ ∅. B2: chọn PTH gây xấu **MaHS → MaDH** (vế trái là một phần của khóa). Tách Q₁ = {MaHS, MaDH} và Q₂ = Q⁺ \ {MaDH}.
 
@@ -1739,15 +1654,13 @@ Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaHS 
 
 - (1) Mọi f' ∈ F' \ F đều thuộc F⁺ vì mỗi Fᵢ là PTH chiếu từ F⁺.
 - (2) Mọi f ∈ F \ F' phải thuộc F'⁺. Kiểm tra từng PTH của F bằng bao đóng theo F':
-  - MaHS,SoDongTra → SoDongDH: (MaHS,SoDongTra)⁺_F' = {MaHS, SoDongTra, SoDongDH, MaDH, SoLuongTra, MaSeri} ∋ SoDongDH → thỏa.
-  - MaHS → MaDH: (MaHS)⁺_F' = {MaHS, MaDH} ∋ MaDH → thỏa.
-  - MaHS,SoDongTra → SoLuongTra: (MaHS,SoDongTra)⁺_F' = {MaHS, SoDongTra, SoDongDH, MaDH, SoLuongTra, MaSeri} ∋ SoLuongTra → thỏa.
-  - MaHS,SoDongTra → MaSeri: (MaHS,SoDongTra)⁺_F' = {MaHS, SoDongTra, SoDongDH, MaDH, SoLuongTra, MaSeri} ∋ MaSeri → thỏa.
-  - MaHS,MaSeri → SoDongTra: (MaHS,MaSeri)⁺_F' = {MaHS, SoDongTra, SoDongDH, MaDH, SoLuongTra, MaSeri} ∋ SoDongTra → thỏa.
+  - MaHS,SoDongTra → {SoDongDH, SoLuongTra, MaSeri}: (MaHS,SoDongTra)⁺_F' = Q⁺ chứa các thuộc tính vế phải → thỏa.
+  - MaHS → {MaDH}: (MaHS)⁺_F' = {MaHS, MaDH} chứa các thuộc tính vế phải → thỏa.
+  - MaHS,MaSeri → {SoDongTra}: (MaHS,MaSeri)⁺_F' = Q⁺ chứa các thuộc tính vế phải → thỏa.
 
 **Kết luận: bảo toàn PTH** (thỏa (1) và (2)).
 
-Dạng chuẩn các quan hệ con: Q1: BCNF (khóa {MaHS}); Q2: BCNF (khóa {MaHS, SoDongTra}, {MaHS, MaSeri}).
+Dạng chuẩn các quan hệ con: Q1: BCNF (khóa {MaHS}); Q2: BCNF (khóa {MaHS, SoDongTra}; khóa có điều kiện {MaHS, MaSeri}).
 
 Q₁ **trùng với phép chiếu (MaHS, MaDH) của HOSODOITRA**, nên không tạo quan hệ mới: chỉ **bỏ cột MaDH khỏi CHITIETTRA**; dòng đơn được trả là (HOSODOITRA.MaDH, SoDongDH). **CHITIETTRA nâng từ 1NF lên BCNF.**
 
@@ -1767,7 +1680,7 @@ F (phủ tối thiểu G): MaPhieuBH → {MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKi
 Các quan hệ con và PTH chiếu (Fᵢ):
 
 - **Q1**(MaSeri, MaSP): F = {MaSeri → MaSP}
-- **Q2**(MaPhieuBH, MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV): F = {MaPhieuBH → MaSeri; MaPhieuBH → MaDH; MaPhieuBH → SoDongDH; MaPhieuBH → MoTaLoi; MaPhieuBH → PhuKienDiKem; MaPhieuBH → NgayNhan; MaPhieuBH → NgayHenTra; MaPhieuBH → NgayTraThucTe; MaPhieuBH → TinhTrangBH; MaPhieuBH → KetQuaBH; MaPhieuBH → LyDoTuChoi; MaPhieuBH → MaNV}
+- **Q2**(MaPhieuBH, MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV): F = {MaPhieuBH → {MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} (12 PTH)}
 
 Ký hiệu cột gộp: Z = {MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} (các thuộc tính này chỉ phụ thuộc vào cùng một khóa và có cùng cách xuất hiện ở các quan hệ con).
 
@@ -1791,28 +1704,19 @@ Bảng sau biến đổi:
 
 Có một dòng chứa toàn ký hiệu a → **bảo toàn thông tin**.
 
-Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaSeri → MaSP; MaPhieuBH → MaSeri; MaPhieuBH → MaDH; MaPhieuBH → SoDongDH; MaPhieuBH → MoTaLoi; MaPhieuBH → PhuKienDiKem; MaPhieuBH → NgayNhan; MaPhieuBH → NgayHenTra; MaPhieuBH → NgayTraThucTe; MaPhieuBH → TinhTrangBH; MaPhieuBH → KetQuaBH; MaPhieuBH → LyDoTuChoi; MaPhieuBH → MaNV}.
+Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaSeri → {MaSP} (1 PTH); MaPhieuBH → {MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} (12 PTH)}.
 
 - (1) Mọi f' ∈ F' \ F đều thuộc F⁺ vì mỗi Fᵢ là PTH chiếu từ F⁺.
 - (2) Mọi f ∈ F \ F' phải thuộc F'⁺. Kiểm tra từng PTH của F bằng bao đóng theo F':
-  - MaPhieuBH → MaSeri: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MaSeri → thỏa.
-  - MaPhieuBH → MaDH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MaDH → thỏa.
-  - MaPhieuBH → SoDongDH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ SoDongDH → thỏa.
-  - MaPhieuBH → MoTaLoi: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MoTaLoi → thỏa.
-  - MaPhieuBH → PhuKienDiKem: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ PhuKienDiKem → thỏa.
-  - MaPhieuBH → NgayNhan: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ NgayNhan → thỏa.
-  - MaPhieuBH → NgayHenTra: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ NgayHenTra → thỏa.
-  - MaPhieuBH → NgayTraThucTe: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ NgayTraThucTe → thỏa.
-  - MaPhieuBH → TinhTrangBH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ TinhTrangBH → thỏa.
-  - MaPhieuBH → KetQuaBH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ KetQuaBH → thỏa.
-  - MaPhieuBH → LyDoTuChoi: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ LyDoTuChoi → thỏa.
-  - MaPhieuBH → MaNV: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MaNV → thỏa.
+  - MaPhieuBH → {MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV}: (MaPhieuBH)⁺_F' = Q⁺ chứa các thuộc tính vế phải → thỏa.
   - MaDH,SoDongDH → MaSP: (MaDH,SoDongDH)⁺_F' = {MaDH, SoDongDH} ∌ MaSP → **không thỏa**.
-  - MaSeri → MaSP: (MaSeri)⁺_F' = {MaSeri, MaSP} ∋ MaSP → thỏa.
+  - MaSeri → {MaSP}: (MaSeri)⁺_F' = {MaSeri, MaSP} chứa các thuộc tính vế phải → thỏa.
 
 **Kết luận: không bảo toàn PTH** (thỏa (1) nhưng không thỏa (2)); PTH bị mất: {MaDH, SoDongDH} → MaSP.
 
 Dạng chuẩn các quan hệ con: Q1: BCNF (khóa {MaSeri}); Q2: BCNF (khóa {MaPhieuBH}).
+
+**Giới hạn của Cách 1.** MaSeri → MaSP là PTH có điều kiện (G4), nên chứng minh trên chỉ đúng với các phiếu có số seri. Phiếu của hàng không theo dõi seri có MaSeri rỗng: Q₁ không giữ được MaSP của các phiếu này và phép nối trong làm mất chúng. Vì vậy Cách 1 không dùng làm lược đồ cuối.
 
 **Cách 2: thuật toán tổng hợp cải tiến.** B1: phủ tối thiểu G như trên. B2: nhóm theo vế trái: F₁ (MaPhieuBH), F₂ (MaDH, SoDongDH), F₃ (MaSeri). B3: không có hai vế trái phụ thuộc lẫn nhau. B4: R₁ gồm MaPhieuBH và các thuộc tính phụ thuộc vào nó (trừ MaSP); R₂{MaDH, SoDongDH, MaSP}; R₃{MaSeri, MaSP}. B5–B6: khóa MaPhieuBH nằm trong R₁ nên không thêm quan hệ.
 
@@ -1820,7 +1724,7 @@ Dạng chuẩn các quan hệ con: Q1: BCNF (khóa {MaSeri}); Q2: BCNF (khóa {M
 
 Các quan hệ con và PTH chiếu (Fᵢ):
 
-- **R1**(MaPhieuBH, MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV): F = {MaPhieuBH → MaSeri; MaPhieuBH → MaDH; MaPhieuBH → SoDongDH; MaPhieuBH → MoTaLoi; MaPhieuBH → PhuKienDiKem; MaPhieuBH → NgayNhan; MaPhieuBH → NgayHenTra; MaPhieuBH → NgayTraThucTe; MaPhieuBH → TinhTrangBH; MaPhieuBH → KetQuaBH; MaPhieuBH → LyDoTuChoi; MaPhieuBH → MaNV}
+- **R1**(MaPhieuBH, MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV): F = {MaPhieuBH → {MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} (12 PTH)}
 - **R2**(MaSP, MaDH, SoDongDH): F = {MaDH,SoDongDH → MaSP}
 - **R3**(MaSeri, MaSP): F = {MaSeri → MaSP}
 
@@ -1848,30 +1752,19 @@ Bảng sau biến đổi:
 
 Có một dòng chứa toàn ký hiệu a → **bảo toàn thông tin**.
 
-Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaPhieuBH → MaSeri; MaPhieuBH → MaDH; MaPhieuBH → SoDongDH; MaPhieuBH → MoTaLoi; MaPhieuBH → PhuKienDiKem; MaPhieuBH → NgayNhan; MaPhieuBH → NgayHenTra; MaPhieuBH → NgayTraThucTe; MaPhieuBH → TinhTrangBH; MaPhieuBH → KetQuaBH; MaPhieuBH → LyDoTuChoi; MaPhieuBH → MaNV; MaDH,SoDongDH → MaSP; MaSeri → MaSP}.
+Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaPhieuBH → {MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} (12 PTH); MaDH,SoDongDH → {MaSP} (1 PTH); MaSeri → {MaSP} (1 PTH)}.
 
 - (1) Mọi f' ∈ F' \ F đều thuộc F⁺ vì mỗi Fᵢ là PTH chiếu từ F⁺.
 - (2) Mọi f ∈ F \ F' phải thuộc F'⁺. Kiểm tra từng PTH của F bằng bao đóng theo F':
-  - MaPhieuBH → MaSeri: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MaSeri → thỏa.
-  - MaPhieuBH → MaDH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MaDH → thỏa.
-  - MaPhieuBH → SoDongDH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ SoDongDH → thỏa.
-  - MaPhieuBH → MoTaLoi: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MoTaLoi → thỏa.
-  - MaPhieuBH → PhuKienDiKem: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ PhuKienDiKem → thỏa.
-  - MaPhieuBH → NgayNhan: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ NgayNhan → thỏa.
-  - MaPhieuBH → NgayHenTra: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ NgayHenTra → thỏa.
-  - MaPhieuBH → NgayTraThucTe: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ NgayTraThucTe → thỏa.
-  - MaPhieuBH → TinhTrangBH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ TinhTrangBH → thỏa.
-  - MaPhieuBH → KetQuaBH: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ KetQuaBH → thỏa.
-  - MaPhieuBH → LyDoTuChoi: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ LyDoTuChoi → thỏa.
-  - MaPhieuBH → MaNV: (MaPhieuBH)⁺_F' = {MaPhieuBH, MaSeri, MaSP, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV} ∋ MaNV → thỏa.
-  - MaDH,SoDongDH → MaSP: (MaDH,SoDongDH)⁺_F' = {MaSP, MaDH, SoDongDH} ∋ MaSP → thỏa.
-  - MaSeri → MaSP: (MaSeri)⁺_F' = {MaSeri, MaSP} ∋ MaSP → thỏa.
+  - MaPhieuBH → {MaSeri, MaDH, SoDongDH, MoTaLoi, PhuKienDiKem, NgayNhan, NgayHenTra, NgayTraThucTe, TinhTrangBH, KetQuaBH, LyDoTuChoi, MaNV}: (MaPhieuBH)⁺_F' = Q⁺ chứa các thuộc tính vế phải → thỏa.
+  - MaDH,SoDongDH → {MaSP}: (MaDH,SoDongDH)⁺_F' = {MaSP, MaDH, SoDongDH} chứa các thuộc tính vế phải → thỏa.
+  - MaSeri → {MaSP}: (MaSeri)⁺_F' = {MaSeri, MaSP} chứa các thuộc tính vế phải → thỏa.
 
 **Kết luận: bảo toàn PTH** (thỏa (1) và (2)).
 
 Dạng chuẩn các quan hệ con: R1: BCNF (khóa {MaPhieuBH}); R2: BCNF (khóa {MaDH, SoDongDH}); R3: BCNF (khóa {MaSeri}).
 
-**Lựa chọn.** Tổng hợp bảo toàn cả thông tin và PTH. Trong cơ sở dữ liệu, R₂ là một phép chiếu của CHITIETDONHANG và R₃ nằm trong SERIMATHANG (mục 2.3.5), nên không tạo quan hệ mới: chỉ có R₁ thay PHIEUBAOHANH, tức **bỏ cột MaSP**. Tên hàng lấy bằng phép nối với CHITIETDONHANG theo (MaDH, SoDongDH). **PHIEUBAOHANH nâng từ 2NF lên BCNF.**
+**Lựa chọn.** Tổng hợp bảo toàn cả thông tin và PTH. Trong cơ sở dữ liệu, R₂ là một phép chiếu của CHITIETDONHANG và R₃ nằm trong SERIMATHANG (mục 2.3.5), nên không tạo quan hệ mới: chỉ có R₁ thay PHIEUBAOHANH, tức **bỏ cột MaSP**. Tên hàng lấy bằng phép nối với CHITIETDONHANG theo (MaDH, SoDongDH); hai cột này không rỗng nên phiếu nào cũng lấy được mặt hàng, và PTH (MaDH, SoDongDH) → MaSP dùng được trên toàn quan hệ. Chỉ R₃ có điều kiện: khi ghép thông tin chiếc hàng phải dùng phép nối ngoài (`LEFT JOIN`) để giữ phiếu có MaSeri rỗng. **PHIEUBAOHANH nâng từ 2NF lên BCNF.**
 
 ![Hình 2.2: Phân rã PHIEUBAOHANH: bỏ cột MaSP suy ra được](hinh/phan_ra_phieubaohanh.png)
 
@@ -1880,7 +1773,7 @@ Dạng chuẩn các quan hệ con: R1: BCNF (khóa {MaPhieuBH}); R2: BCNF (khóa
 ### 2.3.5 HANGCOSERI: từ 3NF lên BCNF
 
 Ánh xạ chữ cái: A = MaSeri, B = SoSeri, C = MaSP, D = MaPN, E = SoDongPN, F = MaDH, G = SoDongDH, H = TinhTrangSeri, I = ThoiDiemNhap.
-F (phủ tối thiểu G): MaSeri → {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} (7 PTH); SoSeri,MaSP → {MaSeri} (1 PTH); MaPN,SoDongPN → {MaSP} (1 PTH); MaDH,SoDongDH → {MaSP} (1 PTH). Các khóa: {MaSeri}; {SoSeri, MaSP}; {SoSeri, MaPN, SoDongPN}; {SoSeri, MaDH, SoDongDH}. Đang ở 3NF vì MaSP là thuộc tính khóa (thuộc khóa {SoSeri, MaSP}); vi phạm BCNF: (MaPN, SoDongPN) → MaSP và (MaDH, SoDongDH) → MaSP có vế trái không chứa khóa.
+F (phủ tối thiểu G): MaSeri → {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} (7 PTH); SoSeri,MaSP → {MaSeri} (1 PTH); MaPN,SoDongPN → {MaSP} (1 PTH); MaDH,SoDongDH → {MaSP} (1 PTH). Các khóa: {MaSeri}; {SoSeri, MaSP}; {SoSeri, MaPN, SoDongPN} (có điều kiện: {SoSeri, MaDH, SoDongDH}). Đang ở 3NF vì MaSP là thuộc tính khóa (thuộc khóa {SoSeri, MaSP}); vi phạm BCNF: (MaPN, SoDongPN) → MaSP và (MaDH, SoDongDH) → MaSP có vế trái không chứa khóa.
 
 **Cách 1: thuật toán phân rã.** B1: loại PTH của khóa chính (VT ∪ VP = Q⁺); còn F* = {MaSP,SoSeri → MaSeri; MaPN,SoDongPN → MaSP; MaDH,SoDongDH → MaSP} ≠ ∅. B2: chọn **MaPN,SoDongPN → MaSP** (vế trái không chứa khóa). Tách Q₁{MaPN, SoDongPN, MaSP} và Q₂ = Q⁺ \ {MaSP}; Q₂ có mọi vế trái PTH là khóa nên dừng.
 
@@ -1889,7 +1782,7 @@ F (phủ tối thiểu G): MaSeri → {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, T
 Các quan hệ con và PTH chiếu (Fᵢ):
 
 - **Q1**(MaSP, MaPN, SoDongPN): F = {MaPN,SoDongPN → MaSP}
-- **Q2**(MaSeri, SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap): F = {MaSeri → SoSeri; MaSeri → MaPN; MaSeri → SoDongPN; MaSeri → MaDH; MaSeri → SoDongDH; MaSeri → TinhTrangSeri; MaSeri → ThoiDiemNhap; SoSeri,MaPN,SoDongPN → MaSeri; SoSeri,MaDH,SoDongDH → MaSeri}
+- **Q2**(MaSeri, SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap): F = {MaSeri → {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} (7 PTH); SoSeri,MaPN,SoDongPN → {MaSeri} (1 PTH); SoSeri,MaDH,SoDongDH → {MaSeri} (1 PTH)}
 
 Ký hiệu cột gộp: Z = {TinhTrangSeri, ThoiDiemNhap} (các thuộc tính này chỉ phụ thuộc vào cùng một khóa và có cùng cách xuất hiện ở các quan hệ con).
 
@@ -1913,24 +1806,18 @@ Bảng sau biến đổi:
 
 Có một dòng chứa toàn ký hiệu a → **bảo toàn thông tin**.
 
-Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaPN,SoDongPN → MaSP; MaSeri → SoSeri; MaSeri → MaPN; MaSeri → SoDongPN; MaSeri → MaDH; MaSeri → SoDongDH; MaSeri → TinhTrangSeri; MaSeri → ThoiDiemNhap; SoSeri,MaPN,SoDongPN → MaSeri; SoSeri,MaDH,SoDongDH → MaSeri}.
+Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaPN,SoDongPN → {MaSP} (1 PTH); MaSeri → {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} (7 PTH); SoSeri,MaPN,SoDongPN → {MaSeri} (1 PTH); SoSeri,MaDH,SoDongDH → {MaSeri} (1 PTH)}.
 
 - (1) Mọi f' ∈ F' \ F đều thuộc F⁺ vì mỗi Fᵢ là PTH chiếu từ F⁺.
 - (2) Mọi f ∈ F \ F' phải thuộc F'⁺. Kiểm tra từng PTH của F bằng bao đóng theo F':
-  - MaSeri → SoSeri: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ SoSeri → thỏa.
-  - MaSeri → MaPN: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ MaPN → thỏa.
-  - MaSeri → SoDongPN: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ SoDongPN → thỏa.
-  - MaSeri → MaDH: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ MaDH → thỏa.
-  - MaSeri → SoDongDH: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ SoDongDH → thỏa.
-  - MaSeri → TinhTrangSeri: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ TinhTrangSeri → thỏa.
-  - MaSeri → ThoiDiemNhap: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ ThoiDiemNhap → thỏa.
+  - MaSeri → {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap}: (MaSeri)⁺_F' = Q⁺ chứa các thuộc tính vế phải → thỏa.
   - SoSeri,MaSP → MaSeri: (SoSeri,MaSP)⁺_F' = {SoSeri, MaSP} ∌ MaSeri → **không thỏa**.
-  - MaPN,SoDongPN → MaSP: (MaPN,SoDongPN)⁺_F' = {MaSP, MaPN, SoDongPN} ∋ MaSP → thỏa.
+  - MaPN,SoDongPN → {MaSP}: (MaPN,SoDongPN)⁺_F' = {MaSP, MaPN, SoDongPN} chứa các thuộc tính vế phải → thỏa.
   - MaDH,SoDongDH → MaSP: (MaDH,SoDongDH)⁺_F' = {MaDH, SoDongDH} ∌ MaSP → **không thỏa**.
 
 **Kết luận: không bảo toàn PTH** (thỏa (1) nhưng không thỏa (2)); PTH bị mất: {SoSeri, MaSP} → MaSeri; {MaDH, SoDongDH} → MaSP.
 
-Dạng chuẩn các quan hệ con: Q1: BCNF (khóa {MaPN, SoDongPN}); Q2: BCNF (khóa {MaSeri}, {SoSeri, MaPN, SoDongPN}, {SoSeri, MaDH, SoDongDH}).
+Dạng chuẩn các quan hệ con: Q1: BCNF (khóa {MaPN, SoDongPN}); Q2: BCNF (khóa {MaSeri}, {SoSeri, MaPN, SoDongPN}; khóa có điều kiện {SoSeri, MaDH, SoDongDH}).
 
 Phép tách bảo toàn thông tin nhưng **mất PTH** (MaSP, SoSeri) → MaSeri, tức quy tắc “số seri duy nhất trong cùng mặt hàng” (G1), vì MaSP và SoSeri không còn nằm chung một quan hệ, và mất (MaDH, SoDongDH) → MaSP.
 
@@ -1966,7 +1853,6 @@ Biến đổi theo PTH của F:
 - Hai dòng Q3 và Q4 cùng giá trị ở A; theo PTH A → F, ô cột F: b15 thành a6.
 - Hai dòng Q3 và Q4 cùng giá trị ở A; theo PTH A → G, ô cột G: b16 thành a7.
 - Hai dòng Q3 và Q4 cùng giá trị ở A; theo PTH A → Z, ô cột Z: b17 thành a8.
-- Hai dòng Q3 và Q4 cùng giá trị ở A; theo PTH A → Z, ô cột Z: b20 thành a8.
 - Hai dòng Q1 và Q3 cùng giá trị ở D,E; theo PTH D,E → C, ô cột C: b12 thành a3.
 
 Bảng sau biến đổi:
@@ -1980,20 +1866,14 @@ Bảng sau biến đổi:
 
 Có một dòng chứa toàn ký hiệu a → **bảo toàn thông tin**.
 
-Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaPN,SoDongPN → MaSP; MaDH,SoDongDH → MaSP; MaSeri → MaPN; MaSeri → SoDongPN; MaSeri → MaDH; MaSeri → SoDongDH; MaSeri → TinhTrangSeri; MaSeri → ThoiDiemNhap; MaSeri → SoSeri; MaSeri → MaSP; SoSeri,MaSP → MaSeri}.
+Kiểm tra **bảo toàn PTH** (cách của bài giảng): F' = ∪Fᵢ = {MaPN,SoDongPN → {MaSP} (1 PTH); MaDH,SoDongDH → {MaSP} (1 PTH); MaSeri → {SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} (8 PTH); SoSeri,MaSP → {MaSeri} (1 PTH)}.
 
 - (1) Mọi f' ∈ F' \ F đều thuộc F⁺ vì mỗi Fᵢ là PTH chiếu từ F⁺.
 - (2) Mọi f ∈ F \ F' phải thuộc F'⁺. Kiểm tra từng PTH của F bằng bao đóng theo F':
-  - MaSeri → SoSeri: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ SoSeri → thỏa.
-  - MaSeri → MaPN: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ MaPN → thỏa.
-  - MaSeri → SoDongPN: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ SoDongPN → thỏa.
-  - MaSeri → MaDH: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ MaDH → thỏa.
-  - MaSeri → SoDongDH: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ SoDongDH → thỏa.
-  - MaSeri → TinhTrangSeri: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ TinhTrangSeri → thỏa.
-  - MaSeri → ThoiDiemNhap: (MaSeri)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ ThoiDiemNhap → thỏa.
-  - SoSeri,MaSP → MaSeri: (SoSeri,MaSP)⁺_F' = {MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap} ∋ MaSeri → thỏa.
-  - MaPN,SoDongPN → MaSP: (MaPN,SoDongPN)⁺_F' = {MaSP, MaPN, SoDongPN} ∋ MaSP → thỏa.
-  - MaDH,SoDongDH → MaSP: (MaDH,SoDongDH)⁺_F' = {MaSP, MaDH, SoDongDH} ∋ MaSP → thỏa.
+  - MaSeri → {SoSeri, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap}: (MaSeri)⁺_F' = Q⁺ chứa các thuộc tính vế phải → thỏa.
+  - SoSeri,MaSP → {MaSeri}: (SoSeri,MaSP)⁺_F' = Q⁺ chứa các thuộc tính vế phải → thỏa.
+  - MaPN,SoDongPN → {MaSP}: (MaPN,SoDongPN)⁺_F' = {MaSP, MaPN, SoDongPN} chứa các thuộc tính vế phải → thỏa.
+  - MaDH,SoDongDH → {MaSP}: (MaDH,SoDongDH)⁺_F' = {MaSP, MaDH, SoDongDH} chứa các thuộc tính vế phải → thỏa.
 
 **Kết luận: bảo toàn PTH** (thỏa (1) và (2)).
 
@@ -2008,7 +1888,11 @@ Q₁ và Q₂ **trùng với phép chiếu của CHITIETPHIEUNHAP và CHITIETDON
 | Tổng hợp | 3NF | có | có | không | Trả lại đúng Q |
 | **C: bốn thành phần** | **BCNF** | **có** | **có** | **SERIMATHANG** | Cần ràng buộc nhất quán MaSP (mục 2.3.6) |
 
+*Bảng 2.91: So sánh các phương án tách HANGCOSERI*
+
 **Chọn phương án C**, vì giữ quy tắc “seri duy nhất theo mặt hàng” (G1), đạt BCNF và không mất PTH. **HANGCOSERI nâng từ 3NF lên BCNF.**
+
+**Lưu ý về NULL.** Q₃ và Q₄ nối theo MaSeri, Q₁ theo (MaPN, SoDongPN); các cột này không rỗng nên đúng với mọi chiếc hàng. Riêng (MaDH, SoDongDH) → MaSP là PTH có điều kiện: chiếc chưa bán có hai cột này rỗng, nên khi nối HANGCOSERI với dòng đơn phải dùng `LEFT JOIN` (như K4 ở chương 3); nối trong sẽ làm mất chiếc chưa bán.
 
 ![Hình 2.3: Phân rã HANGCOSERI thành bốn thành phần (phương án C)](hinh/phan_ra_hangcoseri.png)
 
@@ -2055,7 +1939,7 @@ Lược đồ sau cải tiến có **26 quan hệ** (25 quan hệ ban đầu, th
 Các ràng buộc **tài khoản, chức vụ và trách nhiệm** (không biểu diễn được bằng PTH; các quy tắc về chức vụ là **giả thiết** nghiệp vụ của nhóm):
 
 5. TAIKHOAN: đúng một trong hai cột MaKH, MaNV có giá trị.
-6. Người thực hiện một khâu phải có chức vụ phù hợp (NHANVIEN.ChucVu): duyệt hoàn tiền (KHOANHOAN.MaNV) và duyệt chuyển nhóm hàng nhận lại (LANNHANLAI.MaNVDuyet) là Quản lý; chi tiền hoàn (MaNVChi) là Thu ngân; thu tiền khi giao (THANHTOAN.MaNVThu) là Giao hàng; xác nhận phiếu nhập (PHIEUNHAP.MaNVXacNhan) là Kho; tạo mã giảm giá (MAGIAMGIA.MaNV) là Bán hàng hoặc Quản lý.
+6. Người thực hiện một khâu phải có chức vụ phù hợp (NHANVIEN.ChucVu): duyệt hoàn tiền (KHOANHOAN.MaNV) và duyệt chuyển nhóm hàng nhận lại (LANNHANLAI.MaNVDuyet) là Quản lý; chi tiền hoàn (MaNVChi) là Thu ngân; xác nhận thu (THANHTOAN.MaNV) là Thu ngân, Bán hàng hoặc Quản lý; thu tiền khi giao (THANHTOAN.MaNVThu) là Giao hàng; xác nhận phiếu nhập (PHIEUNHAP.MaNVXacNhan) là Kho; tạo mã giảm giá (MAGIAMGIA.MaNV) là Bán hàng hoặc Quản lý.
 7. Đơn có KenhBan khác "Trang web" phải có MaNV; khách chỉ tự hủy được đơn còn "Chờ xác nhận".
 
 **Mã SQL đề xuất** (đã chạy trên SQLite và SQL Server LocalDB 17.0, CSDL dùng collation UTF-8 tiếng Việt; toàn bộ 26 bảng ở `sql/01_tao_bang.sql`):
@@ -2081,7 +1965,7 @@ SELECT h.*, s.SoSeri, s.MaSP FROM HANGCOSERI h JOIN SERIMATHANG s ON s.MaSeri = 
 | PHIEUBAOHANH | MaSP lặp ở mỗi phiếu của cùng dòng đơn hoặc cùng chiếc | **Cập nhật:** đổi mặt hàng của dòng đơn mà không sửa phiếu. **Thêm:** phiếu ghi MaSP không khớp dòng mua gốc | MaSP chỉ ở CHITIETDONHANG và SERIMATHANG | Một phép nối với CHITIETDONHANG |
 | HANGCOSERI | MaSP lặp ở mỗi chiếc của cùng dòng nhập; SoSeri gắn MaSP | **Cập nhật:** sửa mặt hàng của dòng nhập mà sót chiếc. **Thêm:** nhập chiếc có MaSP khác MaSP của dòng nhập | MaSP của chiếc chỉ ở SERIMATHANG; khóa {MaSP, SoSeri} được cưỡng chế bằng UNIQUE | Thêm một quan hệ và một phép nối; phải kiểm soát ràng buộc nhất quán 1 |
 
-**Nhận xét trung thực.** Với CHITIETTRA và PHIEUBAOHANH, cải tiến loại hẳn dữ liệu thừa. Với HANGCOSERI, cải tiến đưa lược đồ về BCNF nhưng lượng MaSP lưu không giảm (mỗi chiếc vẫn có một MaSP ở SERIMATHANG); lợi ích là mỗi quan hệ không còn PTH vi phạm và khóa {MaSP, SoSeri} được cưỡng chế, còn tính nhất quán liên quan hệ do ràng buộc ở 2.3.6 bảo đảm. Chưa đo hiệu năng: thêm một phép nối có thể làm truy vấn chậm hơn hoặc không, cần đo trên dữ liệu thật.
+**Nhận xét.** Với CHITIETTRA và PHIEUBAOHANH, cải tiến loại hẳn dữ liệu thừa. Với HANGCOSERI, cải tiến đưa lược đồ về BCNF nhưng lượng MaSP lưu không giảm (mỗi chiếc vẫn có một MaSP ở SERIMATHANG); lợi ích là mỗi quan hệ không còn PTH vi phạm và khóa {MaSP, SoSeri} được cưỡng chế, còn tính nhất quán liên quan hệ do ràng buộc ở 2.3.6 bảo đảm. Chưa đo hiệu năng: thêm một phép nối có thể làm truy vấn chậm hơn hoặc không, cần đo trên dữ liệu thật.
 
 ### 2.3.8 Phụ thuộc đa trị và dạng chuẩn 4
 
@@ -2112,24 +1996,50 @@ Theo giáo trình, X ↠ Y (với X ∩ Y = ∅, Z = Q⁺ \ XY) là phụ thuộ
 | M (lưu chung, mỗi dòng một cặp ảnh – thông số) | **3.256** (tổng ảnh × thông số theo từng mặt hàng) |
 | ANHMATHANG và GIATRITHONGSO (tách) | **1.538** = 310 ảnh + 1.228 thông số |
 
+*Bảng 2.92: Số dòng khi lưu chung và khi tách ảnh, thông số*
+
 Lưu chung nhiều dòng hơn khoảng 2,1 lần chỉ để lặp lại cùng thông tin. Dị thường thêm: thêm một ảnh thứ tư cho một mặt hàng đang có 3 thông số buộc thêm 3 dòng ở dạng chung nhưng chỉ 1 dòng ở dạng tách.
 
-**Các quan hệ còn lại.** Theo mô tả nghiệp vụ, mỗi quan hệ còn lại chỉ chứa **một** tập giá trị của đối tượng chính (dòng chi tiết, lần giao, lần nhận lại… đã tách thành quan hệ riêng), nên không chứa hai tập độc lập và không có phụ thuộc đa trị không hiển nhiên ngoài PTH. Kết luận này dựa trên mô tả nghiệp vụ, **chưa chứng minh tổng quát** (không thể chứng minh bằng dữ liệu mẫu).
+**Toàn bộ lược đồ.** Tách đúng một tình huống không nói gì về các quan hệ khác, nên phần này chứng minh riêng cho cả 26 quan hệ, chỉ dùng khóa của toàn quan hệ (không dùng khóa có điều kiện).
+
+*Mệnh đề.* Cho Q đạt BCNF, X ↠ Y không hiển nhiên (Y ≠ ∅, Z = Q⁺ \ XY ≠ ∅) và X không là siêu khóa. Khi đó mọi khóa của Q đều có thuộc tính nằm trong Y và có thuộc tính nằm trong Z.
+
+*Chứng minh.* Giả sử khóa K không có thuộc tính trong Z, tức XY ⊃ K. Lấy hai bộ t₁, t₂ cùng giá trị trên X. Theo X ↠ Y có bộ t₃ cùng X, lấy Y của t₁ và Z của t₂. Bộ t₃ trùng t₁ trên XY nên trùng trên K, do đó t₃ = t₁, suy ra t₁[Z] = t₂[Z]. Vậy X → Z. Đây là PTH không hiển nhiên nên theo BCNF, X là siêu khóa: mâu thuẫn. Trường hợp K không có thuộc tính trong Y làm tương tự, vì X ↠ Y kéo theo X ↠ Z. ∎
+
+Phép chứng minh chỉ dùng định nghĩa nên không phụ thuộc dữ liệu. Nhóm thử thêm mệnh đề bằng chương trình trên các quan hệ ngẫu nhiên, không gặp phản ví dụ. Kết quả cùng hướng với điều kiện khóa đơn của Date và Fagin (1992).
+
+*Trường hợp 1: 21 quan hệ có khóa một thuộc tính* (LOAIHANG, THUONGHIEU, MATHANG, ANHMATHANG, DINHNGHIATHONGSO, KHACHHANG, NHANVIEN, TAIKHOAN, NHACUNGCAP, MAGIAMGIA, DONHANG, THANHTOAN, PHIEUGIAO, PHIEUNHAP, HANGCOSERI, SERIMATHANG, GIAODICHKHO, HOSODOITRA, LANNHANLAI, KHOANHOAN, PHIEUBAOHANH). Một thuộc tính không thể nằm ở cả Y và Z, nên theo mệnh đề không tồn tại phụ thuộc đa trị không hiển nhiên có X không là siêu khóa. Vậy các quan hệ này đạt 4NF.
+
+Điều kiện của trường hợp này: mã phải định danh một đối tượng thật. Nếu gắn mã số dòng vào quan hệ M ở trên thì mệnh đề vẫn đúng về hình thức nhưng dư thừa vẫn còn, vì mã mới chỉ che phụ thuộc đa trị. Trong lược đồ, mỗi bộ của các quan hệ này là một đối tượng hoặc một chứng từ, không phải một cặp ghép chéo: ảnh và thông số đã tách, dòng chi tiết, lần giao, lần nhận lại đều ở quan hệ riêng, các thuộc tính còn lại đơn trị theo mã.
+
+*Trường hợp 2: 5 quan hệ có khóa hai thuộc tính {A, B}.* Theo mệnh đề, nếu có phụ thuộc đa trị vi phạm thì A nằm trong Y, B nằm trong Z, nên X chỉ gồm thuộc tính không khóa (có thể rỗng). Khi đó mọi cặp bộ trùng nhau trên tất cả cột không khóa đều bắt buộc kéo theo bộ ghép chéo (a₁, b₂, v). Phụ thuộc đa trị phải đúng trên mọi thể hiện hợp lệ, nên một thể hiện hợp lệ thiếu bộ ghép chéo là đủ bác bỏ:
+
+| Quan hệ | Thể hiện hợp lệ: t₁ = (a₁, b₁, v), t₂ = (a₂, b₂, v) | Bộ bắt buộc nhưng không có |
+|---|---|---|
+| GIATRITHONGSO | Mặt hàng 1 có thông số 1, mặt hàng 2 có thông số 2, cùng giá trị “Có” | (mặt hàng 1, thông số 2): mặt hàng 1 không có thông số này |
+| CHITIETDONHANG | Đơn 1 chỉ có dòng 1; đơn 2 có hai dòng, dòng 2 cùng hàng, số lượng, giá, thời hạn với dòng 1 của đơn 1 | (đơn 1, dòng 2): đơn 1 không có dòng 2 |
+| LANGIAO | Phiếu 1 giao lần 1 thành công; phiếu 2 giao hai lần, lần 2 cùng thời điểm, người giao, kết quả với lần giao của phiếu 1 | (phiếu 1, lần 2): phiếu 1 chỉ giao một lần |
+| CHITIETPHIEUNHAP | Phiếu 1 chỉ có dòng 1; phiếu 2 có hai dòng, dòng 2 cùng hàng, số lượng, giá với dòng 1 của phiếu 1 | (phiếu 1, dòng 2): phiếu 1 không có dòng 2 |
+| CHITIETTRA | Hồ sơ 1 chỉ có dòng 1 trả chiếc S; chiếc S được bán lại và trả tiếp ở dòng 2 của hồ sơ 2, cùng số dòng đơn, số lượng | (hồ sơ 1, dòng 2): hồ sơ 1 không có dòng 2 |
+
+*Bảng 2.3: Thể hiện hợp lệ bác bỏ phụ thuộc đa trị ở năm quan hệ khóa hai thuộc tính*
+
+**Kết luận: cả 26 quan hệ đạt 4NF.** Kết luận đúng trong phạm vi tập PTH và giả thiết nghiệp vụ đã nêu; nếu cửa hàng có thêm quy tắc làm đổi khóa hoặc lưu thêm thuộc tính đa trị thì phải kiểm lại.
 
 ### 2.3.9 Đánh giá lược đồ sau cải tiến
 
-| STT | Quan hệ | Khóa (mọi khóa ứng viên) | Trước | Sau |
+| STT | Quan hệ | Khóa của toàn quan hệ | Trước | Sau |
 |---|---|---|---|---|
 | 1 | LOAIHANG | {MaLoai} | BCNF | BCNF |
-| 2 | THUONGHIEU | {MaTH} | BCNF | BCNF |
+| 2 | THUONGHIEU | {MaTH}; {TenTH} | BCNF | BCNF |
 | 3 | MATHANG | {MaSP}; {SKU} | BCNF | BCNF |
 | 4 | ANHMATHANG | {MaAnh}; {MaSP, ViTriAnh} | BCNF | BCNF |
 | 5 | DINHNGHIATHONGSO | {MaTS} | BCNF | BCNF |
 | 6 | GIATRITHONGSO | {MaSP, MaTS} | BCNF | BCNF |
 | 7 | KHACHHANG | {MaKH} | chưa đạt 1NF | BCNF |
 | 8 | NHANVIEN | {MaNV} | chưa đạt 1NF | BCNF |
-| 9 | TAIKHOAN | {MaTK}; {TenDangNhap}; {MaKH}; {MaNV} | BCNF | BCNF |
-| 10 | NHACUNGCAP | {MaNCC} | BCNF | BCNF |
+| 9 | TAIKHOAN | {MaTK}; {TenDangNhap} (có điều kiện: {MaKH}; {MaNV}) | BCNF | BCNF |
+| 10 | NHACUNGCAP | {MaNCC}; {TenNCC} | BCNF | BCNF |
 | 11 | MAGIAMGIA | {MaMG}; {CodeMG} | BCNF | BCNF |
 | 12 | DONHANG | {MaDH}; {SoDH} | BCNF | BCNF |
 | 13 | CHITIETDONHANG | {MaDH, SoDongDH} | BCNF | BCNF |
@@ -2142,14 +2052,16 @@ Lưu chung nhiều dòng hơn khoảng 2,1 lần chỉ để lặp lại cùng t
 | 20 | SERIMATHANG | {MaSeri}; {SoSeri, MaSP} | — | BCNF |
 | 21 | GIAODICHKHO | {MaGDK} | BCNF | BCNF |
 | 22 | HOSODOITRA | {MaHS} | BCNF | BCNF |
-| 23 | CHITIETTRA | {MaHS, SoDongTra}; {MaHS, MaSeri} | 1NF | BCNF |
+| 23 | CHITIETTRA | {MaHS, SoDongTra} (có điều kiện: {MaHS, MaSeri}) | 1NF | BCNF |
 | 24 | LANNHANLAI | {MaNhanLai} | BCNF | BCNF |
 | 25 | KHOANHOAN | {MaHoan} | BCNF | BCNF |
 | 26 | PHIEUBAOHANH | {MaPhieuBH} | 2NF | BCNF |
 
-*Bảng 2.3: Dạng chuẩn trước và sau cải tiến*
+*Bảng 2.4: Dạng chuẩn trước và sau cải tiến*
 
-**Dạng chuẩn của lược đồ sau cải tiến: BCNF** (cả 26 quan hệ), và đạt 4NF theo giả định độc lập ở 2.3.8. So với mục 2.2: từ **chưa đạt 1NF** lên **BCNF/4NF**. Điều kiện đi kèm: (a) các ràng buộc nhất quán và ràng buộc trách nhiệm ở 2.3.6; (b) chọn phương án C với quy tắc “seri duy nhất theo mặt hàng” (G1) thay cho “seri duy nhất toàn cửa hàng”; (c) họ tên tách theo quy ước G3.
+**Dạng chuẩn của lược đồ sau cải tiến: BCNF** (cả 26 quan hệ, kiểm ở cả hai phạm vi của G4) **và 4NF** theo chứng minh ở 2.3.8. So với mục 2.2: từ **chưa đạt 1NF** lên **4NF**, trong phạm vi tập PTH đã nêu. Điều kiện đi kèm: (a) các ràng buộc nhất quán và ràng buộc trách nhiệm ở 2.3.6; (b) chọn phương án C với quy tắc “seri duy nhất theo mặt hàng” (G1) thay cho “seri duy nhất toàn cửa hàng”; (c) họ tên tách theo quy ước G3; (d) mỗi bộ của quan hệ có khóa một thuộc tính là một đối tượng thật (2.3.8).
+
+**Đánh giá theo ba tiêu chuẩn của giáo trình.** *Nhất quán:* mỗi sự kiện chỉ ghi ở một quan hệ; các ràng buộc liên quan hệ ở 2.3.6 còn phải kiểm khi ghi. *Không trùng lắp:* đã bỏ MaDH, MaSP lưu thừa; giá, tên, SKU và thời hạn chốt trên dòng đơn là dữ liệu lịch sử có chủ ý, không phải trùng lắp. *Dễ khai thác:* đồ thị ở chương 3 cho thấy mọi yêu cầu tra cứu đều có đường nối, đổi lại một số câu phải nối thêm quan hệ (2.3.7); chưa đo hiệu năng.
 
 ## 2.4 PHÂN TÍCH CHỨC NĂNG VÀ QUY TRÌNH NGHIỆP VỤ
 

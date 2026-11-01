@@ -10,7 +10,7 @@
 | 2. Ba loại thực thể và thuộc tính | 20 thực thể (5 cơ bản, 3 đối tượng ngoài, 12 nghiệp vụ), 5 mối kết hợp có thuộc tính, ERD có bản số (min,max) | 1.6, 1.7 |
 | 3. Phụ thuộc hàm và khóa từng lược đồ | 25 quan hệ ban đầu, mỗi quan hệ có F, phủ tối thiểu 3 bước, khóa (N, TG, D), mọi khóa ứng viên | 2.2 |
 | 4. Dạng chuẩn, phân rã/tổng hợp, bảo toàn | Lược đồ ban đầu chưa đạt 1NF; cải tiến 5 quan hệ, chứng minh bảo toàn thông tin (bảng a/b) và bảo toàn PTH; 26 quan hệ đạt BCNF | 2.3 |
-| 5. Phụ thuộc đa trị, dạng chuẩn 4 | Tình huống ảnh – thông số mặt hàng: R₂ đạt BCNF nhưng không đạt 4NF, tách thành ANHMATHANG và GIATRITHONGSO; 1.538 dòng so với 3.256 dòng trên dữ liệu seed | 2.3.8 |
+| 5. Phụ thuộc đa trị, dạng chuẩn 4 | Tình huống ảnh – thông số mặt hàng: R₂ đạt BCNF nhưng không đạt 4NF, tách thành ANHMATHANG và GIATRITHONGSO; 1.538 dòng so với 3.256 dòng trên dữ liệu seed; chứng minh cả 26 quan hệ đạt 4NF theo tập PTH đã nêu | 2.3.8 |
 | 6. Đồ thị quan hệ, con đường truy xuất, ngữ nghĩa | 25 nút, 43 cung, 8 nút vào, 61 con đường truy xuất dài và bảng ngữ nghĩa các đường cơ bản | 3.1, 3.2 |
 | 7. Truy vấn SQL cho các truy xuất | 61 câu truy vấn cho 61 đường và 9 truy vấn khai thác (có truy trách nhiệm theo nhân viên và chức vụ), đã chạy thử trên dữ liệu minh họa | 3.3 |
 
@@ -21,22 +21,24 @@
 - Lược đồ cuối đạt BCNF ở cả 26 quan hệ, giữ nguyên quy tắc nghiệp vụ “số seri duy nhất trong cùng mặt hàng” nhờ phương án tách bốn thành phần bảo toàn cả thông tin lẫn phụ thuộc hàm.
 - Một mô hình phục vụ cả hai kênh: khách mua tại quầy và khách mua trên trang web (tài khoản, đơn) dùng chung đơn hàng, thanh toán, kho, đổi trả và bảo hành.
 - **Truy được trách nhiệm:** mỗi khâu quan trọng ghi người thực hiện hoặc duyệt (lập đơn, thu tiền, giao hàng, nhập kho, nhận lại hàng, hoàn tiền, bảo hành), kèm chức vụ của người đó (truy vấn K6–K8).
-- Mọi phép tính (bao đóng, phủ tối thiểu, khóa, dạng chuẩn, bảo toàn, đồ thị) được trình bày từng bước và đối chiếu bằng chương trình; số liệu trong báo cáo sinh từ cùng một nguồn nên không mâu thuẫn.
+- Mọi phép tính (bao đóng, phủ tối thiểu, khóa, dạng chuẩn, bảo toàn, đồ thị) được trình bày từng bước và đối chiếu bằng chương trình; lược đồ, hình và các bảng trong báo cáo sinh từ cùng một file nguồn nên dễ giữ nhất quán. Số liệu ở mục 4NF tính trên dữ liệu seed của PowerTech; kết quả SQL ở chương 3 chạy trên dữ liệu minh họa của nhóm.
 - Giữ giá và tên hàng tại thời điểm bán trong từng dòng đơn, không lưu tồn kho thành cột, nên các dị thường cập nhật phổ biến của bán lẻ được loại bỏ.
 - Truy vết được một chiếc hàng từ nhà cung cấp, phiếu nhập, đơn bán, đổi trả đến bảo hành bằng các con đường truy xuất đã xác định.
 
 ## 4.3 HẠN CHẾ
 
 - Nhiều phụ thuộc hàm là giả thiết nghiệp vụ nhóm tự đặt (G1–G6) vì chưa có số liệu vận hành thật của cửa hàng; dữ liệu mẫu không chứng minh được phụ thuộc hàm.
-- Kết luận 4NF cho các quan hệ ngoài tình huống ảnh – thông số dựa trên mô tả nghiệp vụ, chưa chứng minh tổng quát.
+- Kết luận 4NF được chứng minh theo tập PTH và giả thiết nghiệp vụ đã nêu; với quan hệ dùng mã làm khóa, chứng minh cần điều kiện mỗi bộ là một đối tượng thật. Thêm quy tắc làm đổi khóa hoặc thêm thuộc tính đa trị thì phải kiểm lại.
+- Các ràng buộc duy nhất trên cột cho phép rỗng (MaKH, MaNV ở TAIKHOAN; MaHS, MaSeri ở CHITIETTRA) không phải khóa của toàn quan hệ; chúng chỉ được bảo đảm bằng UNIQUE có điều kiện.
+- Tình trạng của đơn, phiếu chỉ lưu giá trị hiện tại, chưa lưu lịch sử từng lần đổi tình trạng, nên chưa biết ai đổi và đổi lúc nào, ngoài các mốc đã có cột riêng.
 - Quy tắc đặt tên của thuộc tính kép (họ lót và tên) là quy ước nhập liệu, không kiểm tra được bằng phụ thuộc hàm.
 - Quy tắc “đúng chức vụ mới được làm khâu đó” (duyệt hoàn tiền, chi tiền, xác nhận phiếu nhập…) là giả thiết nghiệp vụ của nhóm và chỉ cưỡng chế được khi ghi dữ liệu, không bằng khóa hay phụ thuộc hàm.
-- Một số ràng buộc nhất quán liên quan hệ (mục 2.3.6) cần cài đặt bằng khóa ngoại ghép, kiểm tra khi ghi hoặc trigger; quy ước dấu của sổ kho chưa chốt với cửa hàng.
+- Một số ràng buộc nhất quán liên quan hệ (mục 2.3.6) cần cài đặt bằng khóa ngoại ghép, kiểm tra khi ghi hoặc trigger, báo cáo chưa viết các trigger này; quy ước ghi sổ kho (mục 3.3) là giả thiết của nhóm, chưa chốt với cửa hàng.
 - Mỗi chiếc hàng có seri chỉ ghi lần bán gần nhất; chiếc trả về rồi bán lại thì lần bán trước phải tra ở dòng trả và phiếu bảo hành, chưa có lịch sử bán tập trung theo từng chiếc.
 - Tính nguyên tố của các cột văn bản (địa chỉ, tên người nhận, ghi chú phụ kiện) dựa trên giả thiết cửa hàng không dùng một phần giá trị của chúng; có nhu cầu đó thì phải tách.
 - Khách đổi sang sản phẩm khác được lập đơn mới; số hồ sơ đổi trả chỉ ghi ở ghi chú của đơn mới, chưa nối bằng khóa ngoại nên không tra tự động được từ hồ sơ sang đơn mới.
 - Dữ liệu minh họa chỉ có vài chục dòng, đủ để kiểm tra truy vấn chạy đúng chứ không đủ để đánh giá hiệu năng; báo cáo chưa đo hiệu năng và các chỉ mục ở mục 3.4 mới là đề xuất.
-- Phạm vi giới hạn (mục 1.3): một cửa hàng, một kho; chưa có đơn đặt hàng và trả hàng nhà cung cấp, kiểm kê và chuyển kho, hóa đơn điện tử, theo dõi chiếc hàng thay thế khi bảo hành đổi mới, giữ hàng, công nợ, trả góp, giỏ hàng, sổ địa chỉ, nhật ký tình trạng đơn, hỗ trợ khách bằng phiếu yêu cầu, đánh giá, thu cũ đổi mới, ví, thống kê; quản lý nhân sự chỉ dừng ở hồ sơ, chức vụ và truy trách nhiệm trên chứng từ, chưa có lịch sử giữ vai trò, chấm công, lương, tuyển dụng.
+- Phạm vi giới hạn (mục 1.3): một cửa hàng, một kho; chưa có đơn đặt hàng và trả hàng nhà cung cấp, kiểm kê và chuyển kho, hóa đơn điện tử, theo dõi chiếc hàng thay thế khi bảo hành đổi mới, giữ hàng, công nợ, trả góp, giỏ hàng, sổ địa chỉ, nhật ký tình trạng đơn, hỗ trợ khách bằng phiếu yêu cầu, đánh giá, thu cũ đổi mới, ví, báo cáo lãi lỗ; quản lý nhân sự chỉ dừng ở hồ sơ, chức vụ và truy trách nhiệm trên chứng từ, chưa có lịch sử giữ vai trò, chấm công, lương, tuyển dụng.
 
 ## 4.4 HƯỚNG PHÁT TRIỂN
 

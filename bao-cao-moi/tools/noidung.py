@@ -8,9 +8,10 @@ GIA_THIET = [
            'nếu khác giá hoặc khác lô.'),
     ('G3', 'Cửa hàng tìm khách hàng và nhân viên theo tên gọi (một phần của họ tên), nên họ tên là thuộc tính kép theo tiêu '
            'chí của bài giảng (phép thử: phải dùng `LIKE` trên một phần của giá trị).'),
-    ('G4', 'Với các PTH có vế trái chứa cột cho phép rỗng (MaSeri, MaDH, SoDongDH ở HANGCOSERI và PHIEUBAOHANH; MaSeri ở CHITIETTRA; MaKH, MaNV ở '
-           'TAIKHOAN), PTH chỉ xét trên những bộ mà các cột đó khác rỗng; khóa chứa các cột này chỉ là khóa trên những bộ đó.'),
-    ('G5', 'Mã hàng thương mại (SKU), số đơn hàng (SoDH), số phiếu nhập (SoPhieu), mã khách nhập của mã giảm giá '
+    ('G4', 'Với các PTH có vế trái chứa cột cho phép rỗng (MaDH, SoDongDH ở HANGCOSERI; MaSeri ở PHIEUBAOHANH và CHITIETTRA; MaKH, MaNV ở '
+           'TAIKHOAN), PTH chỉ xét trên những bộ mà các cột đó khác rỗng. Đây là PTH có điều kiện; tập thuộc tính suy ra từ các PTH này '
+           'chỉ là ràng buộc duy nhất có điều kiện, không phải khóa của toàn quan hệ.'),
+    ('G5', 'Mã hàng thương mại (SKU), số đơn hàng (SoDH), số phiếu nhập (SoPhieu), tên thương hiệu (TenTH), tên nhà cung cấp (TenNCC), mã khách nhập của mã giảm giá '
            '(CodeMG) và tên đăng nhập (TenDangNhap) không trùng nhau giữa các bản ghi cùng loại; mỗi đơn '
            'hàng có tối đa một phiếu giao.'),
     ('G6', 'Mỗi tài khoản thuộc đúng một khách hàng hoặc đúng một nhân viên; mỗi khách và mỗi nhân viên có tối đa một tài '

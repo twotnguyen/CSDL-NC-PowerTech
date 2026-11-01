@@ -107,6 +107,8 @@ INSERT INTO GIAODICHKHO VALUES (1, 2, 'Đủ điều kiện bán', 'Nhập', 3, 
 INSERT INTO GIAODICHKHO VALUES (2, 3, 'Đủ điều kiện bán', 'Nhập', 1, '2026-09-25 09:30:00', 2, 'Phiếu nhập', 1, NULL);
 INSERT INTO GIAODICHKHO VALUES (3, 2, 'Đủ điều kiện bán', 'Xuất bán', 2, '2026-10-03 09:50:00', 1, 'Đơn hàng', 2, NULL);
 INSERT INTO GIAODICHKHO VALUES (4, 2, 'Chờ kiểm tra', 'Nhận lại', 1, '2026-10-09 10:00:00', 2, 'Hồ sơ đổi trả', 1, NULL);
+INSERT INTO GIAODICHKHO VALUES (5, 2, 'Chờ kiểm tra', 'Chuyển ra', 1, '2026-10-09 15:00:00', 2, 'Hồ sơ đổi trả', 1, NULL);
+INSERT INTO GIAODICHKHO VALUES (6, 2, 'Chờ xử lý', 'Chuyển vào', 1, '2026-10-09 15:00:00', 2, 'Hồ sơ đổi trả', 1, NULL);
 
 INSERT INTO HOSODOITRA VALUES (1, 2, 7, '2026-10-08', 'Lỗi nhà sản xuất', 'SSD không nhận trong máy', 'Đã duyệt', 'Hoàn tiền');
 

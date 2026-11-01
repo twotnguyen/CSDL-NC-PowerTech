@@ -14,7 +14,7 @@ R = luoc_do.improved()
 NHOM = {
     'b1': ('Hàng hóa, ảnh và thông số', ['LOAIHANG', 'THUONGHIEU', 'MATHANG', 'ANHMATHANG', 'DINHNGHIATHONGSO', 'GIATRITHONGSO'], 'TB'),
     'b2': ('Khách hàng, nhân viên và tài khoản', ['KHACHHANG', 'NHANVIEN', 'TAIKHOAN'], 'TB'),
-    'b3': ('Đơn hàng, thanh toán và giao hàng', ['MAGIAMGIA', 'DONHANG', 'CHITIETDONHANG', 'THANHTOAN', 'PHIEUGIAO', 'LANGIAO'], 'LR'),
+    'b3': ('Đơn hàng, thanh toán và giao hàng', ['MAGIAMGIA', 'DONHANG', 'CHITIETDONHANG', 'THANHTOAN', 'PHIEUGIAO', 'LANGIAO'], 'TB'),
     'b4': ('Nhập hàng, số seri và kho', ['NHACUNGCAP', 'PHIEUNHAP', 'CHITIETPHIEUNHAP', 'HANGCOSERI', 'SERIMATHANG', 'GIAODICHKHO'], 'TB'),
     'b5': ('Đổi trả, hoàn tiền và bảo hành', ['HOSODOITRA', 'CHITIETTRA', 'LANNHANLAI', 'KHOANHOAN', 'PHIEUBAOHANH'], 'LR'),
 }

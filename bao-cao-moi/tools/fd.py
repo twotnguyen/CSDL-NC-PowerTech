@@ -63,7 +63,7 @@ def min_cover(F, order):
         rest = G[:i] + G[i + 1:]
         cl = closure(G[i][0], rest)
         if G[i][1] <= cl:
-            trace['b3'].append((fmt_fd(G[i], order), 'bỏ nó vẫn có ' + ','.join(sorted(G[i][0], key=key)) + '⁺ ∋ ' + ','.join(sorted(G[i][1]))))
+            trace['b3'].append((fmt_fd(G[i], order), 'bỏ nó vẫn có ' + ('(%s)' if len(G[i][0]) > 1 else '%s') % ','.join(sorted(G[i][0], key=key)) + '⁺ ∋ ' + ','.join(sorted(G[i][1]))))
             G = rest
         i -= 1
     trace['b3'].reverse()

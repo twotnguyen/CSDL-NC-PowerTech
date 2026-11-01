@@ -34,10 +34,12 @@ CHECKS = {
                   '(MaNVXacNhan IS NULL AND ThoiDiemXacNhan IS NULL) OR (MaNVXacNhan IS NOT NULL AND ThoiDiemXacNhan IS NOT NULL)'],
     'CHITIETPHIEUNHAP': ['SoLuongNhap > 0', 'GiaNhap >= 0'],
     'HANGCOSERI': ['(MaDH IS NULL AND SoDongDH IS NULL) OR (MaDH IS NOT NULL AND SoDongDH IS NOT NULL)'],
-    'GIAODICHKHO': ['SoLuongGD > 0', "NhomKho IN ('Đủ điều kiện bán', 'Chờ kiểm tra', 'Chờ xử lý')"],
+    'GIAODICHKHO': ['SoLuongGD > 0', "NhomKho IN ('Đủ điều kiện bán', 'Chờ kiểm tra', 'Chờ xử lý')",
+                    "LoaiBienDong IN ('Nhập', 'Xuất bán', 'Nhận lại', 'Chuyển ra', 'Chuyển vào')"],
     'CHITIETTRA': ['SoLuongTra > 0', 'MaSeri IS NULL OR SoLuongTra = 1'],
     'KHOANHOAN': ['SoTienHoan > 0', '(MaNVChi IS NULL AND ThoiDiemChi IS NULL) OR (MaNVChi IS NOT NULL AND ThoiDiemChi IS NOT NULL)', 'MaHS IS NULL OR MaPhieuBH IS NULL'],
-    'LANNHANLAI': ['(MaNVDuyet IS NULL AND ThoiDiemDuyet IS NULL) OR (MaNVDuyet IS NOT NULL AND ThoiDiemDuyet IS NOT NULL)'],
+    'LANNHANLAI': ['(MaNVDuyet IS NULL AND ThoiDiemDuyet IS NULL) OR (MaNVDuyet IS NOT NULL AND ThoiDiemDuyet IS NOT NULL)',
+                   "NhomSauKiemTra IN ('Đủ điều kiện bán', 'Chờ xử lý')"],
     'PHIEUBAOHANH': ['NgayHenTra >= NgayNhan'],
 }
 

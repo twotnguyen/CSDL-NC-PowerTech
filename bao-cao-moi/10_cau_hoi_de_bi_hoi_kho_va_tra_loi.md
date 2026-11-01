@@ -2,7 +2,7 @@
 
 Tài liệu cho Twot ôn vấn đáp. Mỗi câu có: **câu hỏi thầy có thể hỏi**, **trả lời ngắn** (nói được trong 20–30 giây), **căn cứ** (mục trong báo cáo để mở ra chỉ). Nguyên tắc: nếu thầy chỉ ra một điểm đúng là yếu thì nhận, nói rõ đã chọn gì và vì sao, không chối. Phần cuối (mục 8) liệt kê thẳng những điểm yếu thật còn lại.
 
-Số liệu hiện hành (đã khớp `tools/chay_het.py`): **20 thực thể** (5 cơ bản, 3 đối tượng ngoài, 12 nghiệp vụ); **5 mối kết hợp có thuộc tính** và **37 mối kết hợp thường**; **25 quan hệ** ban đầu, **26** sau cải tiến; đồ thị **25 nút, 43 cung** (42 cung giữa hai nút khác nhau và 1 khuyên của LOAIHANG), **8 nút vào**, **61 đường truy xuất**; 9 truy vấn khai thác.
+Số liệu hiện hành (đã khớp `tools/chay_het.py`): **20 thực thể** (5 cơ bản, 3 đối tượng ngoài, 12 nghiệp vụ); **5 mối kết hợp có thuộc tính** và **38 mối kết hợp thường**; **25 quan hệ** ban đầu, **26** sau cải tiến; đồ thị **25 nút, 43 cung** (42 cung giữa hai nút khác nhau và 1 khuyên của LOAIHANG), **8 nút vào**, **61 đường truy xuất**; 9 truy vấn khai thác.
 
 ---
 
@@ -73,8 +73,8 @@ Không. Phải xét **mọi khóa ứng viên**. Kết quả của nhóm: ban đ
 **3.3. Giá trên đơn có phải phụ thuộc vào mặt hàng không (MaSP → DonGiaChot)?**
 Không. `DonGiaChot` là giá chốt lúc bán (snapshot), một mặt hàng có thể có nhiều dòng giá khác nhau (giá khuyến mãi, giá thường), nên báo cáo không đặt phụ thuộc đó; khóa của CHITIETDONHANG là (MaDH, SoDongDH).
 
-**3.4. TAIKHOAN có bốn khóa, nhưng MaKH, MaNV có thể NULL — có là khóa không?**
-Chỉ là khóa trên những tài khoản mà cột đó khác rỗng. Báo cáo nói rõ ở giả thiết G4: PTH có vế trái chứa cột cho phép rỗng chỉ xét trên những bộ cột đó khác rỗng. Cài đặt: UNIQUE có điều kiện và ràng buộc "đúng một trong MaKH, MaNV".
+**3.4. MaKH, MaNV của TAIKHOAN có thể NULL — có là khóa không?**
+Không. Khóa ứng viên phải xác định duy nhất bộ trên toàn quan hệ, nên khóa của TAIKHOAN chỉ là {MaTK} và {TenDangNhap}. {MaKH}, {MaNV} là **ràng buộc duy nhất có điều kiện** (G4), cài bằng `UNIQUE ... WHERE ... IS NOT NULL`. Bốn quan hệ có PTH điều kiện (TAIKHOAN, HANGCOSERI, CHITIETTRA, PHIEUBAOHANH) được kiểm ở hai phạm vi: toàn quan hệ và trên các bộ khác rỗng. Dạng chuẩn giống nhau ở hai phạm vi, nên kết luận BCNF không dựa vào khóa có điều kiện. *Căn cứ: 2.2.1, Bảng 2.38, Bảng 2.53.*
 
 **3.5. Phủ tối thiểu có duy nhất không?**
 Không; thứ tự xét cho ra các phủ khác nhau nhưng tương đương. Báo cáo trình bày một phủ, nêu thứ tự (xét từ PTH cuối lên đầu để giữ các PTH của khóa chính) và kiểm tra G ≡ F bằng bao đóng.
@@ -83,7 +83,7 @@ Không; thứ tự xét cho ra các phủ khác nhau nhưng tương đương. B�
 Số seri do từng hãng tự đánh, hai hãng có thể trùng. Chọn "duy nhất theo mặt hàng" là phương án an toàn hơn; hệ quả là (SoSeri, MaSP) mới là khóa. Nếu cửa hàng xác nhận "duy nhất toàn cửa hàng" thì phụ thuộc đổi và phải tính lại (đã nêu ở 4.4).
 
 **3.7. Vì sao CHITIETTRA có khóa (MaHS, SoDongTra) mà không phải (MaHS, SoDongDH)?**
-Một dòng đơn có thể gồm hai chiếc có seri. Nếu khóa là (MaHS, SoDongDH) thì PTH `MaHS,SoDongDH → MaSeri` sai về nghiệp vụ, vì khách trả cả hai chiếc thì chỉ ghi được một. Nên mỗi chiếc một dòng trả, có số thứ tự riêng. Khóa thứ hai (MaHS, MaSeri) chỉ xét trên dòng có seri (giả thiết G4). *Căn cứ: 2.2.23, 2.3.3.*
+Một dòng đơn có thể gồm hai chiếc có seri. Nếu khóa là (MaHS, SoDongDH) thì PTH `MaHS,SoDongDH → MaSeri` sai về nghiệp vụ, vì khách trả cả hai chiếc thì chỉ ghi được một. Nên mỗi chiếc một dòng trả, có số thứ tự riêng. Còn (MaHS, MaSeri) chỉ là khóa có điều kiện trên dòng có seri (G4), không phải khóa của toàn quan hệ. *Căn cứ: 2.2.23, 2.3.3.*
 
 **3.8. Sao đã có ThoiHanBH ở MATHANG còn thêm ThoiHanBHChot ở dòng đơn?**
 Cùng lý do với DonGiaChot: `ThoiHanBH` là chính sách hiện tại của mặt hàng, `ThoiHanBHChot` là thời hạn đã cam kết với khách lúc bán. Đổi chính sách về sau không được làm đổi thời hạn của đơn cũ. Không có `MaSP → ThoiHanBHChot`. *Căn cứ: 2.2.14, đoạn Phiếu Bảo Hành ở 1.4.*
@@ -107,6 +107,15 @@ Theo phép thử của bài giảng: nếu phải dùng một **phần** của g
 **4.5. Vậy `DiaChiGiao`, `TenNguoiNhan`, `PhuKienDiKem` có phải tách không?**
 Không, theo cùng tiêu chí: chỉ tách khi cửa hàng phải dùng một phần giá trị. Hai cột địa chỉ và tên ghi nguyên để giao và liên hệ, phí giao ghi trực tiếp trên đơn; `PhuKienDiKem` là ghi chú tự do, không đếm theo từng phụ kiện. Đây là giả thiết của nhóm (2.3.2); nếu cửa hàng cần lọc theo tỉnh hay theo dõi từng phụ kiện thì phải tách.
 
+**4.6. MaHS → MaDH tách CHITIETTRA có làm mất dòng hàng gốc không?**
+Không. Bỏ `MaDH` khỏi dòng trả nhưng vẫn giữ `SoDongDH`; dòng gốc là (HOSODOITRA.MaDH, SoDongDH). Hai cột `MaHS`, `MaDH` không rỗng nên phép tách đúng trên toàn quan hệ. *Căn cứ: 2.3.3.*
+
+**4.7. MaSeri có thể NULL, chứng minh ở PHIEUBAOHANH Cách 1 còn đúng không?**
+Chỉ đúng trên phiếu có seri, vì `MaSeri → MaSP` là PTH có điều kiện; phiếu MaSeri rỗng sẽ mất khi nối trong. Vì thế Cách 1 không được chọn. Lược đồ cuối chỉ bỏ cột MaSP, mặt hàng lấy theo (MaDH, SoDongDH) không rỗng nên mọi phiếu đều lấy được. Khi ghép với chiếc hàng thì dùng `LEFT JOIN`. HANGCOSERI cũng vậy với (MaDH, SoDongDH) rỗng khi chưa bán. *Căn cứ: 2.3.4, 2.3.5.*
+
+**4.8. Tổng hoàn không vượt tiền thu, số trả không vượt số bán, đúng chức vụ mới được làm: cưỡng chế bằng gì?**
+Không bằng khóa, PTH hay CHECK trên một dòng, vì các ràng buộc này liên quan nhiều dòng hoặc nhiều bảng. Phải kiểm khi ghi trong giao dịch hoặc bằng trigger. Báo cáo đặc tả ở 2.3.6, chưa viết trigger (4.3); nên nói thẳng đây là đặc tả, chưa phải đã cài đặt.
+
 ---
 
 ## 5. Phụ thuộc đa trị và 4NF
@@ -115,7 +124,16 @@ Không, theo cùng tiêu chí: chỉ tách khi cửa hàng phải dùng một ph
 Theo nghiệp vụ: thêm hoặc đổi ảnh không làm đổi thông số, và ngược lại. Nên quan hệ lưu chung phải chứa mọi cặp (ảnh, thông số) của mặt hàng, tức MaSP ↠ DuongDanAnh. Nhiều dòng trong dữ liệu **không phải** bằng chứng; bằng chứng là tính độc lập theo nghiệp vụ.
 
 **5.2. Có phải cố tạo 4NF cho có không?**
-R₂(MaSP, DuongDanAnh, MaTS) toàn khóa nên BCNF, nhưng vi phạm 4NF. Số liệu seed: 3.256 dòng nếu lưu chung so với 1.538 dòng nếu tách (gấp khoảng 2,1 lần), và thêm một ảnh thì buộc thêm 3 dòng thay vì 1. Kết luận 4NF cho các quan hệ còn lại dựa trên mô tả nghiệp vụ, **chưa chứng minh tổng quát** (4.3).
+R₂(MaSP, DuongDanAnh, MaTS) toàn khóa nên BCNF, nhưng vi phạm 4NF. Số liệu seed: 3.256 dòng nếu lưu chung so với 1.538 dòng nếu tách (gấp khoảng 2,1 lần), và thêm một ảnh thì buộc thêm 3 dòng thay vì 1. Tình huống này chỉ minh họa; phần chứng minh cho toàn lược đồ ở câu 5.3.
+
+**5.3. Một tình huống đâu chứng minh được 26 quan hệ đạt 4NF?**
+Đúng, nên báo cáo chứng minh riêng. Mệnh đề ở 2.3.8: nếu Q đạt BCNF và có X ↠ Y không hiển nhiên với X không là siêu khóa thì mọi khóa phải có thuộc tính ở cả Y và Z. Lý do: nếu khóa nằm trọn trong XY thì bộ ghép chéo trùng với bộ cũ, suy ra X → Z, trái với BCNF. Từ đó: 21 quan hệ có khóa một thuộc tính không thể vi phạm; 5 quan hệ khóa hai thuộc tính buộc X chỉ gồm cột không khóa, và Bảng 2.52 đưa thể hiện hợp lệ bác bỏ. Kết luận đúng trong phạm vi tập PTH đã nêu. Điều kiện khóa đơn tương ứng có trong Date và Fagin (1992); chứng minh do nhóm tự viết nên phải tự trình bày lại được.
+
+**5.4. Khóa `Mã…` là khóa thay thế, thêm mã vào thì quan hệ nào chẳng có khóa đơn?**
+Đúng là khóa thay thế có thể che phụ thuộc đa trị: thêm `Id` vào M thì mệnh đề đúng về hình thức nhưng dư thừa vẫn còn. Vì vậy báo cáo nêu điều kiện: mỗi bộ phải là một đối tượng thật, không phải một cặp ghép chéo. Ở lược đồ này điều kiện đó là lập luận nghiệp vụ, có nêu ở 2.3.8 và 4.3, không phải kết quả tính máy.
+
+**5.5. Kết luận 26 quan hệ đạt 4NF dựa trên gì?**
+Dựa trên tập PTH và giả thiết nghiệp vụ, cộng mệnh đề chứng minh bằng định nghĩa. Không dựa trên dữ liệu: dữ liệu chỉ bác bỏ được, không chứng minh được. Chương trình chỉ dùng để thử thêm mệnh đề và tính lại khóa, dạng chuẩn.
 
 ---
 
@@ -131,10 +149,10 @@ Không. Có 64 cặp quan hệ có giao khác rỗng; với mỗi cặp, khóa c
 Không. B7 chỉ áp dụng cho quan hệ chỉ gồm thuộc tính khóa, có đúng hai cung ra và không có cung vào. Các quan hệ nối n–n của lược đồ đều có thuộc tính riêng (GIATRITHONGSO có GiaTriTS; CHITIET… có số lượng, giá).
 
 **6.4. Vì sao đồ thị giữ nhiều cung tới NHÂN VIÊN? Thuật toán bảo bỏ cung thừa mà.**
-Theo công thức Bài 10, Nⱼ chỉ thừa khi có Nₕ trong PTH(Nᵢ) mà khóa của Nₕ chứa khóa của Nⱼ. Không quan hệ nào có khóa chứa `MaNV`, nên không cung nào tới NHÂN VIÊN bị thừa. Các cột `MaNV` là vai trò khác nhau (quy ước Q2), nên không tính là cùng thuộc tính khi xét giao ở Bước 3. Cột phụ `MaNVThu`, `MaNVXacNhan`, `MaNVDuyet`, `MaNVChi` khác tên với khóa nên không tạo cung, truy xuất bằng truy vấn K7.
+Theo công thức Bài 10, Nⱼ chỉ thừa khi có Nₕ trong PTH(Nᵢ) mà khóa của Nₕ chứa khóa của Nⱼ. Không quan hệ nào có khóa chứa `MaNV`, nên không cung nào tới NHÂN VIÊN bị thừa. Các cột `MaNV` là vai trò khác nhau (quy ước Q2), nên không tính là cùng thuộc tính khi xét giao ở Bước 3. Cột phụ `MaNVThu`, `MaNVXacNhan`, `MaNVDuyet`, `MaNVChi` khác tên với khóa nên không tạo cung, truy xuất bằng truy vấn K6, K7.
 
-**6.5. Khuyên của LOAIHANG thì sao?**
-Khuyên LOAIHANG → LOAIHANG (loại cha – con) nằm ngoài thuật toán (Q4); vì vậy 43 cung gồm 42 cung giữa hai nút và 1 khuyên. Đây là chỗ nhóm có thể được hỏi "có đưa vào đường truy xuất không"; câu trả lời: không, vì thuật toán không có khuyên và truy hồi cây loại hàng là truy vấn đệ quy khác.
+**6.5. Khuyên của LOAIHANG thì sao? Mẫu của thầy có đếm `→ 3 → 3` mà?**
+Đúng, Bài 9 có định nghĩa khuyên và theo định nghĩa mạch đi thì nối khuyên vào cuối mạch vẫn hợp lệ. Nhóm vẫn vẽ khuyên LOAIHANG → LOAIHANG, vì vậy 43 cung gồm 42 cung giữa hai nút và 1 khuyên, nhưng chọn không tách thành đường riêng, vì truy hồi cây loại hàng cần truy vấn đệ quy riêng (Q4). Đây là **lựa chọn của nhóm, khác cách đếm của mẫu**, không phải do thuật toán cấm. Nếu thầy yêu cầu đếm như mẫu thì 11 đường kết thúc ở LOAIHANG có thêm một đường nối khuyên, tổng 72 đường.
 
 **6.6. Sao có hai hình đồ thị? Hình đầy đủ có giao cắt?**
 NHÂN VIÊN nhận 12 cung nên vẽ chung thì che phần còn lại. Hình 3.1 vẽ phần chính 31 cung, không có giao cắt, để đọc cấu trúc. Hình 3.2 vẽ đủ 25 nút, 43 cung. Đồ thị đầy đủ **không phẳng** (đã kiểm) nên buộc phải có chỗ cắt; nhóm xếp còn 14 chỗ, không cung nào xuyên qua nút. 14 là số tìm được, **chưa chứng minh là nhỏ nhất**. Chỗ cắt của hai cung không phải là nút.
@@ -150,6 +168,18 @@ Nhiều đường dài chỉ có giá trị liệt kê. Sáu đường nên trì
 
 **6.10. Vì sao HANGCOSERI có cả cung tới MATHANG lẫn cung tới dòng đơn, dòng nhập? Mặt hàng suy ra được từ dòng mà?**
 Theo đúng công thức PTH_Thừa của Bài 10: MATHANG chỉ thừa khi có nút trong PTH mà khóa chứa `MaSP`; CHITIETDONHANG và CHITIETPHIEUNHAP có `MaSP` nhưng là thuộc tính không khóa, nên cung 19 → 3 được giữ. Ngược lại 19 → 12 và 19 → 17 thừa vì khóa dòng đơn chứa `MaDH`, khóa dòng nhập chứa `MaPN`. Ba mạch tới MATHANG là ràng buộc 1 ở 2.3.6: phải cùng một mặt hàng.
+
+**6.11. Một chiếc hàng bán, trả lại rồi bán cho người khác: lịch sử sở hữu đầy đủ lấy thế nào?**
+`HANGCOSERI.MaDH, SoDongDH` chỉ giữ lần bán gần nhất. Mỗi lần trước đó nhất định có dòng `CHITIETTRA` mang `MaSeri` của chiếc này, vì muốn bán lại thì chiếc đó phải được trả về. Từ dòng trả qua `HOSODOITRA.MaDH` ra đơn gốc rồi ra khách. Vậy lịch sử = các dòng trả theo `MaSeri` + lần bán gần nhất. Giới hạn: hàng không theo dõi seri không truy được từng chiếc, và chưa có một bảng lịch sử tập trung (4.3). *Căn cứ: ghi chú K4, 2.2.20.*
+
+**6.12. K3 xử lý hàng chuyển nhóm thế nào?**
+Mỗi lần chuyển nhóm ghi hai dòng: "Chuyển ra" ở nhóm cũ, "Chuyển vào" ở nhóm mới, cùng mặt hàng, số lượng, chứng từ. K3 cộng dòng vào và trừ dòng ra theo từng nhóm, nên 10 chiếc chuyển 3 chiếc thì nhóm cũ còn 7, tổng vẫn 10. Việc không để tồn âm và phải ghi đủ cặp là kiểm tra khi ghi, CHECK trên một dòng không làm được.
+
+**6.13. Đường 20, 55 có cho người mua gốc không?**
+Không nhất thiết. Sáu đường 20, 21, 22, 55, 56, 57 đi qua `HANGCOSERI` tới đơn nên cho lần bán gần nhất; nếu chiếc đã bán lại thì đó là người mua sau. Người mua gốc tra qua `HOSODOITRA.MaDH` hoặc cặp (MaDH, SoDongDH) của phiếu bảo hành. Phụ lục đã ghi chú các đường này. Bốn đường 18, 19, 53, 54 tới loại hàng và thương hiệu không bị ảnh hưởng vì mặt hàng của chiếc không đổi.
+
+**6.14. Vì sao đường 10, 38 không thấy đơn của khách vãng lai?**
+Vì câu lệnh của đường dùng nối trong, mà đơn khách vãng lai có `MaKH` rỗng. Báo cáo ghi rõ ở 3.3.1: cung (0,-,1) chỉ trả các bộ có giá trị; muốn giữ cả bộ rỗng thì đổi sang `LEFT JOIN`, như K4, K6.
 
 ---
 
@@ -172,7 +202,7 @@ SQLite có bật khóa ngoại và SQL Server LocalDB 17.0: cả 4 file chạy k
 ## 8. Điểm yếu thật còn lại (nên tự biết trước)
 
 1. **Nhiều phụ thuộc hàm là giả thiết nhóm** (G1–G6), chưa kiểm với một cửa hàng thật.
-2. **GIAODICHKHO** dùng tham chiếu đa hình không có khóa ngoại; số tồn kho phụ thuộc quy ước dấu chưa chốt.
+2. **GIAODICHKHO** dùng tham chiếu đa hình không có khóa ngoại; số tồn kho phụ thuộc quy ước ghi sổ của nhóm (mỗi lần chuyển nhóm ghi hai dòng), chưa chốt với cửa hàng.
 3. **LANNHANLAI (0,n)** và **PHIEUGIAO 1–1 với ĐƠN HÀNG** là hai chỗ nhóm chọn có chủ ý; thầy có thể bảo gộp.
 4. **Mối kết hợp nối mối kết hợp** trong ERD: không có trong ký hiệu Chen chuẩn.
 5. **Đồ thị có 14 giao cắt**; Hình 3.2 (có tên nút) khi in còn chữ khoảng 5,9 pt, nhỏ hơn mức 7 pt; nên dùng Hình 3.1 và Bảng 3.2 khi trình bày.

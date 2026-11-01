@@ -4,9 +4,9 @@ digraph G {
   s [label=<<B>Khách mang sản phẩm lỗi</B><BR/>đến cửa hàng>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
   k [label=<Kỹ thuật kiểm tra:<BR/>còn hạn, có thông tin mua,<BR/>số seri khớp, tem còn nguyên,<BR/>không rơi vỡ, vào nước, tháo sửa>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
   q [label=<Đủ điều kiện?>, shape=diamond, style=filled, fillcolor="#FFE6CC", color="#D79B00", margin="0.05,0.05"];
-  t [label=<Ghi lý do từ chối,<BR/>trả sản phẩm cho khách>, shape=box, style="rounded,filled", fillcolor="#F8CECC", color="#B85450"];
+  t [label=<Lập phiếu, ghi lý do từ chối,<BR/>trả sản phẩm cho khách>, shape=box, style="rounded,filled", fillcolor="#F8CECC", color="#B85450"];
   p [label=<Lập <B>phiếu tiếp nhận bảo hành</B><BR/>(seri, dòng mua gốc, lỗi, ngày hẹn trả)>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
-  g [label=<Kiểm tra lỗi; sửa tại cửa hàng<BR/>hoặc gửi hãng, ghi từng bước>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  g [label=<Kiểm tra lỗi; sửa tại cửa hàng<BR/>hoặc gửi hãng>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
   r [label=<Hãng không sửa được?>, shape=diamond, style=filled, fillcolor="#FFE6CC", color="#D79B00", margin="0.05,0.05"];
   d [label=<Đổi sản phẩm tương đương<BR/>hoặc thu hồi theo giá trị còn lại<BR/>sau khấu hao>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
   v [label=<Báo khách đến nhận,<BR/>cùng kiểm tra, ký biên bản trả>, shape=box, style="rounded,filled", fillcolor="#D5E8D4", color="#82B366"];

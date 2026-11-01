@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Lưu đồ nghiệp vụ (tình trạng đơn, đổi trả, bảo hành, ba nhóm kho) và sơ đồ phân rã trước/sau, vẽ bằng Graphviz.  Chạy: python3 tools/ve_luudo.py"""
+import re
 import os
 import subprocess
 
@@ -16,6 +17,9 @@ HEAD = ('digraph G {', '  rankdir=@RD@; splines=polyline; nodesep=0.5; ranksep=0
 
 def run(name, body, rd='TB', dpi=170):
     text = '\n'.join(HEAD).replace('@RD@', rd) + '\n' + '\n'.join(body) + '\n}'
+    # font vẽ hình không có chỉ số dưới Unicode và ↠, nên dùng thẻ SUB và mũi tên đôi
+    so = str.maketrans('₀₁₂₃₄₅₆₇₈₉', '0123456789')
+    text = re.sub('[₀-₉]+', lambda m: '<SUB>' + m[0].translate(so) + '</SUB>', text).replace('↠', '→→')
     base = os.path.join(HINH, name)
     open(base + '.dot', 'w', encoding='utf-8').write(text)
     subprocess.run(['dot', '-Tpng', f'-Gdpi={dpi}', base + '.dot', '-o', base + '.png'], check=True)
@@ -40,7 +44,7 @@ def luudo_don():
     E = [e('a', 'b', 'Bán hàng gọi khách,<BR/>xác nhận đơn'), e('b', 'c', 'Kho lấy hàng,<BR/>ghi số seri, niêm phong'), e('c', 'd', 'Giao hàng nhận giao<BR/>cùng phiếu giao'),
          e('d', 'f', 'Khách nhận hàng,<BR/>tiền thu đủ'),
          e('a', 'x', 'Khách tự hủy<BR/>(chưa xác nhận)'), e('d', 'x', '3 lần giao<BR/>không thành công')]
-    note = ['  n [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Đơn trả trước phải thanh toán<BR/>trước khi được xác nhận;<BR/>người lập, thu tiền, giao hàng<BR/>ghi trên đơn, thanh toán, phiếu giao>];', '  { rank=same; f; n }']
+    note = ['  n [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Đơn tại quầy hoàn tất ngay khi bán.<BR/>Đơn trả trước phải thanh toán<BR/>trước khi được xác nhận;<BR/>người lập, thu tiền, giao hàng<BR/>ghi trên đơn, thanh toán, phiếu giao>];', '  { rank=same; f; n }']
     run('luudo_don_hang', B + E + [note[0], '  { rank=same; f; n }'][:-1], rd='TB')
 
 
@@ -56,8 +60,8 @@ def luudo_doitra():
 
 def luudo_baohanh():
     B = [box('s', '<B>Khách mang sản phẩm lỗi</B><BR/>đến cửa hàng', 's'), box('k', 'Kỹ thuật kiểm tra:<BR/>còn hạn, có thông tin mua,<BR/>số seri khớp, tem còn nguyên,<BR/>không rơi vỡ, vào nước, tháo sửa'),
-         box('q', 'Đủ điều kiện?', 'd'), box('t', 'Ghi lý do từ chối,<BR/>trả sản phẩm cho khách', 'no'), box('p', 'Lập <B>phiếu tiếp nhận bảo hành</B><BR/>(seri, dòng mua gốc, lỗi, ngày hẹn trả)'),
-         box('g', 'Kiểm tra lỗi; sửa tại cửa hàng<BR/>hoặc gửi hãng, ghi từng bước'), box('r', 'Hãng không sửa được?', 'd'),
+         box('q', 'Đủ điều kiện?', 'd'), box('t', 'Lập phiếu, ghi lý do từ chối,<BR/>trả sản phẩm cho khách', 'no'), box('p', 'Lập <B>phiếu tiếp nhận bảo hành</B><BR/>(seri, dòng mua gốc, lỗi, ngày hẹn trả)'),
+         box('g', 'Kiểm tra lỗi; sửa tại cửa hàng<BR/>hoặc gửi hãng'), box('r', 'Hãng không sửa được?', 'd'),
          box('d', 'Đổi sản phẩm tương đương<BR/>hoặc thu hồi theo giá trị còn lại<BR/>sau khấu hao'), box('v', 'Báo khách đến nhận,<BR/>cùng kiểm tra, ký biên bản trả', 'ok')]
     E = [e('s', 'k'), e('k', 'q'), e('q', 't', 'Không'), e('q', 'p', 'Có'), e('p', 'g'), e('g', 'r'), e('r', 'd', 'Có'), e('r', 'v', 'Không')]
     run('luudo_bao_hanh', B + E)
@@ -67,7 +71,7 @@ def luudo_kho():
     B = [box('n', '<B>Nhập hàng</B><BR/>phiếu nhập được xác nhận', 's'), box('b', '<B>Bán hàng</B><BR/>(xuất bán)', 's'), box('l', '<B>Hàng khách trả về</B><BR/>(nhận lại)', 's'),
          box('a', '<B>Đủ điều kiện bán</B>', 'ok'), box('c', '<B>Chờ kiểm tra</B>', 'p'), box('x', '<B>Chờ xử lý</B><BR/>(không bán được)', 'no'), box('o', 'Khách nhận hàng', 's')]
     E = [e('n', 'a', 'ghi tăng,<BR/>một lần'), e('a', 'b', 'chỉ nhóm này<BR/>được bán', 'dir=forward'), e('b', 'o'), e('l', 'c', 'mọi hàng nhận lại'), e('c', 'a', 'Kỹ thuật kiểm tra,<BR/>Quản lý duyệt'), e('c', 'x', 'đã mở hộp<BR/>hoặc lỗi thật')]
-    note = '  n2 [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Mỗi lần vào, ra, chuyển nhóm ghi một dòng <B>GIAO DỊCH KHO</B>.<BR/>Chuyển nhóm không làm tăng tổng số hàng thực tế.>];'
+    note = '  n2 [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Mỗi lần vào, ra ghi một dòng <B>GIAO DỊCH KHO</B>;<BR/>mỗi lần chuyển nhóm ghi hai dòng (chuyển ra, chuyển vào).<BR/>Chuyển nhóm không làm đổi tổng số hàng thực tế.>];'
     run('luudo_kho', B + E + [note], rd='TB')
 
 
@@ -88,7 +92,7 @@ def phan_ra():
     B = [tbl('q', ds('q', 'Q: CHITIETTRA (ban đầu)', ['MaHS', 'SoDongTra', 'SoDongDH', 'MaDH', 'SoLuongTra', 'MaSeri'], ['MaHS', 'SoDongTra'], (), '#F8CECC')),
          '  pth [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<PTH gây vi phạm:<BR/><B>MaHS → MaDH</B><BR/>(phụ thuộc một phần vào khóa)>];',
          tbl('q1', ds('q1', 'Q₁ = HOSODOITRA (đã có)', ['MaHS', 'MaDH', '…'], ['MaHS'])), tbl('q2', ds('q2', 'Q₂: CHITIETTRA (sau cải tiến)', ['MaHS', 'SoDongTra', 'SoDongDH', 'SoLuongTra', 'MaSeri'], ['MaHS', 'SoDongTra'], (), '#D5E8D4')),
-         '  q -> q1 [label="tách theo MaHS → MaDH"]; q -> q2 [label="Q ∖ {MaDH}"]; pth -> q [style=dashed, arrowhead=none];',
+         '  q -> q1 [label="tách theo MaHS → MaDH"]; q -> q2 [label="bỏ MaDH"]; pth -> q [style=dashed, arrowhead=none];',
          '  { rank=same; q; pth }']
     run('phan_ra_chitiettra', B, rd='TB')
     B = [tbl('q', ds('q', 'Q: PHIEUBAOHANH (ban đầu)', ['MaPhieuBH', 'MaSeri', 'MaSP', 'MaDH', 'SoDongDH', '…'], ['MaPhieuBH'], ['MaSeri', 'MaDH', 'SoDongDH'], '#F8CECC')),

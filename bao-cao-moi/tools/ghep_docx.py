@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 BC = os.path.dirname(HERE)
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(BC, 'PowerTech_CSDLNC_Bao_cao_moi.docx')
 FONT = 'Times New Roman'
-FILES = sorted(os.path.basename(f) for f in glob.glob(os.path.join(BC, 'chuong', '0[0-5]_*.md')))
+FILES = sorted(os.path.basename(f) for f in glob.glob(os.path.join(BC, 'chuong', '0[0-6]_*.md')))
 CHAP = {f: int(f[:2]) for f in FILES}
 
 
@@ -101,7 +101,7 @@ def assign_captions(bl, chap, state):
                         title = f'Thuộc tính của bảng {m.group(1)}'; out.pop()
                     elif prev.startswith('Bảng tổ hợp'):
                         title = f'Bảng tổ hợp tìm khóa, {last_h}'
-                    elif prev.startswith('Bảng khởi tạo'):
+                    elif 'Bảng khởi tạo' in prev:
                         title = f'Bảng a/b khởi tạo, {last_h}'
                     elif prev.startswith('Bảng sau biến đổi'):
                         title = f'Bảng a/b sau biến đổi, {last_h}'
@@ -368,6 +368,11 @@ def build_table(rows, width_cm, refmap):
         wts.append(max(3.0, min(max(max(L) ** 0.75 * 1.6, words * (1.55 if words <= 12 else 1.6)), 38)))   # tên quan hệ dài không bị bẻ giữa từ
     tot = sum(wts); widths = [max(1.1, width_cm * w / tot) for w in wts]
     s = sum(widths); widths = [w * width_cm / s for w in widths]
+    # cột không hẹp hơn từ dài nhất, tránh ngắt giữa tên quan hệ
+    mins = [min(4.6, max((len(w) for r in rows for w in plain(r[c]).split()), default=0) * 0.235 * size / 9.5 + 0.4) for c in range(ncol)]
+    if sum(mins) < width_cm:
+        du = [max(0, w - m) for w, m in zip(widths, mins)]
+        widths = [m + d * (width_cm - sum(mins)) / (sum(du) or 1) for m, d in zip(mins, du)]
     for ri, r in enumerate(rows):
         row = t.rows[ri]
         trPr = row._tr.get_or_add_trPr(); trPr.append(OxmlElement('w:cantSplit'))

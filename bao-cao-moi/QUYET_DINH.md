@@ -28,7 +28,7 @@ Ghi ngày 24/10/2026. Báo cáo cũ ở `../bao-cao/` giữ nguyên làm tham kh
 - G1: số seri duy nhất trong cùng một mặt hàng.
 - G2: mỗi dòng đơn và mỗi dòng phiếu nhập chỉ một mặt hàng.
 - G3: họ tên gồm họ lót và tên (quy ước nhập liệu).
-- G4: PTH có vế trái có thể NULL chỉ xét trên các bộ khác NULL (HANGCOSERI, PHIEUBAOHANH, TAIKHOAN).
+- G4: PTH có vế trái có thể NULL chỉ xét trên các bộ khác NULL (HANGCOSERI, PHIEUBAOHANH, CHITIETTRA, TAIKHOAN); đây là PTH có điều kiện, không tạo khóa của toàn quan hệ (mục 18).
 - G5: SKU, SoDH, SoPhieu, CodeMG, TenDangNhap, TenVT duy nhất; mỗi đơn tối đa một phiếu giao.
 - G6: mỗi tài khoản thuộc đúng một khách hoặc một nhân viên; mỗi khách và mỗi nhân viên tối đa một tài khoản; quyền của nhân viên là quyền của các vai trò đang giữ. Mọi quy tắc "đúng vai trò mới được làm khâu đó" là giả thiết của nhóm.
 
@@ -220,3 +220,67 @@ Twot yêu cầu viết lại toàn bộ cho chắc, mô tả tốt hơn mẫu, s
 - **Hình đồ thị:** Hình 3.1 là phần chính, có tên nút, 31 cung, 0 giao cắt, bố cục ở `tools/bo_cuc_dothi_chinh.json`. Hình 3.2 là đồ thị đầy đủ, 14 giao cắt, 0 cung xuyên nút. Bỏ hình có tên cũ chữ quá nhỏ.
 - **Khuyên 1 → 1:** vẫn ngoài thuật toán (Q4). Mẫu của thầy tính "…→3→3" thành một đường, nhóm không tính; câu trả lời ở file 10 câu 6.5.
 - **Đã kiểm:** SQLite và SQL Server LocalDB 17.0 đều chạy đủ 61 + 9 câu, có kết quả; tính lại độc lập 61 đường và 8 nút vào khớp; PDF 143 trang đã cập nhật mục lục, không có lỗi trường. Chưa đọc từng chữ cả 143 trang.
+
+## 18. Khóa có điều kiện và chứng minh 4NF (01/11/2026)
+
+Theo nhận xét Twot chuyển lại. Sao lưu: `chuong_docx/_sao_luu/truoc_sua_khoa_dk/`.
+
+- **Khóa có điều kiện:** {MaKH}, {MaNV} (TAIKHOAN), {MaHS, MaSeri} (CHITIETTRA), {SoSeri, MaDH, SoDongDH} (HANGCOSERI ban đầu) không phải khóa của toàn quan hệ. Bảng 2.36 và 2.51 chỉ ghi khóa toàn quan hệ, phần có điều kiện ghi riêng. Kiểm hai phạm vi; `analyse_all` có assert dạng chuẩn hai phạm vi bằng nhau. Dạng chuẩn 25/26 quan hệ không đổi.
+- **G4:** bỏ MaDH, SoDongDH ở PHIEUBAOHANH vì hai cột này NOT NULL.
+- **4NF:** không chỉ hạ câu kết luận mà chứng minh: mệnh đề ở 2.3.8, 21 quan hệ khóa đơn, 5 quan hệ khóa hai thuộc tính bác bỏ bằng Bảng 2.50. Giới hạn: trong phạm vi tập PTH; với khóa thay thế cần điều kiện mỗi bộ là đối tượng thật.
+
+## 19. Sửa theo nhận xét bản 145 trang (01/11/2026)
+
+Sao lưu: `chuong_docx/_sao_luu/truoc_nhan_xet_8_2/`.
+
+- **Sổ kho:** mỗi lần chuyển nhóm ghi hai dòng "Chuyển ra" và "Chuyển vào"; thêm CHECK `LoaiBienDong`; K3 tính theo quy ước này. Lý do: không phải thêm cột nhóm đích, không đổi khóa. Quy ước là giả thiết của nhóm.
+- **"Không bán được":** không phải nhóm kho; hàng đó thuộc "Chờ xử lý", lý do ghi ở `KetLuan`. Thêm CHECK `NhomSauKiemTra`.
+- **Chứng từ:** nội dung đã xác nhận không sửa, tình trạng cập nhật theo quy trình. Chưa lưu lịch sử tình trạng, ghi ở 4.3.
+- **NULL trong phân rã:** Cách 1 của PHIEUBAOHANH chỉ đúng trên phiếu có seri; HANGCOSERI dùng `LEFT JOIN` với dòng đơn.
+- **K5:** cộng tiền hoàn theo hồ sơ trước khi nối. **K9:** ngày tra cứu ở `ThamSo`. **K4:** ghi rõ chỉ lần bán gần nhất.
+- **Phụ lục:** `chuong/06_phu_luc.md`, sinh bởi `gen_chuong3.py`, in đủ 61 câu.
+- **Sơ đồ:** Hình 1.1 rộng 15,6 cm; sơ đồ nhóm "Đơn hàng, thanh toán và giao hàng" vẽ dọc để đủ cỡ chữ.
+
+## 20. Sửa theo nhận xét bản v2 (01/11/2026)
+
+- **K2, K3:** gộp theo `MaLoai`, `MaSP` vì tên không UNIQUE. **K5:** chỉ cộng khoản đã chi.
+- **Phụ lục:** ghi chú "lần bán gần nhất" ở các đường qua HANGCOSERI tới DONHANG.
+- **Chương 3:** ghi đã chạy trên cả SQLite và LocalDB 17.0. **Chương 4:** tách rõ dữ liệu seed và dữ liệu minh họa.
+- **Không làm theo:** mục lục lệch trang và nhãn PFK của `MATHANG.MaSP` đều đã kiểm là không có lỗi trên bản Word và PDF của mình.
+
+## 21. Sửa theo nhận xét bản v2(1) (01/11/2026)
+
+- **Mục 1.1:** bỏ câu "mỗi chiếc chỉ bán một lần" vì trái quy tắc bán lại; đổi thành một lần bán còn hiệu lực tại một thời điểm.
+- **K6:** tách người xác nhận tiền (`MaNV`) và người thu khi giao (`MaNVThu`).
+- **Không làm theo:** mục lục lệch trang và nhãn PFK của `MATHANG.MaSP`, kiểm lại lần hai vẫn không có lỗi trên bản Word/PDF; K2 đã ghi rõ phạm vi doanh thu ở tiêu đề.
+
+## 22. Vòng sửa cuối (01/11/2026)
+
+- **Bảng a/b:** bỏ bước trùng "b20 thành a8" ở HANGCOSERI; sửa ở `table_tableau`, nguyên nhân là cột gộp Z in một bước hai lần.
+- **K6:** thêm chức vụ của người xác nhận và người thu.
+- **Không làm theo:** bảng mục lục lệch 2 trang của người nhận xét, vì đọc bản 155 trang; trên Word và PDF 157 trang mục lục khớp.
+
+## 23. Khuyên trong đếm đường (02/11/2026)
+
+Giữ 61 đường. Q4 và câu 6.5 sửa lại: không tính khuyên thành đường là lựa chọn của nhóm, không phải do thuật toán cấm; Bài 9 có định nghĩa khuyên và mẫu của thầy có đếm `→ 3 → 3`. Nếu đếm như mẫu thì thêm 11 đường, tổng 72.
+
+## 24. Sửa sau khi đọc đủ 157 trang (02/11/2026)
+
+Sao lưu: `chuong_docx/_sao_luu/truoc_doc_157_trang/`.
+
+- **ERD:** thêm mối kết hợp "Trả chiếc" CHITIETTRA – HANGCOSERI, tổng 38 mối kết hợp thường; Bảng 1.1 và Hình 1.6 cập nhật. Hình 1.1 giữ bố cục cũ để chữ đọc được và ghi rõ liên kết này vẽ ở Hình 1.6.
+- **Mâu thuẫn:** Hình 2.19 ghi hai dòng khi chuyển nhóm; "báo cáo lãi lỗ" nằm ngoài phạm vi thay cho "thống kê doanh thu"; khách đặt từ xa luôn có hồ sơ; mỗi lần tiếp nhận bảo hành đều lập phiếu, phiếu từ chối không có ngày hẹn (`NgayHenTra` cho phép rỗng); đổi trả 48 giờ tính từ khi nhận, 7 và 30 ngày tính từ ngày mua.
+- **Bổ sung:** đánh giá theo ba tiêu chuẩn của giáo trình ở 2.3.9; ghi chú nối trong với cung (0,-,1) ở 3.3.1; thu ngân xác nhận tiền tại quầy; đơn hủy sau 3 lần giao thì hàng về nhóm chờ kiểm tra và chiếc hàng bỏ ghi dòng đơn.
+- **Khóa có điều kiện:** khối dạng chuẩn dùng khóa của toàn quan hệ.
+- **Rút gọn:** Bảng tổ hợp trên 16 dòng chỉ ghi các dòng khóa; kiểm tra bảo toàn PTH gộp theo vế trái. Script thử mệnh đề 4NF: `tools/kiem_menh_de_4nf.py`.
+
+## 25. Đối chiếu DDL sau khi khôi phục `database/` (02/11/2026)
+
+- Số liệu 4NF tính lại từ `data.seed.sql` khớp: 120 mặt hàng, 310 ảnh, 1.228 thông số, 3.256 và 1.538 dòng.
+- Theo `UX_Brands_Name`, `UX_Suppliers_Name`: {TenTH} và {TenNCC} là khóa ứng viên, thêm UNIQUE, thêm vào G5. LOAIHANG giữ "có thể trùng tên" vì DDL không có UNIQUE trên tên loại.
+- Thêm hai bảng tổ hợp nên số bảng dịch: đánh giá ban đầu là Bảng 2.38, bác bỏ đa trị là Bảng 2.52, dạng chuẩn trước sau là Bảng 2.53.
+
+## 26. Sau khi đọc đủ 151 trang (02/11/2026)
+
+- Hình 2.6–2.9 có ô vuông vì font vẽ thiếu chỉ số dưới và ↠: `ve_luudo.py` đổi sang thẻ SUB và →→.
+- Thêm loại khách có hồ sơ chưa có tài khoản ở 1.3; sửa câu "số hiệu hoặc tên"; thêm ngoặc bao đóng; nới cột Bảng 3.2.

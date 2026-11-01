@@ -171,8 +171,23 @@ def analyse_all(R, order, compound):
         G, tr = min_cover(F, attrs)
         k = keys_ntd(attrs, G)
         nf = normal_form(attrs, G, k['keys'], compound.get(n))
-        res[n] = dict(attrs=attrs, F=F, G=G, trace=tr, keys=k, nf=nf)
+        # Phạm vi toàn quan hệ: bỏ PTH có vế trái chứa cột cho phép rỗng (G4)
+        rong = {a[0] for a in r['attrs'] if a[2] != 'NN' and a[0] not in r['pk']}
+        Ft = [f for f in F if not f[0] & rong]
+        Gt, _ = min_cover(Ft, attrs)
+        kt = keys_ntd(attrs, Gt)['keys']
+        nft = normal_form(attrs, Gt, kt, compound.get(n))
+        assert nft['nf'] == nf['nf'], n
+        res[n] = dict(attrs=attrs, F=F, G=G, trace=tr, keys=k, nf=nf, keys_toan=kt, co_dk=len(Ft) < len(F),
+                      keys_dk=[kk for kk in k['keys'] if kk not in kt])
     return res
+
+
+def khoa_str(x):
+    s = '; '.join(set_str(k) for k in x['keys_toan'])
+    if x['keys_dk']:
+        s += ' (có điều kiện: ' + '; '.join(set_str(k) for k in x['keys_dk']) + ')'
+    return s
 
 
 def fd_reason(n, L, R):
@@ -206,7 +221,7 @@ def sec_22(res):
       'khóa và dạng chuẩn); lời giải trong báo cáo vẫn trình bày từng bước.')
     w()
     w('Phụ thuộc hàm rút từ tân từ và quy tắc nghiệp vụ, **không** rút từ dữ liệu mẫu (dữ liệu mẫu không chứng minh được một PTH). '
-      'Cột F chỉ ghi các PTH không hiển nhiên. Các giả thiết nghiệp vụ nhóm tự đặt:')
+      'Tập F chỉ ghi các PTH không hiển nhiên. Các giả thiết nghiệp vụ nhóm tự đặt:')
     w()
     for k, t in noidung.GIA_THIET:
         w(f'- **{k}**: {t}')
@@ -215,22 +230,31 @@ def sec_22(res):
       'thuộc bắc cầu vào khóa (hay với mọi PTH không hiển nhiên X → A, X là siêu khóa hoặc A là thuộc tính khóa); BCNF (BCK) mọi PTH '
       'không hiển nhiên có vế trái chứa khóa. Mọi khóa ứng viên đều được xét, không chỉ khóa chính.')
     w()
+    dk = [n for n in ORD if res[n]['co_dk']]
+    w('**Phạm vi của G4.** Khóa ứng viên phải xác định duy nhất bộ trên mọi thể hiện hợp lệ của toàn quan hệ. Vì vậy một tập thuộc tính chỉ duy nhất trên những bộ khác rỗng '
+      '(như MaKH của TAIKHOAN) là **ràng buộc duy nhất có điều kiện**, không phải khóa ứng viên; khi cài đặt, nó là UNIQUE có điều kiện `WHERE ... IS NOT NULL`. '
+      'Báo cáo kiểm ' + ', '.join(dk) + ' ở hai phạm vi: (a) **toàn quan hệ**, chỉ dùng PTH có vế trái không rỗng, cho khóa của toàn quan hệ; (b) **trên các bộ khác rỗng**, '
+      'dùng thêm PTH có điều kiện để phát hiện dư thừa. Phép tính từng bước ở các mục sau trình bày phạm vi (b) vì đủ PTH hơn, và ghi rõ dòng nào là khóa có điều kiện. '
+      'Cả ' + str(len(dk)) + ' quan hệ này có dạng chuẩn như nhau ở hai phạm vi, nên kết luận dạng chuẩn không dựa vào khóa có điều kiện.')
+    w()
     for i, n in enumerate(ORD, 1):
         quan_he_block(i, n, res[n])
     # đánh giá
     w(f'### 2.2.{len(ORD) + 2} Đánh giá lược đồ ban đầu')
     w()
-    w('| STT | Quan hệ | Khóa (mọi khóa ứng viên) | Dạng chuẩn |')
+    w('| STT | Quan hệ | Khóa của toàn quan hệ | Dạng chuẩn |')
     w('|---|---|---|---|')
     cnt = {}
     for i, n in enumerate(ORD, 1):
         x = res[n]
-        ks = '; '.join('{' + ', '.join(k) + '}' for k in x['keys']['keys'])
+        ks = khoa_str(x)
         nm = NF_NAME[x['nf']['nf']]
         cnt[nm] = cnt.get(nm, 0) + 1
         w(f'| {i} | {n} | {ks} | {nm} |')
     w()
     w(f'*Bảng 2.2: Đánh giá dạng chuẩn của {len(ORD)} quan hệ ban đầu*')
+    w()
+    w('Phần “có điều kiện” là ràng buộc duy nhất trên các bộ khác rỗng (G4), không phải khóa của toàn quan hệ.')
     w()
     lowest = min(x['nf']['nf'] for x in res.values())
     w(f'Thống kê: {", ".join(f"{k}: {v} quan hệ" for k, v in sorted(cnt.items(), key=lambda kv: kv[0]))}. Dạng chuẩn của cả lược đồ '
@@ -305,23 +329,39 @@ def quan_he_block(i, n, x):
         cl = sorted(closure(set(k['N']), G), key=attrs.index)
         w(f'{set_str(k["N"])}⁺ = {set_str(cl)} = Q⁺. Vậy khóa duy nhất là {set_str(k["N"])}.')
     else:
-        w('Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):')
+        gon = len(k['rows']) > 16
+        if gon:
+            sk = sum(1 for row in k['rows'] if row[3] == 'siêu khóa')
+            kh = sum(1 for row in k['rows'] if row[3] == 'không')
+            w(f'Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG). TG có {len(k["TG"])} thuộc tính nên có {len(k["rows"])} tổ hợp; '
+              f'đã tính đủ bao đóng, trong đó {kh} tổ hợp có Kᵢ⁺ ≠ Q⁺ và {sk} tổ hợp là siêu khóa vì chứa một khóa. Bảng chỉ ghi các tổ hợp là khóa:')
+        else:
+            w('Bảng tổ hợp (Kᵢ = N ∪ Mᵢ với Mᵢ là tập con của TG):')
         w()
         w('| Mᵢ | Kᵢ | Kᵢ⁺ | Kết luận |')
         w('|---|---|---|---|')
         for c, K, cl, st in k['rows']:
+            if gon and st != 'khóa':
+                continue
             shown = 'Q⁺' if set(cl) == U_ else set_str(cl)
+            if K in x['keys_dk']:
+                st = 'khóa có điều kiện (G4)'
             w(f'| {set_str(c) if c else "∅"} | {set_str(K) if K else "∅"} | {shown} | {st} |')
         w()
-        w('Các khóa: ' + '; '.join(set_str(kk) for kk in k['keys']) + '.')
+        w('Các khóa: ' + '; '.join(set_str(kk) for kk in x['keys_toan']) + '.')
+        if x['keys_dk']:
+            w('Khóa có điều kiện: ' + '; '.join(set_str(kk) for kk in x['keys_dk']) + '; chỉ có hiệu lực trên các bộ khác rỗng ở cột cho phép rỗng (G4), không phải khóa của toàn quan hệ.')
     w()
     nf_block(n, x)
+    if x['co_dk']:
+        w(f'Kiểm tra ở phạm vi toàn quan hệ (không dùng PTH có điều kiện, khóa {"; ".join(set_str(kk) for kk in x["keys_toan"])}): dạng chuẩn không đổi, vẫn là {NF_NAME[x["nf"]["nf"]]}.')
+        w()
 
 
 def nf_block(n, x):
     attrs, G, k, nfd = x['attrs'], x['G'], x['keys'], x['nf']
     r = REL[n]
-    keys = k['keys']
+    keys = x['keys_toan']
     w('**Xác định dạng chuẩn:**')
     w()
     comp = COMPOUND.get(n)
@@ -330,7 +370,7 @@ def nf_block(n, x):
           'từng phần của giá trị. Các mức sau xét trên các PTH đã cho, coi như họ tên đã được tách (mục 2.3.2).')
     else:
         w('- Đạt dạng chuẩn 1 vì mọi thuộc tính của ' + n + ' đều là thuộc tính đơn.')
-    nonp = nfd['nonprime']
+    nonp = [a for a in attrs if not any(a in kk for kk in keys)]
     if nfd['partial']:
         sub, kk, got = nfd['partial'][0]
         w(f'- Không đạt dạng chuẩn 2 vì thuộc tính không khóa {", ".join(got)} phụ thuộc vào {set_str(sub)}, là một phần của khóa {set_str(kk)}.')
@@ -366,7 +406,7 @@ def nf_block(n, x):
         return
     w('- Đạt dạng chuẩn 3 vì không có thuộc tính không khóa nào phụ thuộc bắc cầu vào khóa.')
     lhs = sorted({tuple(sorted(L, key=attrs.index)) for L, _ in G}, key=lambda t: attrs.index(t[0]))
-    w(f'- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: ' + '; '.join(set_str(t) for t in lhs) + '.')
+    w(f'- Đạt BCNF vì mọi PTH không hiển nhiên đều có vế trái chứa khóa: ' + '; '.join(set_str(t) + (' (khóa có điều kiện, trên các bộ khác rỗng)' if t in x['keys_dk'] else '') for t in lhs) + '.')
     w(f'- Kết luận: **{n} đạt dạng chuẩn {"BCNF" if not comp else "BCNF (khi họ tên đã tách)"}**' +
       (' nhưng chưa đạt dạng chuẩn 1.' if comp else '.'))
     w()
@@ -450,7 +490,7 @@ def table_tableau(U_, comps, F, steps_text=True, groupable=None):
     seen_pairs = set()
     for i, j, Lh, y, old, new in steps:
         nm, ci = colname[y]
-        key = (i, j, Lh, nm, old)
+        key = (i, j, Lh, nm)  # cột gộp Z có nhiều thuộc tính nhưng chỉ in một bước
         if key in seen_pairs:
             continue
         seen_pairs.add(key)
@@ -473,7 +513,7 @@ def decomp_block(title, rel, G, comps, notes=None, with_tableau=True):
         Fi = project(G, Q, attrs)
         qs = ', '.join(L[a] for a in sorted(Q, key=attrs.index))
         qn = ', '.join(sorted(Q, key=attrs.index))
-        fs = '; '.join(fmt_fd(f, attrs) for f in Fi) if Fi else '∅'
+        fs = grouped(Fi, attrs) if Fi else '∅'
         w(f'- **{nm}**({qn}): F = {{{fs}}}')
     w()
     t1, stext, t2, ok, ngroup = table_tableau(attrs, comps, G)
@@ -499,16 +539,23 @@ def decomp_block(title, rel, G, comps, notes=None, with_tableau=True):
     w()
     w(('Có một dòng chứa toàn ký hiệu a → **bảo toàn thông tin**.' if ok else 'Không có dòng nào chứa toàn ký hiệu a → **không bảo toàn thông tin**.'))
     w()
-    w('Kiểm tra **bảo toàn PTH** (cách của bài giảng): F\' = ∪Fᵢ = {' + '; '.join(fmt_fd(f, attrs) for f in Fp) + '}.')
+    w('Kiểm tra **bảo toàn PTH** (cách của bài giảng): F\' = ∪Fᵢ = {' + grouped(Fp, attrs) + '}.')
     w()
     w('- (1) Mọi f\' ∈ F\' \\ F đều thuộc F⁺ vì mỗi Fᵢ là PTH chiếu từ F⁺.')
     w('- (2) Mọi f ∈ F \\ F\' phải thuộc F\'⁺. Kiểm tra từng PTH của F bằng bao đóng theo F\':')
+    theo_trai = {}
     for Lh, Rh in G:
-        for a in Rh:
-            cl = closure(Lh, Fp)
-            okf = a in cl
-            lh = ','.join(sorted(Lh, key=attrs.index))
-            w(f'  - {lh} → {a}: ({lh})⁺_F\' = {set_str(sorted(cl, key=attrs.index))} {"∋" if okf else "∌"} {a} → {"thỏa" if okf else "**không thỏa**"}.')
+        theo_trai.setdefault(Lh, []).extend(sorted(Rh, key=attrs.index))
+    for Lh, Rhs in theo_trai.items():
+        cl = closure(Lh, Fp)
+        lh = ','.join(sorted(Lh, key=attrs.index))
+        bd = 'Q⁺' if set(cl) == set(attrs) else set_str(sorted(cl, key=attrs.index))
+        co = [a for a in Rhs if a in cl]
+        if co:
+            w(f'  - {lh} → {{{", ".join(co)}}}: ({lh})⁺_F\' = {bd} chứa các thuộc tính vế phải → thỏa.')
+        for a in Rhs:
+            if a not in cl:
+                w(f'  - {lh} → {a}: ({lh})⁺_F\' = {bd} ∌ {a} → **không thỏa**.')
     w()
     okp = not lost
     w(('**Kết luận: bảo toàn PTH** (thỏa (1) và (2)).' if okp else
@@ -522,7 +569,7 @@ def decomp_block(title, rel, G, comps, notes=None, with_tableau=True):
         kk = keys_ntd(Qs, Fi)
         nf = normal_form(Qs, Fi, kk['keys'])
         nfs.append(f'{nm}: {NF_NAME[nf["nf"]]} (khóa ' + ', '.join(set_str(x) for x in kk['keys']) + ')')
-    w('Dạng chuẩn các quan hệ con: ' + '; '.join(nfs) + '.')
+    w('Dạng chuẩn các quan hệ con: ' + '; '.join(nfs).replace('{MaHS, SoDongTra}, {MaHS, MaSeri}', '{MaHS, SoDongTra}; khóa có điều kiện {MaHS, MaSeri}').replace(', {SoSeri, MaDH, SoDongDH}', '; khóa có điều kiện {SoSeri, MaDH, SoDongDH}') + '.')
     w()
     return ok, okp
 
@@ -568,7 +615,7 @@ def sec_23(res):
     w()
     w('Ánh xạ chữ cái: ' + ', '.join(f'{Lc[a]} = {a}' for a in attrs_ct) + '.')
     G = res['CHITIETTRA']['G']
-    w(f'F (phủ tối thiểu G): ' + '; '.join(fmt_fd(f, attrs_ct) for f in G) + '. Các khóa: ' + '; '.join(set_str(k) for k in res['CHITIETTRA']['keys']['keys']) + ' (khóa thứ hai chỉ xét trên dòng trả có số seri, giả thiết G4). '
+    w(f'F (phủ tối thiểu G): ' + '; '.join(fmt_fd(f, attrs_ct) for f in G) + '. Khóa: ' + '; '.join(set_str(k) for k in res['CHITIETTRA']['keys_toan']) + '; khóa có điều kiện trên dòng trả có số seri: ' + '; '.join(set_str(k) for k in res['CHITIETTRA']['keys_dk']) + ' (G4). '
       'Vi phạm: MaHS → MaDH có vế trái là một phần của khóa nên MaDH phụ thuộc bộ phận (chưa đạt 2NF).')
     w()
     w('**Phân rã theo thuật toán.** B1: loại khỏi F PTH có VT ∪ VP = Q⁺ (PTH của khóa chính MaHS,SoDongTra → SoDongDH,MaDH,SoLuongTra,MaSeri); '
@@ -594,6 +641,9 @@ def sec_23(res):
     w()
     c1 = {'Q1': {'MaSeri', 'MaSP'}, 'Q2': set(attrs_bh) - {'MaSP'}}
     decomp_block('Phép tách PHIEUBAOHANH bằng phân rã', 'PHIEUBAOHANH', Gb, c1)
+    w('**Giới hạn của Cách 1.** MaSeri → MaSP là PTH có điều kiện (G4), nên chứng minh trên chỉ đúng với các phiếu có số seri. Phiếu của hàng không theo dõi seri có MaSeri rỗng: '
+      'Q₁ không giữ được MaSP của các phiếu này và phép nối trong làm mất chúng. Vì vậy Cách 1 không dùng làm lược đồ cuối.')
+    w()
     w('**Cách 2: thuật toán tổng hợp cải tiến.** B1: phủ tối thiểu G như trên. B2: nhóm theo vế trái: F₁ (MaPhieuBH), F₂ (MaDH, SoDongDH), '
       'F₃ (MaSeri). B3: không có hai vế trái phụ thuộc lẫn nhau. B4: R₁ gồm MaPhieuBH và các thuộc tính phụ thuộc vào nó (trừ MaSP); '
       'R₂{MaDH, SoDongDH, MaSP}; R₃{MaSeri, MaSP}. B5–B6: khóa MaPhieuBH nằm trong R₁ nên không thêm quan hệ.')
@@ -602,7 +652,8 @@ def sec_23(res):
     decomp_block('Phép tách PHIEUBAOHANH bằng tổng hợp', 'PHIEUBAOHANH', Gb, c2)
     w('**Lựa chọn.** Tổng hợp bảo toàn cả thông tin và PTH. Trong cơ sở dữ liệu, R₂ là một phép chiếu của CHITIETDONHANG '
       'và R₃ nằm trong SERIMATHANG (mục 2.3.5), nên không tạo quan hệ mới: chỉ có R₁ thay PHIEUBAOHANH, tức **bỏ cột MaSP**. Tên hàng lấy '
-      'bằng phép nối với CHITIETDONHANG theo (MaDH, SoDongDH). **PHIEUBAOHANH nâng từ 2NF lên BCNF.**')
+      'bằng phép nối với CHITIETDONHANG theo (MaDH, SoDongDH); hai cột này không rỗng nên phiếu nào cũng lấy được mặt hàng, và PTH (MaDH, SoDongDH) → MaSP dùng được trên toàn quan hệ. '
+      'Chỉ R₃ có điều kiện: khi ghép thông tin chiếc hàng phải dùng phép nối ngoài (`LEFT JOIN`) để giữ phiếu có MaSeri rỗng. **PHIEUBAOHANH nâng từ 2NF lên BCNF.**')
     w()
     fig('phan_ra_phieubaohanh', 'Hình 2.2: Phân rã PHIEUBAOHANH: bỏ cột MaSP suy ra được')
     # --- HANGCOSERI
@@ -613,7 +664,7 @@ def sec_23(res):
     w()
     w('Ánh xạ chữ cái: ' + ', '.join(f'{Lh[a]} = {a}' for a in attrs_hs) + '.')
     w('F (phủ tối thiểu G): ' + grouped(Gh, attrs_hs, limit=0) + '. Các khóa: ' +
-      '; '.join(set_str(kk) for kk in res['HANGCOSERI']['keys']['keys']) + '. Đang ở 3NF vì MaSP là thuộc tính khóa (thuộc khóa {SoSeri, MaSP}); '
+      khoa_str(res['HANGCOSERI']) + '. Đang ở 3NF vì MaSP là thuộc tính khóa (thuộc khóa {SoSeri, MaSP}); '
       'vi phạm BCNF: (MaPN, SoDongPN) → MaSP và (MaDH, SoDongDH) → MaSP có vế trái không chứa khóa.')
     w()
     w('**Cách 1: thuật toán phân rã.** B1: loại PTH của khóa chính (VT ∪ VP = Q⁺); còn F* = {MaSP,SoSeri → MaSeri; MaPN,SoDongPN → MaSP; MaDH,SoDongDH → MaSP} ≠ ∅. B2: chọn **MaPN,SoDongPN → MaSP** (vế trái không chứa khóa). Tách Q₁{MaPN, SoDongPN, MaSP} và Q₂ = Q⁺ \\ {MaSP}; Q₂ có mọi vế trái PTH là khóa nên dừng.')
@@ -644,7 +695,12 @@ def sec_23(res):
     w('| Tổng hợp | 3NF | có | có | không | Trả lại đúng Q |')
     w('| **C: bốn thành phần** | **BCNF** | **có** | **có** | **SERIMATHANG** | Cần ràng buộc nhất quán MaSP (mục 2.3.6) |')
     w()
+    w('*Bảng 2.91: So sánh các phương án tách HANGCOSERI*')
+    w()
     w('**Chọn phương án C**, vì giữ quy tắc “seri duy nhất theo mặt hàng” (G1), đạt BCNF và không mất PTH. **HANGCOSERI nâng từ 3NF lên BCNF.**')
+    w()
+    w('**Lưu ý về NULL.** Q₃ và Q₄ nối theo MaSeri, Q₁ theo (MaPN, SoDongPN); các cột này không rỗng nên đúng với mọi chiếc hàng. Riêng (MaDH, SoDongDH) → MaSP là PTH có điều kiện: chiếc chưa bán có hai cột này rỗng, '
+      'nên khi nối HANGCOSERI với dòng đơn phải dùng `LEFT JOIN` (như K4 ở chương 3); nối trong sẽ làm mất chiếc chưa bán.')
     w()
     fig('phan_ra_hangcoseri', 'Hình 2.3: Phân rã HANGCOSERI thành bốn thành phần (phương án C)')
     sec_236(res)
@@ -677,7 +733,7 @@ def sec_236(res):
     w()
     w('5. TAIKHOAN: đúng một trong hai cột MaKH, MaNV có giá trị.')
     w('6. Người thực hiện một khâu phải có chức vụ phù hợp (NHANVIEN.ChucVu): duyệt hoàn tiền (KHOANHOAN.MaNV) và duyệt chuyển nhóm '
-      'hàng nhận lại (LANNHANLAI.MaNVDuyet) là Quản lý; chi tiền hoàn (MaNVChi) là Thu ngân; thu tiền khi giao (THANHTOAN.MaNVThu) là Giao hàng; xác nhận phiếu nhập '
+      'hàng nhận lại (LANNHANLAI.MaNVDuyet) là Quản lý; chi tiền hoàn (MaNVChi) là Thu ngân; xác nhận thu (THANHTOAN.MaNV) là Thu ngân, Bán hàng hoặc Quản lý; thu tiền khi giao (THANHTOAN.MaNVThu) là Giao hàng; xác nhận phiếu nhập '
       '(PHIEUNHAP.MaNVXacNhan) là Kho; tạo mã giảm giá (MAGIAMGIA.MaNV) là Bán hàng hoặc Quản lý.')
     w('7. Đơn có KenhBan khác "Trang web" phải có MaNV; khách chỉ tự hủy được đơn còn "Chờ xác nhận".')
     w()
@@ -704,7 +760,7 @@ def sec_236(res):
     w('| PHIEUBAOHANH | MaSP lặp ở mỗi phiếu của cùng dòng đơn hoặc cùng chiếc | **Cập nhật:** đổi mặt hàng của dòng đơn mà không sửa phiếu. **Thêm:** phiếu ghi MaSP không khớp dòng mua gốc | MaSP chỉ ở CHITIETDONHANG và SERIMATHANG | Một phép nối với CHITIETDONHANG |')
     w('| HANGCOSERI | MaSP lặp ở mỗi chiếc của cùng dòng nhập; SoSeri gắn MaSP | **Cập nhật:** sửa mặt hàng của dòng nhập mà sót chiếc. **Thêm:** nhập chiếc có MaSP khác MaSP của dòng nhập | MaSP của chiếc chỉ ở SERIMATHANG; khóa {MaSP, SoSeri} được cưỡng chế bằng UNIQUE | Thêm một quan hệ và một phép nối; phải kiểm soát ràng buộc nhất quán 1 |')
     w()
-    w('**Nhận xét trung thực.** Với CHITIETTRA và PHIEUBAOHANH, cải tiến loại hẳn dữ liệu thừa. Với HANGCOSERI, cải tiến đưa lược đồ về '
+    w('**Nhận xét.** Với CHITIETTRA và PHIEUBAOHANH, cải tiến loại hẳn dữ liệu thừa. Với HANGCOSERI, cải tiến đưa lược đồ về '
       'BCNF nhưng lượng MaSP lưu không giảm (mỗi chiếc vẫn có một MaSP ở SERIMATHANG); lợi ích là mỗi quan hệ không còn PTH vi phạm và '
       'khóa {MaSP, SoSeri} được cưỡng chế, còn tính nhất quán liên quan hệ do ràng buộc ở 2.3.6 bảo đảm. Chưa đo hiệu năng: thêm một phép nối '
       'có thể làm truy vấn chậm hơn hoặc không, cần đo trên dữ liệu thật.')
@@ -744,31 +800,69 @@ def sec_4nf():
     w('| M (lưu chung, mỗi dòng một cặp ảnh – thông số) | **3.256** (tổng ảnh × thông số theo từng mặt hàng) |')
     w('| ANHMATHANG và GIATRITHONGSO (tách) | **1.538** = 310 ảnh + 1.228 thông số |')
     w()
+    w('*Bảng 2.92: Số dòng khi lưu chung và khi tách ảnh, thông số*')
+    w()
     w('Lưu chung nhiều dòng hơn khoảng 2,1 lần chỉ để lặp lại cùng thông tin. Dị thường thêm: thêm một ảnh thứ tư cho một mặt hàng đang có '
       '3 thông số buộc thêm 3 dòng ở dạng chung nhưng chỉ 1 dòng ở dạng tách.')
     w()
-    w('**Các quan hệ còn lại.** Theo mô tả nghiệp vụ, mỗi quan hệ còn lại chỉ chứa **một** tập giá trị của đối tượng chính (dòng chi tiết, lần giao, '
-      'lần nhận lại… đã tách thành quan hệ riêng), nên không chứa hai tập độc lập và không có phụ thuộc đa trị không hiển nhiên ngoài PTH. '
-      'Kết luận này dựa trên mô tả nghiệp vụ, **chưa chứng minh tổng quát** (không thể chứng minh bằng dữ liệu mẫu).')
+    r4 = analyse_all(IMP, ORDI, {})
+    don = [n for n in ORDI if any(len(k) == 1 for k in r4[n]['keys_toan'])]
+    ghep = [n for n in ORDI if n not in don]
+    assert ghep == ['GIATRITHONGSO', 'CHITIETDONHANG', 'LANGIAO', 'CHITIETPHIEUNHAP', 'CHITIETTRA']
+    assert all(len(k) == 2 for n in ghep for k in r4[n]['keys_toan'])
+    w('**Toàn bộ lược đồ.** Tách đúng một tình huống không nói gì về các quan hệ khác, nên phần này chứng minh riêng cho cả ' + str(len(ORDI)) + ' quan hệ, chỉ dùng khóa của toàn quan hệ (không dùng khóa có điều kiện).')
+    w()
+    w('*Mệnh đề.* Cho Q đạt BCNF, X ↠ Y không hiển nhiên (Y ≠ ∅, Z = Q⁺ \\ XY ≠ ∅) và X không là siêu khóa. Khi đó mọi khóa của Q đều có thuộc tính nằm trong Y và có thuộc tính nằm trong Z.')
+    w()
+    w('*Chứng minh.* Giả sử khóa K không có thuộc tính trong Z, tức XY ⊃ K. Lấy hai bộ t₁, t₂ cùng giá trị trên X. Theo X ↠ Y có bộ t₃ cùng X, lấy Y của t₁ và Z của t₂. '
+      'Bộ t₃ trùng t₁ trên XY nên trùng trên K, do đó t₃ = t₁, suy ra t₁[Z] = t₂[Z]. Vậy X → Z. Đây là PTH không hiển nhiên nên theo BCNF, X là siêu khóa: mâu thuẫn. '
+      'Trường hợp K không có thuộc tính trong Y làm tương tự, vì X ↠ Y kéo theo X ↠ Z. ∎')
+    w()
+    w('Phép chứng minh chỉ dùng định nghĩa nên không phụ thuộc dữ liệu. Nhóm thử thêm mệnh đề bằng chương trình trên các quan hệ ngẫu nhiên, không gặp phản ví dụ. Kết quả cùng hướng với điều kiện khóa đơn của Date và Fagin (1992).')
+    w()
+    w(f'*Trường hợp 1: {len(don)} quan hệ có khóa một thuộc tính* (' + ', '.join(don) + '). Một thuộc tính không thể nằm ở cả Y và Z, nên theo mệnh đề không tồn tại phụ thuộc đa trị không hiển nhiên có X không là siêu khóa. '
+      'Vậy các quan hệ này đạt 4NF.')
+    w()
+    w('Điều kiện của trường hợp này: mã phải định danh một đối tượng thật. Nếu gắn mã số dòng vào quan hệ M ở trên thì mệnh đề vẫn đúng về hình thức nhưng dư thừa vẫn còn, vì mã mới chỉ che phụ thuộc đa trị. '
+      'Trong lược đồ, mỗi bộ của các quan hệ này là một đối tượng hoặc một chứng từ, không phải một cặp ghép chéo: ảnh và thông số đã tách, dòng chi tiết, lần giao, lần nhận lại đều ở quan hệ riêng, các thuộc tính còn lại đơn trị theo mã.')
+    w()
+    w(f'*Trường hợp 2: {len(ghep)} quan hệ có khóa hai thuộc tính {{A, B}}.* Theo mệnh đề, nếu có phụ thuộc đa trị vi phạm thì A nằm trong Y, B nằm trong Z, nên X chỉ gồm thuộc tính không khóa (có thể rỗng). '
+      'Khi đó mọi cặp bộ trùng nhau trên tất cả cột không khóa đều bắt buộc kéo theo bộ ghép chéo (a₁, b₂, v). Phụ thuộc đa trị phải đúng trên mọi thể hiện hợp lệ, nên một thể hiện hợp lệ thiếu bộ ghép chéo là đủ bác bỏ:')
+    w()
+    w('| Quan hệ | Thể hiện hợp lệ: t₁ = (a₁, b₁, v), t₂ = (a₂, b₂, v) | Bộ bắt buộc nhưng không có |')
+    w('|---|---|---|')
+    w('| GIATRITHONGSO | Mặt hàng 1 có thông số 1, mặt hàng 2 có thông số 2, cùng giá trị “Có” | (mặt hàng 1, thông số 2): mặt hàng 1 không có thông số này |')
+    w('| CHITIETDONHANG | Đơn 1 chỉ có dòng 1; đơn 2 có hai dòng, dòng 2 cùng hàng, số lượng, giá, thời hạn với dòng 1 của đơn 1 | (đơn 1, dòng 2): đơn 1 không có dòng 2 |')
+    w('| LANGIAO | Phiếu 1 giao lần 1 thành công; phiếu 2 giao hai lần, lần 2 cùng thời điểm, người giao, kết quả với lần giao của phiếu 1 | (phiếu 1, lần 2): phiếu 1 chỉ giao một lần |')
+    w('| CHITIETPHIEUNHAP | Phiếu 1 chỉ có dòng 1; phiếu 2 có hai dòng, dòng 2 cùng hàng, số lượng, giá với dòng 1 của phiếu 1 | (phiếu 1, dòng 2): phiếu 1 không có dòng 2 |')
+    w('| CHITIETTRA | Hồ sơ 1 chỉ có dòng 1 trả chiếc S; chiếc S được bán lại và trả tiếp ở dòng 2 của hồ sơ 2, cùng số dòng đơn, số lượng | (hồ sơ 1, dòng 2): hồ sơ 1 không có dòng 2 |')
+    w()
+    w('*Bảng 2.3: Thể hiện hợp lệ bác bỏ phụ thuộc đa trị ở năm quan hệ khóa hai thuộc tính*')
+    w()
+    w('**Kết luận: cả ' + str(len(ORDI)) + ' quan hệ đạt 4NF.** Kết luận đúng trong phạm vi tập PTH và giả thiết nghiệp vụ đã nêu; nếu cửa hàng có thêm quy tắc làm đổi khóa hoặc lưu thêm thuộc tính đa trị thì phải kiểm lại.')
     w()
     w('### 2.3.9 Đánh giá lược đồ sau cải tiến')
     w()
     resi = analyse_all(IMP, ORDI, {})
-    w('| STT | Quan hệ | Khóa (mọi khóa ứng viên) | Trước | Sau |')
+    w('| STT | Quan hệ | Khóa của toàn quan hệ | Trước | Sau |')
     w('|---|---|---|---|---|')
     before = analyse_all(REL, ORD, COMPOUND)
     for i, n in enumerate(ORDI, 1):
         x = resi[n]
-        ks = '; '.join('{' + ', '.join(k) + '}' for k in x['keys']['keys'])
+        ks = khoa_str(x)
         b = NF_NAME[before[n]['nf']['nf']] if n in before else '—'
         w(f'| {i} | {n} | {ks} | {b} | {NF_NAME[x["nf"]["nf"]]} |')
     w()
-    w('*Bảng 2.3: Dạng chuẩn trước và sau cải tiến*')
+    w('*Bảng 2.4: Dạng chuẩn trước và sau cải tiến*')
     w()
     assert all(x['nf']['nf'] == 4 for x in resi.values())
-    w(f'**Dạng chuẩn của lược đồ sau cải tiến: BCNF** (cả {len(ORDI)} quan hệ), và đạt 4NF theo giả định độc lập ở 2.3.8. So với mục 2.2: từ **chưa đạt 1NF** '
-      'lên **BCNF/4NF**. Điều kiện đi kèm: (a) các ràng buộc nhất quán và ràng buộc trách nhiệm ở 2.3.6; (b) chọn phương án C với quy tắc “seri duy nhất theo mặt hàng” '
-      '(G1) thay cho “seri duy nhất toàn cửa hàng”; (c) họ tên tách theo quy ước G3.')
+    w(f'**Dạng chuẩn của lược đồ sau cải tiến: BCNF** (cả {len(ORDI)} quan hệ, kiểm ở cả hai phạm vi của G4) **và 4NF** theo chứng minh ở 2.3.8. So với mục 2.2: từ **chưa đạt 1NF** '
+      'lên **4NF**, trong phạm vi tập PTH đã nêu. Điều kiện đi kèm: (a) các ràng buộc nhất quán và ràng buộc trách nhiệm ở 2.3.6; (b) chọn phương án C với quy tắc “seri duy nhất theo mặt hàng” '
+      '(G1) thay cho “seri duy nhất toàn cửa hàng”; (c) họ tên tách theo quy ước G3; (d) mỗi bộ của quan hệ có khóa một thuộc tính là một đối tượng thật (2.3.8).')
+    w()
+    w('**Đánh giá theo ba tiêu chuẩn của giáo trình.** *Nhất quán:* mỗi sự kiện chỉ ghi ở một quan hệ; các ràng buộc liên quan hệ ở 2.3.6 còn phải kiểm khi ghi. '
+      '*Không trùng lắp:* đã bỏ MaDH, MaSP lưu thừa; giá, tên, SKU và thời hạn chốt trên dòng đơn là dữ liệu lịch sử có chủ ý, không phải trùng lắp. '
+      '*Dễ khai thác:* đồ thị ở chương 3 cho thấy mọi yêu cầu tra cứu đều có đường nối, đổi lại một số câu phải nối thêm quan hệ (2.3.7); chưa đo hiệu năng.')
     w()
 
 

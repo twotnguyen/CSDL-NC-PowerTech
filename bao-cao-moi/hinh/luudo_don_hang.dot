@@ -13,5 +13,5 @@ digraph G {
   d -> f [label=<Khách nhận hàng,<BR/>tiền thu đủ>,];
   a -> x [label=<Khách tự hủy<BR/>(chưa xác nhận)>,];
   d -> x [label=<3 lần giao<BR/>không thành công>,];
-  n [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Đơn trả trước phải thanh toán<BR/>trước khi được xác nhận;<BR/>người lập, thu tiền, giao hàng<BR/>ghi trên đơn, thanh toán, phiếu giao>];
+  n [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Đơn tại quầy hoàn tất ngay khi bán.<BR/>Đơn trả trước phải thanh toán<BR/>trước khi được xác nhận;<BR/>người lập, thu tiền, giao hàng<BR/>ghi trên đơn, thanh toán, phiếu giao>];
 }

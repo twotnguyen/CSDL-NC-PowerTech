@@ -131,25 +131,24 @@ WHERE kh.SDTKH = '0900000001'
 ORDER BY dh.ThoiDiemLap, ct.SoDongDH;"""),
     ('K2', 'Doanh thu tiền hàng theo loại hàng trong tháng 10/2026 (không tính đơn đã hủy, chưa trừ giảm giá và hoàn tiền)',
      'CHITIETDONHANG → DONHANG; CHITIETDONHANG → MATHANG → LOAIHANG',
-     """SELECT lh.TenLoai, SUM(ct.SoLuongBan * ct.DonGiaChot) AS DoanhThuTienHang
+     """SELECT lh.MaLoai, lh.TenLoai, SUM(ct.SoLuongBan * ct.DonGiaChot) AS DoanhThuTienHang
 FROM CHITIETDONHANG ct
 JOIN DONHANG dh ON dh.MaDH = ct.MaDH
 JOIN MATHANG mh ON mh.MaSP = ct.MaSP
 JOIN LOAIHANG lh ON lh.MaLoai = mh.MaLoai
 WHERE dh.TinhTrangDH <> 'Đã hủy'
   AND dh.ThoiDiemLap >= '2026-10-01' AND dh.ThoiDiemLap < '2026-11-01'
-GROUP BY lh.TenLoai
+GROUP BY lh.MaLoai, lh.TenLoai
 ORDER BY DoanhThuTienHang DESC;"""),
     ('K3', 'Số lượng hàng trong kho theo mặt hàng và nhóm kho, tính từ giao dịch kho',
      'GIAODICHKHO → MATHANG',
-     """SELECT mh.TenSP, gd.NhomKho,
-       SUM(CASE WHEN gd.LoaiBienDong IN ('Nhập', 'Nhận lại') THEN gd.SoLuongGD
-                WHEN gd.LoaiBienDong = 'Xuất bán' THEN -gd.SoLuongGD
-                ELSE 0 END) AS SoLuong
+     """SELECT mh.MaSP, mh.TenSP, gd.NhomKho,
+       SUM(CASE WHEN gd.LoaiBienDong IN ('Nhập', 'Nhận lại', 'Chuyển vào') THEN gd.SoLuongGD
+                ELSE -gd.SoLuongGD END) AS SoLuong
 FROM GIAODICHKHO gd
 JOIN MATHANG mh ON mh.MaSP = gd.MaSP
-GROUP BY mh.TenSP, gd.NhomKho
-ORDER BY mh.TenSP, gd.NhomKho;"""),
+GROUP BY mh.MaSP, mh.TenSP, gd.NhomKho
+ORDER BY mh.MaSP, gd.NhomKho;"""),
     ('K4', 'Truy vết một chiếc hàng theo số seri: nhập từ đâu, lần bán gần nhất cho ai',
      'SERIMATHANG ⇒ HANGCOSERI → CHITIETPHIEUNHAP → PHIEUNHAP → NHACUNGCAP; HANGCOSERI → CHITIETDONHANG → DONHANG → KHACHHANG',
      """SELECT sm.SoSeri, mh.TenSP, pn.SoPhieu, nc.TenNCC, dh.SoDH, kh.HoLotKH, kh.TenKH
@@ -163,23 +162,28 @@ LEFT JOIN CHITIETDONHANG ct ON ct.MaDH = hs.MaDH AND ct.SoDongDH = hs.SoDongDH
 LEFT JOIN DONHANG dh ON dh.MaDH = ct.MaDH
 LEFT JOIN KHACHHANG kh ON kh.MaKH = dh.MaKH
 WHERE sm.MaSP = 2 AND sm.SoSeri = 'S1T-0001';"""),
-    ('K5', 'Hồ sơ đổi trả của một đơn kèm số tiền đã hoàn',
-     'HOSODOITRA ⇒ CHITIETTRA; HOSODOITRA ⇒ KHOANHOAN → THANHTOAN',
-     """SELECT hd.MaHS, hd.LoaiTruongHop, ct.SoDongDH, ct.SoLuongTra, kc.SoTienHoan, tt.SoTien AS SoTienDaThu
+    ('K5', 'Các dòng trả của từng hồ sơ đổi trả trong một đơn, kèm tổng tiền đã chi hoàn của hồ sơ',
+     'HOSODOITRA ⇒ CHITIETTRA; HOSODOITRA ⇒ KHOANHOAN',
+     """SELECT hd.MaHS, hd.LoaiTruongHop, ct.SoDongTra, ct.SoDongDH, ct.SoLuongTra, h.TongHoan
 FROM HOSODOITRA hd
 JOIN CHITIETTRA ct ON ct.MaHS = hd.MaHS
-LEFT JOIN KHOANHOAN kc ON kc.MaHS = hd.MaHS
-LEFT JOIN THANHTOAN tt ON tt.MaTT = kc.MaTT
-WHERE hd.MaDH = 2;"""),
-    ('K6', 'Ai đã lập đơn, thu tiền và giao một đơn hàng, và người đó có chức vụ gì (truy trách nhiệm)',
-     'DONHANG → NHANVIEN (lập); DONHANG ⇐ THANHTOAN → NHANVIEN (xác nhận thu); DONHANG ⇐ PHIEUGIAO → NHANVIEN (giao)',
+LEFT JOIN (SELECT MaHS, SUM(SoTienHoan) AS TongHoan
+           FROM KHOANHOAN
+           WHERE MaHS IS NOT NULL AND ThoiDiemChi IS NOT NULL
+           GROUP BY MaHS) h ON h.MaHS = hd.MaHS
+WHERE hd.MaDH = 2
+ORDER BY hd.MaHS, ct.SoDongTra;"""),
+    ('K6', 'Ai đã lập đơn, xác nhận tiền, thu tiền khi giao và giao một đơn hàng, và người đó có chức vụ gì (truy trách nhiệm)',
+     'DONHANG → NHANVIEN (lập); DONHANG ⇐ THANHTOAN → NHANVIEN (xác nhận tiền, cột MaNV; thu khi giao, cột MaNVThu); DONHANG ⇐ PHIEUGIAO → NHANVIEN (giao)',
      """SELECT dh.SoDH, nl.HoLotNV AS HoLotNguoiLap, nl.TenNV AS TenNguoiLap, nl.ChucVu AS ChucVuNguoiLap,
-       tt.MaTT, tt.PhuongThuc, nt.HoLotNV AS HoLotNguoiThu, nt.TenNV AS TenNguoiThu,
+       tt.MaTT, tt.PhuongThuc, nx.HoLotNV AS HoLotNguoiXacNhan, nx.TenNV AS TenNguoiXacNhan, nx.ChucVu AS ChucVuNguoiXacNhan,
+       nt.HoLotNV AS HoLotNguoiThu, nt.TenNV AS TenNguoiThu, nt.ChucVu AS ChucVuNguoiThu,
        pg.MaGiao, ng.HoLotNV AS HoLotNguoiGiao, ng.TenNV AS TenNguoiGiao, ng.ChucVu AS ChucVuNguoiGiao
 FROM DONHANG dh
 LEFT JOIN NHANVIEN nl ON nl.MaNV = dh.MaNV
 LEFT JOIN THANHTOAN tt ON tt.MaDH = dh.MaDH
-LEFT JOIN NHANVIEN nt ON nt.MaNV = tt.MaNV
+LEFT JOIN NHANVIEN nx ON nx.MaNV = tt.MaNV
+LEFT JOIN NHANVIEN nt ON nt.MaNV = tt.MaNVThu
 LEFT JOIN PHIEUGIAO pg ON pg.MaDH = dh.MaDH
 LEFT JOIN NHANVIEN ng ON ng.MaNV = pg.MaNV
 WHERE dh.SoDH = 'DH-0002';"""),
@@ -200,12 +204,14 @@ WHERE nv.TinhTrangNV = 'Đang làm'
 ORDER BY nv.ChucVu, nv.MaNV;"""),
     ('K9', 'Phiếu bảo hành đã quá ngày hẹn trả mà chưa trả khách, kèm khách cần liên hệ',
      'PHIEUBAOHANH → CHITIETDONHANG → DONHANG → KHACHHANG',
-     """SELECT bh.MaPhieuBH, bh.NgayNhan, bh.NgayHenTra, bh.TinhTrangBH, ct.TenHangChot, dh.SoDH, kh.HoLotKH, kh.TenKH, kh.SDTKH
+     """WITH ThamSo AS (SELECT '2026-11-01' AS NgayTraCuu)
+SELECT bh.MaPhieuBH, bh.NgayNhan, bh.NgayHenTra, bh.TinhTrangBH, ct.TenHangChot, dh.SoDH, kh.HoLotKH, kh.TenKH, kh.SDTKH
 FROM PHIEUBAOHANH bh
+CROSS JOIN ThamSo ts
 JOIN CHITIETDONHANG ct ON ct.MaDH = bh.MaDH AND ct.SoDongDH = bh.SoDongDH
 JOIN DONHANG dh ON dh.MaDH = ct.MaDH
 LEFT JOIN KHACHHANG kh ON kh.MaKH = dh.MaKH
-WHERE bh.NgayTraThucTe IS NULL AND bh.NgayHenTra < '2026-11-01'
+WHERE bh.NgayTraThucTe IS NULL AND bh.NgayHenTra < ts.NgayTraCuu
 ORDER BY bh.NgayHenTra;"""),
 ]
 
@@ -263,6 +269,14 @@ def main():
                 '-- Mỗi truy vấn nối các quan hệ theo từng cung của đường; đã chạy thử trên dữ liệu minh họa (sql/02) và đều có kết quả, trừ đường rỗng đúng quy tắc (có ghi chú).\n\n')
         for i, (p, q, c) in enumerate(zip(paths, sqls, counts), 1):
             f.write(f'-- Đường {i}: {" → ".join(p)}\n-- {sentence(p)}\n-- Số dòng trên dữ liệu minh họa: {c}' + (f' ({ZERO_OK[tuple(p)]})' if tuple(p) in ZERO_OK else '') + f'\n{q}\n\n')
+    with open(os.path.join(HERE, '..', 'chuong', '06_phu_luc.md'), 'w', encoding='utf-8') as f:
+        f.write(f'# PHỤ LỤC: TRUY VẤN SQL CHO {len(paths)} CON ĐƯỜNG TRUY XUẤT\n\n'
+                'Phụ lục in lại nội dung file `sql/03_truy_van_cac_duong_truy_xuat.sql`. Số dòng kết quả tính trên dữ liệu minh họa `sql/02_du_lieu_minh_hoa.sql`.\n\n'
+                'Các đường ghi “lần bán gần nhất” đi từ dòng trả hoặc phiếu bảo hành qua HANGCOSERI tới đơn hàng, nên cho người mua của lần bán gần nhất của chiếc hàng. '
+                'Khi chiếc hàng đã được bán lại, đó không phải người mua gốc; đơn gốc tra qua HOSODOITRA.MaDH hoặc cặp (MaDH, SoDongDH) của phiếu bảo hành.\n\n')
+        for i, (p, q, c) in enumerate(zip(paths, sqls, counts), 1):
+            gan_nhat = 'HANGCOSERI → CHITIETDONHANG → DONHANG' in ' → '.join(p)
+            f.write(f'**Đường {i}:** {" → ".join(p)} ({c} dòng' + ('; lần bán gần nhất' if gan_nhat else '') + (f', {ZERO_OK[tuple(p)]}' if tuple(p) in ZERO_OK else '') + f')\n\n```sql\n{q}\n```\n\n')
     with open(os.path.join(HERE, '..', 'sql', '04_truy_van_khai_thac.sql'), 'w', encoding='utf-8') as f:
         f.write('-- Các truy vấn khai thác theo con đường truy xuất (chương 3, mục 3.3.3). Đã chạy thử trên dữ liệu minh họa.\n\n')
         for (k, ten, duong, q), c in zip(K_QUERIES, kres):
@@ -274,7 +288,7 @@ def main():
     w()
     w(f'Chương này biểu diễn lược đồ sau cải tiến ({len(nodes) + 1} quan hệ, mục 2.3.6) thành đồ thị quan hệ theo thuật toán B1–B7 của giáo trình, '
       'nêu các con đường truy xuất và ngữ nghĩa của từng con đường, rồi viết truy vấn SQL cho các con đường đó. Phép tính do '
-      f'`tools/dothi.py` đối chiếu; các truy vấn đều đã chạy thử trên dữ liệu minh họa nhỏ (`sql/02_du_lieu_minh_hoa.sql`, {len(nodes) + 1} bảng, không '
+      f'`tools/dothi.py` đối chiếu; các truy vấn đều đã chạy thử trên SQLite và SQL Server LocalDB 17.0 với dữ liệu minh họa nhỏ (`sql/02_du_lieu_minh_hoa.sql`, {len(nodes) + 1} bảng, không '
       'vi phạm khóa ngoại) và đều trả về ít nhất một dòng.')
     w()
     w('## 3.1 ĐỒ THỊ QUAN HỆ')
@@ -283,9 +297,10 @@ def main():
     w()
     w('- **Q1.** Mỗi quan hệ dùng khóa chính làm khóa ưu tiên (giáo trình 10.4.2: khi cài đặt chọn một khóa ưu tiên).')
     w('- **Q2.** Hai cột là cùng một thuộc tính khi nối nhau bằng khóa ngoại. Các cột MaNV ở những chứng từ khác nhau là vai trò khác nhau của nhân viên (lập đơn, xác nhận thu, giao hàng, nhập hàng…) nên không tính là cùng thuộc tính khi xét giao ở Bước 3, nhưng mỗi cột vẫn cho một cung tới NHANVIEN. '
-      'Các cột vai trò có tên khác (MaNVThu, MaNVXacNhan, MaNVDuyet, MaNVChi) không vẽ thành cung song song và được truy xuất bằng cách nối thêm cột đó (truy vấn K7).')
+      'Các cột vai trò có tên khác (MaNVThu, MaNVXacNhan, MaNVDuyet, MaNVChi) không vẽ thành cung song song và được truy xuất bằng cách nối thêm cột đó (truy vấn K6, K7).')
     w('- **Q3.** PTH_Thừa và lồng khóa tính đúng theo công thức của Bài 10 (xem Bước 4); không thêm quy tắc nào khác.')
-    w('- **Q4.** Khuyên (cung từ một nút về chính nó) là liên kết loại hàng cha – con (MaLoaiCha); nằm ngoài thuật toán.')
+    w('- **Q4.** Khuyên (cung từ một nút về chính nó) là liên kết loại hàng cha – con (MaLoaiCha). Theo Bài 9, khuyên vẫn là một cung nên có thể nối vào cuối mạch đi. Nhóm vẫn vẽ khuyên nhưng không tách thành đường riêng, vì truy hồi cây loại hàng cần truy vấn đệ quy riêng. Nếu tính như vậy thì '
+      + str(sum(1 for p in paths if p[-1] == 'LOAIHANG')) + ' đường kết thúc ở LOAIHANG có thêm một đường nối khuyên, tổng cộng ' + str(len(paths) + sum(1 for p in paths if p[-1] == 'LOAIHANG')) + ' đường.')
     w()
     w('**Bước 1: Biến C thành phân rã đồng nhất C_d.** Hai quan hệ có khóa tương hỗ thì gộp thành một nút. HANGCOSERI và SERIMATHANG đều có khóa '
       '{MaSeri} nên gộp; quan hệ gộp là HANGCOSERI(MaSeri, SoSeri, MaSP, MaPN, SoDongPN, MaDH, SoDongDH, TinhTrangSeri, ThoiDiemNhap), '
@@ -369,6 +384,8 @@ def main():
                     if a[0] not in cols and a[0] not in fkcols:
                         cols.append(a[0])
             w(f'| {n} | {n}({", ".join(cols)}) | {", ".join(fkcols)} |')
+    w()
+    w('*Bảng 3.91: Quan hệ nút sau mịn hóa*')
     w()
     w('**Bước 7: Tạo cung vô hướng.** Không có nút Nₖ nào thỏa điều kiện (quan hệ chỉ gồm thuộc tính khóa, có đúng hai cung ra và không có cung vào): '
       'quan hệ nối n–n của lược đồ đều có thuộc tính riêng (GIATRITHONGSO có GiaTriTS; CHITIET* có số lượng, giá). Vì vậy không có cung vô hướng và '
@@ -459,8 +476,10 @@ def main():
     w('...')
     w('```')
     w()
+    w('Cung có bản số (0,-,1) ứng với khóa ngoại cho phép rỗng. Các câu lệnh dùng nối trong nên chỉ trả những bộ có giá trị ở cột đó: chẳng hạn đường 10, 38 không gồm đơn của khách vãng lai, đường 11 không gồm đơn khách tự đặt chưa có nhân viên lập. Khi cần giữ cả các bộ này thì đổi sang LEFT JOIN, như K4, K6 ở mục 3.3.3.')
+    w()
     w('Với nút HANGCOSERI (gộp từ HANGCOSERI và SERIMATHANG) câu lệnh nối thêm SERIMATHANG theo MaSeri để lấy lại đủ số seri và mặt hàng. '
-      'Đã sinh **' + str(len(paths)) + ' câu lệnh**, lưu ở `sql/03_truy_van_cac_duong_truy_xuat.sql`; mỗi câu đã chạy thử và đều trả về ít nhất một dòng (cột cuối bảng 3.5).')
+      'Đã sinh **' + str(len(paths)) + ' câu lệnh**, lưu ở `sql/03_truy_van_cac_duong_truy_xuat.sql` và in đầy đủ ở Phụ lục; mỗi câu đã chạy thử và đều trả về ít nhất một dòng (cột cuối bảng 3.5).')
     w()
     w('### 3.3.2 Một số câu truy vấn của các con đường')
     w()
@@ -492,14 +511,20 @@ def main():
         w(q)
         w('```')
         w()
-    w('Ghi chú: K3 quy ước chiều biến động theo LoaiBienDong (Nhập và Nhận lại làm tăng; Xuất bán làm giảm; Chuyển nhóm cần thêm nhóm đích '
-      'nên chưa tính); quy ước dấu của sổ kho chưa chốt với cửa hàng và là điểm cần xác nhận.')
+    w('Ghi chú:')
+    w()
+    w('- **K2, K3:** gộp theo mã (MaLoai, MaSP) vì tên không duy nhất; gộp theo tên sẽ cộng chung hai loại hoặc hai mặt hàng trùng tên.')
+    w('- **K3:** Nhập, Nhận lại, Chuyển vào làm tăng; Xuất bán, Chuyển ra làm giảm. Mỗi lần chuyển nhóm ghi hai dòng đối ứng nên tổng số hàng không đổi. Đây là quy ước ghi sổ do nhóm đặt (giả thiết). Một nhóm có thể hiện số lượng 0 sau khi đã chuyển hết hàng.')
+    w('- **K4:** chỉ cho lần bán gần nhất, không thay cho lịch sử đầy đủ. Các lần bán trước của chiếc hàng tra từ các dòng CHITIETTRA có MaSeri đó, qua HOSODOITRA tới đơn gốc.')
+    w('- **K5:** chỉ cộng khoản đã chi (ThoiDiemChi khác rỗng); khoản đã duyệt mà chưa chi không tính. Tiền hoàn được cộng theo hồ sơ trước khi nối, vì nối trực tiếp CHITIETTRA với KHOANHOAN theo MaHS sẽ nhân dòng (2 dòng trả và 2 khoản hoàn cho 4 dòng). Nhóm đã thử thêm trường hợp nhiều dòng và nhiều khoản này.')
+    w('- **K6:** phân biệt người xác nhận đã nhận tiền (THANHTOAN.MaNV) với người giao hàng thu tiền (THANHTOAN.MaNVThu); người thu rỗng khi không phải khoản thu khi giao.')
+    w('- **K9:** ngày tra cứu đặt ở một chỗ (ThamSo.NgayTraCuu); ngày trong câu lệnh là ví dụ theo dữ liệu minh họa.')
     w()
     w('## 3.4 NGÕ VÀO TRA CỨU VÀ CHỈ MỤC ĐỀ XUẤT')
     w()
     w('Giáo trình Bài 9 nhấn mạnh phép kết là thao tác chính và cần chỉ mục cho cột nối. Hai nhóm chỉ mục đề xuất, suy từ đồ thị:')
     w()
-    w('1. **Ngõ vào tra cứu theo khóa riêng** (người dùng cung cấp giá trị): đã có chỉ mục tự động từ UNIQUE: SKU (MATHANG), SoDH (DONHANG), SoPhieu (PHIEUNHAP), '
+    w('1. **Ngõ vào tra cứu theo khóa riêng** (người dùng cung cấp giá trị): đã có chỉ mục tự động từ UNIQUE: SKU (MATHANG), TenTH (THUONGHIEU), TenNCC (NHACUNGCAP), SoDH (DONHANG), SoPhieu (PHIEUNHAP), '
       'CodeMG (MAGIAMGIA), (MaSP, SoSeri) (SERIMATHANG), (MaSP, ViTriAnh) (ANHMATHANG), MaDH (PHIEUGIAO), TenDangNhap, MaKH, MaNV (TAIKHOAN). Cần thêm chỉ mục tìm khách theo SDTKH và nhân viên theo tên (TenKH, TenNV).')
     w('2. **Cột khóa ngoại của cung** nên có chỉ mục để phép nối theo chiều ngược (từ cha xuống n con) nhanh: DONHANG(MaKH), DONHANG(MaNV), CHITIETDONHANG(MaSP), '
       'THANHTOAN(MaDH), HOSODOITRA(MaDH), KHOANHOAN(MaTT), KHOANHOAN(MaHS), LANNHANLAI(MaHS), GIAODICHKHO(MaSP, ThoiDiemGD), PHIEUBAOHANH(MaDH, SoDongDH), '
