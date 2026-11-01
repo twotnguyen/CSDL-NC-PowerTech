@@ -12,6 +12,7 @@ Báo cáo mới môn Cơ sở dữ liệu nâng cao, đề tài PowerTech (Nhóm
 | `chuong_docx/_sao_luu/`, `chuong_docx/_cho_chuong2/` | Bản gốc Chương 1 trước khi viết lại; Use case và lưu đồ cắt khỏi Chương 1; đã đưa vào Chương 2 mục 2.4 (xem `QUYET_DINH.md` mục 9 và cuối file), file này chỉ để tham khảo |
 | `sql/` | `01` tạo bảng (26 quan hệ), `02` dữ liệu minh họa, `03` 61 truy vấn theo đường truy xuất, `04` 9 truy vấn khai thác |
 | `hinh/` | ERD và đồ thị quan hệ (`.dot` nguồn, `.svg`, `.png`) |
+| `web/` | `index.html`: trang xem sơ đồ, bảng, đồ thị, con đường truy xuất và chạy truy vấn SQLite; dựng từ `mau.html` bằng `python3 tools/tao_web.py` |
 | `tools/` | Mã Python sinh toàn bộ số liệu và nội dung |
 | `00`–`03_*.md` | Ghi chú đọc giáo trình, bài giảng, yêu cầu giảng viên, đánh giá báo cáo mẫu |
 | `04_doi_chieu_mo_ta_voi_cac_tai_lieu.md` | Đối chiếu mô tả 1.1–1.4 với báo cáo web, bản nộp đầu và báo cáo cũ (đã xử lý bằng hướng A+, xem QUYET_DINH mục 7) |

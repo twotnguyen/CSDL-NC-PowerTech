@@ -1,0 +1,254 @@
+<title>Sổ tay PowerTech</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Bàn làm việc của người thiết kế CSDL: nền xanh giấy can, màu khóa PK/PFK/FK lấy đúng quy ước của sơ đồ trong báo cáo */
+:root {
+  --nen: #eef3f8; --mat: #ffffff; --mat2: #e3ecf5; --chu: #16263a; --mo: #54677c; --vien: #c6d4e2;
+  --nhan: #1c5d99; --nhan-chu: #ffffff; --pk: #b3261e; --pfk: #1f4eb4; --fk: #2e7d32; --dat: #fbecd2; --dat-chu: #7a4a00;
+  --than: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif; --ma: "IBM Plex Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c;
+  --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c;
+  --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--nen); color: var(--chu); font: 15px/1.55 var(--than); margin: 0 }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--mat) }
+button, input, select { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 2px solid var(--nhan); outline-offset: 2px }
+code, pre, .ma { font-family: var(--ma) }
+.le { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.rong { max-width: 1320px; margin-inline: auto }
+header { background: var(--mat); border-bottom: 1px solid var(--vien); padding-block: 18px 0 }
+h1 { font-size: 1.5rem; line-height: 1.25; margin: 0; text-wrap: balance }
+.phu { color: var(--mo); margin: 4px 0 0; max-width: 68ch }
+.so { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 12px 0 0; font-variant-numeric: tabular-nums; color: var(--mo); font-size: .88rem }
+.so b { color: var(--chu); font-size: 1.05rem }
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--mat); border-bottom: 1px solid var(--vien) }
+.tab { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none }
+.tab button { background: none; border: 0; border-bottom: 3px solid transparent; padding: 11px 13px 9px; white-space: nowrap; color: var(--mo); font-weight: 500 }
+.tab button[aria-selected="true"] { color: var(--nhan); border-color: var(--nhan); font-weight: 600 }
+main { padding-block: 18px 40px }
+h2 { font-size: 1.15rem; margin: 0 0 4px }
+h3 { font-size: .98rem; margin: 18px 0 6px }
+.ghi { color: var(--mo); margin: 0 0 14px; max-width: 72ch; font-size: .92rem }
+.khung { background: var(--mat); border: 1px solid var(--vien); border-radius: 6px; min-width: 0 }
+.hai { display: grid; grid-template-columns: minmax(250px, 310px) minmax(0, 1fr); gap: 14px; align-items: start }
+.ds { max-height: 74vh; overflow: auto; padding: 6px }
+.ds h3 { margin: 10px 8px 4px; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--mo) }
+.muc { display: block; width: 100%; text-align: left; background: none; border: 0; border-radius: 4px; padding: 6px 8px; overflow-wrap: anywhere }
+.muc:hover { background: var(--mat2) }
+.muc[aria-current="true"] { background: var(--nhan); color: var(--nhan-chu) }
+.muc small { display: block; opacity: .78; font-size: .78rem; line-height: 1.35 }
+.chi { padding: 16px; min-width: 0 }
+.nut { background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; padding: 5px 11px }
+.nut.chinh { background: var(--nhan); color: var(--nhan-chu); border-color: var(--nhan); font-weight: 600 }
+.loc { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 12px }
+.loc input[type=search] { flex: 1 1 200px; min-width: 0; padding: 6px 9px; background: var(--mat); border: 1px solid var(--vien); border-radius: 4px }
+.chip { background: var(--mat); border: 1px solid var(--vien); border-radius: 999px; padding: 2px 10px; font-size: .84rem }
+.chip[aria-pressed="true"] { background: var(--nhan); color: var(--nhan-chu); border-color: var(--nhan) }
+.luoi { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px }
+.the { background: var(--mat); border: 1px solid var(--vien); border-radius: 6px; padding: 0; text-align: left; overflow: hidden; display: flex; flex-direction: column }
+.the:hover { border-color: var(--nhan) }
+.the .nen { background: #fff; height: 165px; display: flex; align-items: center; justify-content: center; padding: 6px }
+.the img { max-height: 100%; max-width: 100%; object-fit: contain; display: block }
+.the span { padding: 8px 10px; font-size: .86rem; line-height: 1.35 }
+.the b { display: block; color: var(--nhan); font-size: .78rem }
+.cuon { overflow-x: auto; border: 1px solid var(--vien); border-radius: 4px }
+table { border-collapse: collapse; width: 100%; font-size: .87rem; font-variant-numeric: tabular-nums }
+th { background: var(--mat2); text-align: left; font-weight: 600; white-space: nowrap }
+th, td { padding: 5px 9px; border-bottom: 1px solid var(--vien); vertical-align: top }
+tbody tr:last-child td { border-bottom: 0 }
+td.ma { white-space: nowrap }
+.pk { color: var(--pk); font-weight: 600 } .pfk { color: var(--pfk); font-weight: 600 } .fk { color: var(--fk) }
+.rong-cot { color: var(--mo) }
+.lk { background: none; border: 0; padding: 0; color: var(--fk); text-decoration: underline dashed; font-family: var(--ma) }
+.mach { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 10px }
+.mach .n { font-family: var(--ma); font-size: .82rem; background: var(--mat2); border: 1px solid var(--vien); border-radius: 3px; padding: 1px 7px; overflow-wrap: anywhere }
+.mach .m { color: var(--mo) }
+pre { background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; padding: 10px 12px; font-size: .82rem; line-height: 1.5; overflow-x: auto; margin: 8px 0 }
+textarea { width: 100%; min-height: 150px; font: .85rem/1.5 var(--ma); padding: 10px 12px; color: var(--chu); background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; resize: vertical }
+.dc { display: inline-block; font-size: .78rem; font-weight: 600; padding: 0 7px; border-radius: 3px; background: var(--mat2) }
+.dc.xau { background: var(--dat); color: var(--dat-chu) }
+.tt { font-size: .86rem; color: var(--mo); margin: 8px 0 }
+.loi { background: var(--dat); color: var(--dat-chu); padding: 8px 10px; border-radius: 4px; font-size: .88rem; overflow-wrap: anywhere }
+.hang { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+dialog { border: 0; padding: 0; background: var(--mat); color: var(--chu); width: min(96vw, 1280px); max-height: 94vh; border-radius: 6px }
+dialog::backdrop { background: rgba(8, 16, 26, .72) }
+.dau { display: flex; gap: 8px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--vien); flex-wrap: wrap }
+.dau strong { flex: 1 1 200px; min-width: 0 }
+.vung { overflow: auto; max-height: calc(94vh - 56px); background: #fff; text-align: center }
+.vung img { max-width: none; display: block; margin: auto }
+@media (max-width: 800px) { .hai { grid-template-columns: minmax(0, 1fr) } .ds { max-height: 260px } }
+@media (prefers-reduced-motion: no-preference) { .the { transition: border-color .12s } }
+</style>
+
+<header><div class="le"><div class="rong">
+  <h1>Sổ tay cơ sở dữ liệu PowerTech</h1>
+  <p class="phu">Sơ đồ, bảng, đồ thị quan hệ, con đường truy xuất và truy vấn của báo cáo Cơ sở dữ liệu nâng cao, Nhóm 6, 23DTHD6.</p>
+  <div class="so" id="so"></div>
+</div></div></header>
+<nav><div class="le"><div class="rong tab" role="tablist" id="tab"></div></div></nav>
+<main class="le"><div class="rong" id="noi"></div></main>
+<dialog id="xem"><div class="dau"><strong id="xemTen"></strong>
+  <button class="nut" data-z="-1" aria-label="Thu nhỏ">−</button><button class="nut" data-z="1" aria-label="Phóng to">+</button>
+  <button class="nut" data-z="0">Vừa khung</button><button class="nut" id="dong">Đóng</button></div>
+  <div class="vung" id="vung"><img id="xemAnh" alt=""></div></dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-asm.js"></script>
+<script>
+const D = /*DATA*/null;
+const $ = (s, g = document) => g.querySelector(s);
+const e = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const LOAI = { co_ban: 'Thực thể cơ bản', ngoai: 'Đối tượng ngoài', nghiep_vu: 'Nghiệp vụ', mkh: 'Mối kết hợp có thuộc tính' };
+const TABS = [['so-do', 'Sơ đồ'], ['bang', 'Bảng'], ['do-thi', 'Đồ thị'], ['duong', 'Con đường truy xuất'], ['khai-thac', 'Truy vấn khai thác'], ['sql', 'Chạy SQL']];
+let db = null, loiDb = '';
+
+function moDb() {
+  db = new SQL.Database();
+  db.exec(D.taoBang);
+  db.exec(D.duLieu);
+}
+async function khoiDong() {
+  try {
+    const SQLm = await initSqlJs();
+    window.SQL = SQLm;
+    moDb();
+  } catch (x) { loiDb = x.message || String(x); }
+  ve();
+}
+
+// chạy một câu và trả về HTML bảng kết quả
+function ketQua(sql, gioiHan = 200) {
+  if (!db) return `<p class="loi">Không mở được SQLite (${e(loiDb || 'đang tải')}). Trang cần mạng để tải sql.js.</p>`;
+  try {
+    const t0 = performance.now();
+    const rs = db.exec(sql);
+    const ms = (performance.now() - t0).toFixed(1);
+    if (!rs.length) return `<p class="tt">Câu lệnh chạy xong, không có dòng trả về (${ms} ms).</p>`;
+    const r = rs[rs.length - 1], n = r.values.length;
+    return `<p class="tt">${n} dòng, ${ms} ms${n > gioiHan ? `, hiện ${gioiHan} dòng đầu` : ''}</p><div class="cuon"><table><thead><tr>${r.columns.map(c => `<th>${e(c)}</th>`).join('')}</tr></thead><tbody>${
+      r.values.slice(0, gioiHan).map(h => `<tr>${h.map(v => `<td>${v === null ? '<span class="rong-cot">NULL</span>' : e(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  } catch (x) { return `<p class="loi">Lỗi SQL: ${e(x.message)}</p>`; }
+}
+
+const trang = {
+  'so-do'(g) {
+    const nhom = [...new Set(D.hinh.map(h => h.nhom))];
+    let chon = 'Tất cả';
+    const ve1 = () => {
+      g.innerHTML = `<h2>Sơ đồ trong báo cáo</h2><p class="ghi">Bấm vào một hình để xem lớn và phóng to. Số hình giữ đúng như trong báo cáo.</p>
+      <div class="loc">${['Tất cả', ...nhom].map(n => `<button class="chip" aria-pressed="${n === chon}" data-n="${e(n)}">${e(n)}</button>`).join('')}</div>
+      <div class="luoi">${D.hinh.map((h, i) => [h, i]).filter(([h]) => chon === 'Tất cả' || h.nhom === chon).map(([h, i]) => `<button class="the" data-i="${i}"><div class="nen"><img src="${h.src}" alt="${e(h.so + ': ' + h.ten)}" loading="lazy"></div><span><b>${e(h.so)}</b>${e(h.ten)}</span></button>`).join('')}</div>`;
+      g.querySelectorAll('.chip').forEach(b => b.onclick = () => { chon = b.dataset.n; ve1(); });
+      g.querySelectorAll('.the').forEach(b => b.onclick = () => moHinh(D.hinh[+b.dataset.i]));
+    };
+    ve1();
+  },
+  bang(g, ten) {
+    const nhom = Object.keys(LOAI);
+    let chon = ten || 'MATHANG';
+    const ve1 = () => {
+      const b = D.bang.find(x => x.ten === chon);
+      g.innerHTML = `<h2>26 quan hệ sau cải tiến</h2><p class="ghi">Chữ đỏ là khóa chính, xanh lam vừa khóa chính vừa khóa ngoại, xanh lục là khóa ngoại. Dữ liệu ở cuối là dữ liệu minh họa của nhóm.</p>
+      <div class="hai"><div class="khung ds">${nhom.map(l => `<h3>${LOAI[l]}</h3>` + D.bang.filter(x => x.loai === l).map(x => `<button class="muc" aria-current="${x.ten === chon}" data-t="${x.ten}"><span class="ma">${x.ten}</span><small>${e(x.moTa)}</small></button>`).join('')).join('')}</div>
+      <div class="khung chi"><h2 class="ma">${b.ten}</h2><p class="ghi">${e(b.moTa)} · ${LOAI[b.loai] || ''}</p>
+      <div class="hang"><span>Dạng chuẩn:</span><span class="dc ${b.truoc === 'BCNF' ? '' : 'xau'}">Trước: ${e(b.truoc)}</span><span>→</span><span class="dc">Sau: ${e(b.sau)}</span></div>
+      <p class="tt">Khóa: <span class="ma">${e(b.khoa)}</span></p>
+      <div class="cuon"><table><thead><tr><th>Cột</th><th>Kiểu</th><th>Rỗng</th><th>Khóa</th><th>Ý nghĩa</th></tr></thead><tbody>${b.cot.map(c => {
+        const lop = c.pk && c.fk ? 'pfk' : c.pk ? 'pk' : c.fk ? 'fk' : '';
+        const khoa = c.pk && c.fk ? 'PFK' : c.pk ? 'PK' : c.fk ? 'FK' : '';
+        return `<tr><td class="ma ${lop}">${c.ten}</td><td class="ma">${c.kieu}</td><td>${c.rong ? 'Có' : ''}</td><td>${khoa}${c.fk ? ` → <button class="lk" data-t="${c.fk}">${c.fk}</button>` : ''}</td><td>${e(c.y)}</td></tr>`;
+      }).join('')}</tbody></table></div>
+      ${b.tanTu ? `<h3>Tân từ</h3><p class="ghi">${e(b.tanTu)}</p>` : ''}${b.rangBuoc ? `<h3>Ràng buộc</h3><p class="ghi">${e(b.rangBuoc)}</p>` : ''}
+      <h3>Dữ liệu minh họa</h3>${ketQua(`SELECT * FROM ${b.ten} LIMIT 20`)}</div></div>`;
+      g.querySelectorAll('[data-t]').forEach(x => x.onclick = () => { chon = x.dataset.t; ve1(); });
+    };
+    ve1();
+  },
+  'do-thi'(g) {
+    const h = D.hinh.filter(x => x.nhom === 'Đồ thị');
+    g.innerHTML = `<h2>Đồ thị quan hệ</h2><p class="ghi">25 nút (HANGCOSERI và SERIMATHANG gộp một nút), 43 cung, 8 nút vào. Bấm hình để xem lớn.</p>
+    <div class="luoi">${h.map((x, i) => `<button class="the" data-i="${i}"><div class="nen"><img src="${x.src}" alt="${e(x.ten)}"></div><span><b>${e(x.so)}</b>${e(x.ten)}</span></button>`).join('')}</div>
+    <h3>43 cung</h3><div class="loc"><input type="search" id="tim" aria-label="Lọc cung" placeholder="Lọc theo tên quan hệ, ví dụ DONHANG"></div><div class="cuon"><table><thead><tr><th>Cung</th><th>Đi</th><th>Đến</th><th>Xuôi</th><th>Ngược</th><th>Ý nghĩa xuôi</th><th>Ý nghĩa ngược</th></tr></thead><tbody id="dsCung"></tbody></table></div>`;
+    g.querySelectorAll('.the').forEach(b => b.onclick = () => moHinh(h[+b.dataset.i]));
+    const loc = () => { const q = $('#tim', g).value.trim().toUpperCase();
+      $('#dsCung', g).innerHTML = D.cung.filter(c => !q || (c.di + c.den).includes(q)).map(c => `<tr><td class="ma">${e(c.cung)}</td><td class="ma">${e(c.di)}</td><td class="ma">${e(c.den)}</td><td class="ma">${e(c.xuoi)}</td><td class="ma">${e(c.nguoc)}</td><td>${e(c.yXuoi)}</td><td>${e(c.yNguoc)}</td></tr>`).join(''); };
+    $('#tim', g).oninput = loc; loc();
+  },
+  duong(g) {
+    const vao = [...new Set(D.duong.map(d => d.mach[0]))];
+    let chon = 1, loc = 'Tất cả', tim = '';
+    const ve1 = () => {
+      const ds = D.duong.filter(d => (loc === 'Tất cả' || d.mach[0] === loc) && (!tim || (d.mach.join(' ') + d.yNghia).toUpperCase().includes(tim)));
+      const d = D.duong.find(x => x.so === chon);
+      g.innerHTML = `<h2>61 con đường truy xuất</h2><p class="ghi">Chọn nút vào hoặc lọc theo tên quan hệ. Kết quả dưới đây do SQLite chạy ngay trong trình duyệt trên dữ liệu minh họa.</p>
+      <div class="loc">${['Tất cả', ...vao].map(n => `<button class="chip ${n === 'Tất cả' ? '' : 'ma'}" aria-pressed="${n === loc}" data-v="${n}">${n}</button>`).join('')}<input type="search" id="tim" aria-label="Lọc đường" placeholder="Lọc, ví dụ KHACHHANG" value="${e(tim)}"></div>
+      <div class="hai"><div class="khung ds">${ds.length ? ds.map(x => `<button class="muc" aria-current="${x.so === chon}" data-s="${x.so}">Đường ${x.so}<small class="ma">${x.mach.join(' → ')}</small></button>`).join('') : '<p class="tt" style="padding:8px">Không có đường nào khớp.</p>'}</div>
+      <div class="khung chi"><h2>Đường ${d.so}</h2><div class="mach">${d.mach.map(n => `<span class="n">${n}</span>`).join('<span class="m">→</span>')}</div><p>${e(d.yNghia)}</p><pre>${e(d.sql)}</pre>${ketQua(d.sql)}<p class="tt">Báo cáo ghi ${d.dong} dòng.</p></div></div>`;
+      g.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { loc = b.dataset.v; ve1(); });
+      g.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { chon = +b.dataset.s; ve1(); });
+      const o = $('#tim', g); o.oninput = () => { tim = o.value.trim().toUpperCase(); ve1(); const m = $('#tim', g); m.focus(); m.setSelectionRange(m.value.length, m.value.length); };
+    };
+    ve1();
+  },
+  'khai-thac'(g) {
+    let chon = 'K4';
+    const ve1 = () => {
+      const k = D.khaiThac.find(x => x.ma === chon);
+      g.innerHTML = `<h2>9 truy vấn khai thác</h2><p class="ghi">Các yêu cầu thực tế của cửa hàng, dùng con đường cả xuôi và ngược. Có thể sửa câu lệnh rồi chạy lại.</p>
+      <div class="hai"><div class="khung ds">${D.khaiThac.map(x => `<button class="muc" aria-current="${x.ma === chon}" data-k="${x.ma}"><b>${x.ma}</b><small>${e(x.ten)}</small></button>`).join('')}</div>
+      <div class="khung chi"><h2>${k.ma}. ${e(k.ten)}</h2><p class="tt">Đường: ${e(k.duong)}</p><textarea id="ks" aria-label="Câu lệnh ${k.ma}" spellcheck="false">${e(k.sql)}</textarea>
+      <div class="hang"><button class="nut chinh" id="chay">Chạy</button><button class="nut" id="datLai">Trả lại câu gốc</button></div><div id="kq">${ketQua(k.sql)}</div><p class="tt">Báo cáo ghi ${k.dong} dòng.</p></div></div>`;
+      g.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { chon = b.dataset.k; ve1(); });
+      $('#chay', g).onclick = () => { $('#kq', g).innerHTML = ketQua($('#ks', g).value); };
+      $('#datLai', g).onclick = ve1;
+    };
+    ve1();
+  },
+  sql(g) {
+    g.innerHTML = `<h2>Chạy SQL tự do</h2><p class="ghi">Cơ sở dữ liệu nằm trong trình duyệt này, gồm 26 bảng và dữ liệu minh họa. Câu lệnh sửa dữ liệu chỉ có tác dụng tới khi tải lại trang hoặc khôi phục.</p>
+    <textarea id="tu" aria-label="Câu lệnh SQL" spellcheck="false">SELECT dh.SoDH, dh.TinhTrangDH, COUNT(*) AS SoDong, SUM(ct.SoLuongBan * ct.DonGiaChot) AS TienHang
+FROM DONHANG dh
+JOIN CHITIETDONHANG ct ON ct.MaDH = dh.MaDH
+GROUP BY dh.MaDH
+ORDER BY dh.MaDH;</textarea>
+    <div class="hang"><button class="nut chinh" id="chay">Chạy</button><button class="nut" id="khoiPhuc">Khôi phục dữ liệu</button><span class="tt">Ctrl + Enter để chạy</span></div><div id="kq"></div>`;
+    const chay = () => { $('#kq', g).innerHTML = ketQua($('#tu', g).value); };
+    $('#chay', g).onclick = chay;
+    $('#tu', g).onkeydown = x => { if (x.ctrlKey && x.key === 'Enter') chay(); };
+    $('#khoiPhuc', g).onclick = () => { if (db) { db.close(); moDb(); } $('#kq', g).innerHTML = '<p class="tt">Đã khôi phục dữ liệu minh họa.</p>'; };
+    chay();
+  },
+};
+
+let hien = 'so-do';
+function ve() {
+  $('#tab').innerHTML = TABS.map(([k, t]) => `<button role="tab" aria-selected="${k === hien}" data-k="${k}">${t}</button>`).join('');
+  $('#tab').querySelectorAll('button').forEach(b => b.onclick = () => { hien = b.dataset.k; ve(); scrollTo(0, 0); });
+  trang[hien]($('#noi'));
+}
+let tile = 1;
+function moHinh(h) {
+  $('#xemTen').textContent = h.so + '. ' + h.ten;
+  const a = $('#xemAnh'); a.src = h.src; a.alt = h.ten; tile = 0; a.style.width = '100%';
+  const d = $('#xem'); d.open || d.showModal();
+}
+document.querySelectorAll('[data-z]').forEach(b => b.onclick = () => {
+  const a = $('#xemAnh'), z = +b.dataset.z;
+  if (!z) { tile = 0; a.style.width = '100%'; return; }
+  if (!tile) tile = a.clientWidth / a.naturalWidth;
+  tile = Math.min(3, Math.max(.2, tile * (z > 0 ? 1.3 : .77)));
+  a.style.width = Math.round(a.naturalWidth * tile) + 'px';
+});
+$('#dong').onclick = () => $('#xem').close();
+$('#xem').onclick = x => { if (x.target.id === 'xem') $('#xem').close(); };
+$('#so').innerHTML = [[26, 'quan hệ'], [D.hinh.length, 'hình'], [D.cung.length, 'cung'], [D.duong.length, 'con đường'], [D.khaiThac.length, 'truy vấn khai thác']].map(([n, t]) => `<span><b>${n}</b> ${t}</span>`).join('');
+const dau = location.hash.slice(1); if (TABS.some(t => t[0] === dau)) hien = dau;
+ve();
+khoiDong();
+</script>
