@@ -18,6 +18,11 @@ NHOM = {
     'b4': ('Nhập hàng, số seri và kho', ['NHACUNGCAP', 'PHIEUNHAP', 'CHITIETPHIEUNHAP', 'HANGCOSERI', 'SERIMATHANG', 'GIAODICHKHO'], 'TB'),
     'b5': ('Đổi trả, hoàn tiền và bảo hành', ['HOSODOITRA', 'CHITIETTRA', 'LANNHANLAI', 'KHOANHOAN', 'PHIEUBAOHANH'], 'LR'),
 }
+COT = [['LOAIHANG', 'THUONGHIEU', 'DINHNGHIATHONGSO', 'GIATRITHONGSO', 'ANHMATHANG', 'NHACUNGCAP'],
+       ['MATHANG', 'SERIMATHANG', 'CHITIETPHIEUNHAP', 'PHIEUNHAP', 'GIAODICHKHO'],
+       ['CHITIETDONHANG', 'HANGCOSERI', 'PHIEUBAOHANH', 'CHITIETTRA', 'LANNHANLAI'],
+       ['DONHANG', 'HOSODOITRA', 'KHOANHOAN', 'THANHTOAN'],
+       ['KHACHHANG', 'TAIKHOAN', 'MAGIAMGIA', 'NHANVIEN', 'PHIEUGIAO', 'LANGIAO']]
 TYPE = {'INT': 'Integer', 'NVARCHAR': 'Nvarchar', 'VARCHAR': 'Varchar', 'DECIMAL': 'Decimal', 'BIT': 'Bit', 'DATE': 'Date', 'DATETIME': 'Datetime'}
 
 
@@ -78,7 +83,40 @@ def ve_bang(key):
     subprocess.run(['dot', '-Tpng', '-Gdpi=170', base + '.dot', '-o', base + '.png'], check=True)
 
 
+def ve_tong():
+    """Toàn bộ lược đồ sau cải tiến trên một hình. Nét liền: khóa ngoại nằm trong khóa chính; nét đứt: còn lại (như Toad Data Modeler).
+    dot tự xếp thì 26 bảng trải quá rộng, nên đặt tay theo cột rồi để neato -n2 chỉ đi đường."""
+    assert sorted(sum(COT, [])) == sorted(R)
+    nut = 'node [shape=plaintext, margin=0, fontname="Helvetica", fontsize=10];'
+    do = subprocess.run(['dot', '-Tplain'], input='digraph{' + nut + ''.join(f'"{n}"[label={bang_html(n)}];' for n in R) + '}',
+                        capture_output=True, text=True, encoding='utf-8', check=True).stdout
+    sz = {p[1].strip('"'): (float(p[4]), float(p[5])) for p in map(str.split, do.splitlines()) if p[0] == 'node'}
+    GX, GY = 0.75, 0.3
+    cao = max(sum(sz[n][1] for n in c) + GY * (len(c) - 1) for c in COT)
+    pos, x = {}, 0
+    for c in COT:
+        w = max(sz[n][0] for n in c)
+        khe = (cao - sum(sz[n][1] for n in c)) / max(len(c) - 1, 1)
+        y = cao
+        for n in c:
+            pos[n] = (x + w / 2, y - sz[n][1] / 2)
+            y -= sz[n][1] + khe
+        x += w + GX
+    L = ['digraph G {', '  splines=ortho; pad=0.1;', '  ' + nut,
+         '  edge [color="#3A5F8F", dir=both, arrowtail=crow, arrowhead=tee, arrowsize=0.6];']
+    for n in R:
+        L.append(f'  "{n}" [label={bang_html(n)}, pos="{pos[n][0] * 72:.1f},{pos[n][1] * 72:.1f}!"];')
+    for n in R:
+        for cols, parent, pc in R[n]['fks']:
+            L.append(f'  "{n}" -> "{parent}" [style={"solid" if set(cols) <= set(R[n]["pk"]) else "dashed"}];')
+    L.append('}')
+    base = os.path.join(HINH, 'sodo_quanhe_tong')
+    open(base + '.dot', 'w', encoding='utf-8').write('\n'.join(L))
+    subprocess.run(['neato', '-n2', '-Tpng', '-Gdpi=220', base + '.dot', '-o', base + '.png'], check=True)
+
+
 if __name__ == '__main__':
     for k in NHOM:
         ve_bang(k)
-    print('đã vẽ', len(NHOM), 'sơ đồ quan hệ dạng bảng')
+    ve_tong()
+    print('đã vẽ', len(NHOM) + 1, 'sơ đồ quan hệ dạng bảng')

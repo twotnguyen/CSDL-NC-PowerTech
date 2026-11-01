@@ -288,3 +288,9 @@ Sao lưu: `chuong_docx/_sao_luu/truoc_doc_157_trang/`.
 ## 27. Vẽ lại Hình 1.8 (02/11/2026)
 
 - Bố cục ủ mô phỏng có 5 chỗ cắt thật vì đường song song dời khỏi tâm mà `chi_phi` chỉ xét đường tâm. `ve_hai_cot` trong `ve_erd3.py` xếp thực thể hai cột, mỗi mối kết hợp một đường ngang; nội dung và bản số không đổi. Bản nộp còn 150 trang.
+
+## 28. Thêm sơ đồ quan hệ tổng quát kiểu Toad (02/11/2026)
+
+- Theo mục 1.7.2 của báo cáo mẫu, Twot muốn một sơ đồ toàn bộ lược đồ. Máy không cài Toad Data Modeler nên `ve_tong` trong `ve_bang.py` dựng bằng Graphviz theo ký hiệu của Toad, chú thích ghi "vẽ theo ký hiệu", không ghi là xuất từ Toad.
+- Đặt ở 2.1.5, là Hình 2.1 trên một trang ngang (trang 53), vẽ 26 quan hệ sau cải tiến. Các hình 2.1–2.19 cũ thành 2.2–2.20; các số hình trong những mục trước của file này là số cũ. Bản nộp 151 trang.
+- Hình tổng quát không ghi tên mối kết hợp trên đường nối vì Graphviz `ortho` không đặt nhãn cạnh được; tên có ở các hình nhóm và Chương 1.

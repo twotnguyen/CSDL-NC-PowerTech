@@ -546,7 +546,11 @@ Kiểu dữ liệu theo SQL chuẩn (tiền là đồng Việt Nam, kiểu DECIM
 
 ### 2.1.5 Sơ đồ quan hệ cơ sở dữ liệu (sau cải tiến)
 
-Các hình dưới đây vẽ lược đồ sau cải tiến theo từng nhóm: mỗi bảng ghi tên cột, kiểu, NOT NULL (NN) và khóa; chữ đỏ là khóa chính (PK), xanh lam là khóa vừa chính vừa ngoại (PFK), xanh lục là khóa ngoại (FK), xám là cột cho phép rỗng. Đường nét đứt nối khóa ngoại tới khóa chính của bảng cha, ghi tên mối kết hợp; bảng cha thuộc nhóm khác chỉ vẽ phần khóa.
+Hình 2.1 vẽ toàn bộ lược đồ sau cải tiến, các hình sau vẽ từng nhóm. Chữ đỏ là khóa chính (PK), xanh lam là khóa vừa chính vừa ngoại (PFK), xanh lục là khóa ngoại (FK), xám là cột cho phép rỗng; NN là NOT NULL. Bảng cha thuộc nhóm khác chỉ vẽ phần khóa.
+
+![Hình 2.0: Sơ đồ quan hệ tổng quát sau cải tiến (26 quan hệ, vẽ theo ký hiệu của Toad Data Modeler; nét liền: khóa ngoại nằm trong khóa chính)](hinh/sodo_quanhe_tong.png)
+
+*Hình 2.0: Sơ đồ quan hệ tổng quát sau cải tiến (26 quan hệ, vẽ theo ký hiệu của Toad Data Modeler; nét liền: khóa ngoại nằm trong khóa chính)*
 
 ![Hình 2.5: Sơ đồ quan hệ nhóm “Hàng hóa, ảnh và thông số”](hinh/sodo_quanhe_b1.png)
 
