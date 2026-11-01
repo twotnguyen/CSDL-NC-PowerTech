@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Sơ đồ quan hệ tổng quát 26 bảng trên một trang A4 ngang, kiểu Toad Data Modeler.
+"""Sơ đồ quan hệ tổng quát 26 bảng trên một trang A4 dọc, kiểu Toad Data Modeler.
 
 Graphviz đi đường cho 26 bảng rất rối, nên ở đây đặt bảng cố định và khai báo tay từng đường vuông góc.
-12 bảng có khóa ngoại tới NHANVIEN gom vào một trục ngang; bảng có hai khóa ngoại tới NHANVIEN vẽ chung một nhánh.
+Các bảng có khóa ngoại tới NHANVIEN gom vào một trục dọc; bảng có hai khóa ngoại tới NHANVIEN vẽ chung một nhánh.
 Chạy xong in số giao cắt và kiểm đủ mọi khóa ngoại của lược đồ.
 """
 import os
@@ -20,12 +20,11 @@ R = luoc_do.improved()
 HINH = os.path.join(HERE, '..', 'hinh')
 CO, DONG, DAU, DEM = 10, 26, 30, 6          # cỡ chữ (font() nhân đôi thành 20 px), cao dòng, cao đầu bảng, lề trong
 XANH_DAU, VIEN, NET = (189, 215, 238), (91, 127, 166), (58, 95, 143)
-TREN = [['LOAIHANG', 'THUONGHIEU', 'DINHNGHIATHONGSO', 'GIATRITHONGSO'], ['MATHANG', 'ANHMATHANG', 'GIAODICHKHO'],
-        ['SERIMATHANG', 'CHITIETPHIEUNHAP', 'PHIEUNHAP'], ['HANGCOSERI', 'CHITIETTRA', 'PHIEUBAOHANH'],
-        ['CHITIETDONHANG', 'PHIEUGIAO'], ['LANGIAO'], []]
-DUOI = [[], ['NHACUNGCAP'], ['LANNHANLAI'], ['HOSODOITRA', 'KHOANHOAN'], ['DONHANG'], ['MAGIAMGIA', 'THANHTOAN'], ['TAIKHOAN', 'KHACHHANG']]
-KHE = [120, 120, 140, 160, 120, 110]        # bề rộng khe giữa các cột
-GIA, TRUC, GIUA = 26, 42, 26                # cách giữa hai bảng trong cột, khoảng bảng tới trục, cách NHANVIEN
+COT = [['NHACUNGCAP', 'CHITIETPHIEUNHAP', 'ANHMATHANG', 'SERIMATHANG', 'MATHANG', 'GIATRITHONGSO', 'DINHNGHIATHONGSO', 'LOAIHANG',
+        'THUONGHIEU', 'CHITIETTRA'],
+       ['PHIEUNHAP', 'HANGCOSERI', 'CHITIETDONHANG', 'PHIEUBAOHANH', 'LANNHANLAI', 'HOSODOITRA', 'KHOANHOAN', 'GIAODICHKHO'],
+       ['KHACHHANG', 'TAIKHOAN', 'NHANVIEN', 'MAGIAMGIA', 'DONHANG', 'THANHTOAN', 'PHIEUGIAO', 'LANGIAO']]
+LE, KHE, GIA = 90, [210, 230], 30           # lề trái, bề rộng khe giữa các cột, cách giữa hai bảng trong cột
 
 
 class B:
@@ -73,24 +72,18 @@ class B:
 
 def bo_cuc():
     T = {n: B(n) for n in R}
-    nv = T['NHANVIEN']
-    rong = [max([T[n].w for n in a + b] + ([nv.w] if i == 5 else [])) for i, (a, b) in enumerate(zip(TREN, DUOI))]
-    X, x = [], 40
+    rong = [max(T[n].w for n in c) for c in COT]
+    X, x = [], LE
     for i, w in enumerate(rong):
         X.append(x)
         x += w + (KHE[i] if i < len(KHE) else 0)
-    W = x + 40
-    for i, (tr, du) in enumerate(zip(TREN, DUOI)):
-        y = -(nv.h / 2 + GIUA) if i == 5 else -TRUC
-        for n in reversed(tr):
-            y -= T[n].h
-            T[n].t, T[n].x = y, X[i] + (rong[i] - T[n].w) / 2
-            y -= GIA
-        y = nv.h / 2 + GIUA if i == 5 else TRUC
-        for n in du:
+    W = x + 90
+    cao = {i: sum(T[n].h for n in c) + GIA * (len(c) - 1) for i, c in enumerate(COT)}
+    for i, c in enumerate(COT):
+        y = 0
+        for n in c:
             T[n].t, T[n].x = y, X[i] + (rong[i] - T[n].w) / 2
             y += T[n].h + GIA
-    nv.t, nv.x = -nv.h / 2, X[5] + (rong[5] - nv.w) / 2
     return T, X, rong, W
 
 
@@ -99,6 +92,8 @@ def tuyen(T, X, rong):
     k = lambda i, t: X[i] + rong[i] + t          # vị trí dọc trong khe sau cột i
     g = lambda n: T[n]
     D = []
+    ml = X[0] - 24                               # các vệt ở lề trái
+    mr = X[2] + rong[2] + 24                     # các vệt ở lề phải
 
     def ngang(c, c_dong, p, p_dong, xt=None, net=False):
         """ra sườn bảng con, đi dọc ở xt, vào sườn bảng cha; không có xt thì đi thẳng."""
@@ -110,79 +105,64 @@ def tuyen(T, X, rong):
             xa, xb = a.phai if xt >= a.phai else a.x, b.phai if xt >= b.phai else b.x
         D.append((c, p, net, [(xa, ya), (xb, ya)] if xt is None else [(xa, ya), (xt, ya), (xt, yb), (xb, yb)]))
 
-    def doc(c, p, net=False, x=None):
+    def doc(c, p, net=False):
         a, b = g(c), g(p)
-        x = a.tx if x is None else x
-        D.append((c, p, net, [(x, a.t), (x, b.day)] if b.t < a.t else [(x, a.day), (x, b.t)]))
+        D.append((c, p, net, [(a.tx, a.t), (a.tx, b.day)] if b.t < a.t else [(a.tx, a.day), (a.tx, b.t)]))
 
-    # hàng hóa
-    gtren = min(b.t for b in T.values()) - 26
-    x0 = g('LOAIHANG').x - 26
-    D.append(('DINHNGHIATHONGSO', 'LOAIHANG', False, [(g('DINHNGHIATHONGSO').x, g('DINHNGHIATHONGSO').y(1)), (x0, g('DINHNGHIATHONGSO').y(1)), (x0, g('LOAIHANG').y(0)), (g('LOAIHANG').x, g('LOAIHANG').y(0))]))
+    # hàng hóa: cột trái
     lh = g('LOAIHANG')
-    D.append(('LOAIHANG', 'LOAIHANG', False, [(lh.x + 40, lh.t), (lh.x + 40, lh.t - 20), (lh.x + 110, lh.t - 20), (lh.x + 110, lh.t)]))
+    D.append(('LOAIHANG', 'LOAIHANG', False, [(lh.phai - 110, lh.t), (lh.phai - 110, lh.t - 17), (lh.phai - 40, lh.t - 17), (lh.phai - 40, lh.t)]))
+    doc('DINHNGHIATHONGSO', 'LOAIHANG')
     doc('GIATRITHONGSO', 'DINHNGHIATHONGSO', True)
-    ngang('MATHANG', 'MaLoai', 'LOAIHANG', 0, k(0, 86))
-    ngang('MATHANG', 'MaTH', 'THUONGHIEU', 0, k(0, 56))
-    mh = g('MATHANG')
-    yg = (mh.day + g('ANHMATHANG').t) / 2
-    D.append(('GIATRITHONGSO', 'MATHANG', True, [(g('GIATRITHONGSO').phai, g('GIATRITHONGSO').y(0)), (k(0, 100), g('GIATRITHONGSO').y(0)), (k(0, 100), yg), (mh.x + 30, yg), (mh.x + 30, mh.day)]))
-    doc('ANHMATHANG', 'MATHANG')
-    ngang('SERIMATHANG', 'MaSP', 'MATHANG', 2, k(1, 90))
-    ngang('CHITIETPHIEUNHAP', 'MaSP', 'MATHANG', 5, k(1, 60))
-    ngang('GIAODICHKHO', 'MaSP', 'MATHANG', 8, k(1, 30))
-    ct = g('CHITIETDONHANG')
-    D.append(('CHITIETDONHANG', 'MATHANG', False, [(ct.tx, ct.t), (ct.tx, gtren), (mh.phai - 30, gtren), (mh.phai - 30, mh.t)]))
+    doc('GIATRITHONGSO', 'MATHANG', True)
+    doc('SERIMATHANG', 'MATHANG')
+    ngang('ANHMATHANG', 'MaSP', 'MATHANG', 1, ml)
+    ngang('CHITIETPHIEUNHAP', 'MaSP', 'MATHANG', 3, ml - 26)
+    ngang('MATHANG', 'MaLoai', 'LOAIHANG', 0, ml)
+    ngang('MATHANG', 'MaTH', 'THUONGHIEU', 0, ml - 26)
     # nhập, seri
-    doc('CHITIETPHIEUNHAP', 'PHIEUNHAP', True)
-    ngang('PHIEUNHAP', 'MaNCC', 'NHACUNGCAP', 0, k(1, 100))
-    ngang('HANGCOSERI', 'MaSeri', 'SERIMATHANG', 0, k(2, 66), True)
-    ngang('HANGCOSERI', 'MaPN', 'CHITIETPHIEUNHAP', 0, k(2, 100))
-    doc('CHITIETTRA', 'HANGCOSERI')
-    # bảo hành, đơn
-    ngang('PHIEUBAOHANH', 'MaSeri', 'HANGCOSERI', 5, k(3, 28))
-    ngang('HANGCOSERI', 'MaDH', 'CHITIETDONHANG', 0, k(3, 58))
-    ngang('PHIEUBAOHANH', 'MaDH', 'CHITIETDONHANG', 1, k(3, 88))
-    ngang('CHITIETDONHANG', 'MaDH', 'DONHANG', 0, k(3, 122), True)
+    ngang('CHITIETPHIEUNHAP', 'MaPN', 'PHIEUNHAP', 7, k(0, 40), True)
+    ngang('PHIEUNHAP', 'MaNCC', 'NHACUNGCAP', 1, k(0, 80))
+    ngang('HANGCOSERI', 'MaPN', 'CHITIETPHIEUNHAP', 3, k(0, 120))
+    ngang('HANGCOSERI', 'MaSeri', 'SERIMATHANG', 0, k(0, 160), True)
+    doc('HANGCOSERI', 'CHITIETDONHANG')
+    ngang('CHITIETDONHANG', 'MaSP', 'MATHANG', 6, k(0, 90))
+    ngang('GIAODICHKHO', 'MaSP', 'MATHANG', 9, k(0, 190))
+    # bảo hành
+    doc('PHIEUBAOHANH', 'CHITIETDONHANG')
+    ngang('PHIEUBAOHANH', 'MaSeri', 'HANGCOSERI', 6, k(0, 40))
+    ngang('CHITIETTRA', 'MaSeri', 'HANGCOSERI', 5, k(0, 66))
     # đổi trả, hoàn tiền
-    ngang('CHITIETTRA', 4, 'HOSODOITRA', 1, k(2, 60), True)
-    ngang('LANNHANLAI', 4, 'HOSODOITRA', None)
+    doc('LANNHANLAI', 'HOSODOITRA')
     doc('KHOANHOAN', 'HOSODOITRA')
-    ngang('HOSODOITRA', 3, 'DONHANG', None)
-    ngang('KHOANHOAN', 'MaPhieuBH', 'PHIEUBAOHANH', 11, k(3, 58))
-    # thanh toán, giao hàng, khách
-    kh, tt = g('KHOANHOAN'), g('THANHTOAN')
-    D.append(('KHOANHOAN', 'THANHTOAN', False, [(kh.phai, kh.y(9)), (tt.x, kh.y(9))]))
-    ngang('THANHTOAN', 0, 'DONHANG', 14, k(4, 34))
-    pg, dh = g('PHIEUGIAO'), g('DONHANG')
-    D.append(('PHIEUGIAO', 'DONHANG', False, [(pg.tx + 44, pg.day), (pg.tx + 44, dh.t)]))
-    ngang('LANGIAO', 'MaGiao', 'PHIEUGIAO', 0, k(4, 70), True)
-    mg = g('MAGIAMGIA')
-    D.append(('DONHANG', 'MAGIAMGIA', False, [(dh.phai, dh.y('MaMG')), (mg.x, dh.y('MaMG'))]))
-    khach = g('KHACHHANG')
-    ym = (mg.day + tt.t) / 2
-    D.append(('DONHANG', 'KHACHHANG', False, [(dh.phai, dh.y(13)), (k(4, 70), dh.y(13)), (k(4, 70), ym), (k(5, 60), ym), (k(5, 60), khach.y(0)), (khach.x, khach.y(0))]))
+    ngang('CHITIETTRA', 'MaHS', 'HOSODOITRA', 2, k(0, 40), True)
+    ngang('KHOANHOAN', 'MaPhieuBH', 'PHIEUBAOHANH', 11, k(0, 140))
+    # bán hàng: cột phải
     doc('TAIKHOAN', 'KHACHHANG')
-    # các đường tới NHANVIEN
+    doc('DONHANG', 'MAGIAMGIA')
+    doc('THANHTOAN', 'DONHANG')
+    doc('LANGIAO', 'PHIEUGIAO', True)
+    ngang('PHIEUGIAO', 'MaDH', 'DONHANG', 13, mr)
+    ngang('DONHANG', 'MaKH', 'KHACHHANG', 2, mr + 26)
+    ngang('CHITIETDONHANG', 'MaDH', 'DONHANG', 1, k(1, 50), True)
+    ngang('HOSODOITRA', 'MaDH', 'DONHANG', 9, k(1, 170))
+    ngang('KHOANHOAN', 'MaTT', 'THANHTOAN', 3, k(1, 60))
+    # trục NHANVIEN
     nv = g('NHANVIEN')
-    nhanh = [('GIAODICHKHO', [(g('GIAODICHKHO').tx, g('GIAODICHKHO').day), (g('GIAODICHKHO').tx, 0)]),
-             ('PHIEUNHAP', [(g('PHIEUNHAP').phai, g('PHIEUNHAP').y('MaNV')), (k(2, 24), g('PHIEUNHAP').y('MaNV')), (k(2, 24), 0)]),
-             ('PHIEUBAOHANH', [(g('PHIEUBAOHANH').tx, g('PHIEUBAOHANH').day), (g('PHIEUBAOHANH').tx, 0)]),
-             ('PHIEUGIAO', [(pg.tx - 44, pg.day), (pg.tx - 44, 0)]),
-             ('LANNHANLAI', [(g('LANNHANLAI').tx, g('LANNHANLAI').t), (g('LANNHANLAI').tx, 0)]),
-             ('HOSODOITRA', [(g('HOSODOITRA').tx, g('HOSODOITRA').t), (g('HOSODOITRA').tx, 0)]),
-             ('KHOANHOAN', [(kh.phai, kh.y(4)), (k(3, 28), kh.y(4)), (k(3, 28), 0)]),
-             ('DONHANG', [(dh.tx - 44, dh.t), (dh.tx - 44, 0)])]
+    xt = k(1, 115)
+    nhanh = []
+    for n, dong in (('PHIEUNHAP', 'MaNV'), ('PHIEUBAOHANH', 'MaNV'), ('LANNHANLAI', 'MaNV'), ('HOSODOITRA', 'MaNV'), ('KHOANHOAN', 'MaNV'), ('GIAODICHKHO', 'MaNV')):
+        nhanh.append((n, [(g(n).phai, g(n).y(dong)), (xt, g(n).y(dong))]))
+    for n, dong in (('DONHANG', 'MaNV'), ('THANHTOAN', 'MaNV'), ('PHIEUGIAO', 'MaNV'), ('LANGIAO', 'MaNV')):
+        nhanh.append((n, [(g(n).x, g(n).y(dong)), (xt, g(n).y(dong))]))
     for c, ds in nhanh:
         D.append((c, 'NHANVIEN', False, ds))
-    trai = min(p[-1][0] for _, p in nhanh)
-    D.append(('*', 'NHANVIEN', False, [(trai, 0), (nv.x, 0)]))
-    D.append(('LANGIAO', 'NHANVIEN', False, [(g('LANGIAO').tx, g('LANGIAO').day), (g('LANGIAO').tx, nv.t)]))
-    D.append(('MAGIAMGIA', 'NHANVIEN', False, [(mg.tx, mg.t), (mg.tx, nv.day)]))
-    tk = g('TAIKHOAN')
-    D.append(('TAIKHOAN', 'NHANVIEN', False, [(tk.x, nv.y(7)), (nv.phai, nv.y(7))]))
-    D.append(('THANHTOAN', 'NHANVIEN', False, [(tt.phai, tt.y('MaNV')), (k(5, 30), tt.y('MaNV')), (k(5, 30), nv.y(8)), (nv.phai, nv.y(8))]))
-    return D, [p[-1] for _, p in nhanh]
+    ys = [p[-1][1] for _, p in nhanh] + [nv.y(4)]
+    D.append(('*', '*', False, [(xt, min(ys)), (xt, max(ys))]))
+    D.append(('*', 'NHANVIEN', False, [(xt, nv.y(4)), (nv.x, nv.y(4))]))
+    doc('TAIKHOAN', 'NHANVIEN')
+    doc('MAGIAMGIA', 'NHANVIEN')
+    return D, [p[-1] for _, p in nhanh] + [(xt, nv.y(4))]
 
 
 def net_dut(d, a, b, w):
@@ -206,7 +186,7 @@ def dem_cat(D):
     ds = []
     for i, (c1, p1, a, b) in enumerate(doan):
         for c2, p2, e, f in doan[i + 1:]:
-            if (c1, p1) == (c2, p2) or 'NHANVIEN' == p1 == p2:
+            if (c1, p1) == (c2, p2) or 'NHANVIEN' == p1 == p2 or {p1, p2} <= {'*', 'NHANVIEN'}:
                 continue
             ng = a[1] == b[1]
             if ng == (e[1] == f[1]):
@@ -231,7 +211,7 @@ def xuyen_bang(D, T):
 def main():
     T, X, rong, W = bo_cuc()
     D, tram = tuyen(T, X, rong)
-    tren, duoi = min(b.t for b in T.values()) - 60, max(b.day for b in T.values()) + 40
+    tren, duoi = min(b.t for b in T.values()) - 40, max(b.day for b in T.values()) + 40
     H = int(duoi - tren)
     im = Image.new('RGB', (int(W), H), 'white')
     d = ImageDraw.Draw(im)
@@ -254,12 +234,12 @@ def main():
         L = abs(bx) + abs(by) or 1
         ux, uy = bx / L, by / L
         x, y = ds[-1]
-        if p != 'NHANVIEN' or c == '*' or y != -tren:      # nhánh dừng ở trục thì không có gạch đầu
+        if p != '*' and (p != 'NHANVIEN' or c == '*' or x != T['NHANVIEN'].x and T['NHANVIEN'].t <= y <= T['NHANVIEN'].day):      # nhánh dừng ở trục thì không có gạch đầu
             d.line([(x + ux * 9 - uy * 9, y + uy * 9 + ux * 9), (x + ux * 9 + uy * 9, y + uy * 9 - ux * 9)], fill=NET, width=3)
     for x, y in tram:
         d.ellipse([x - 6, y - tren - 6, x + 6, y - tren + 6], fill=NET)
     # chú thích ở góc trống
-    x, y = 60, T['LANNHANLAI'].t + 10
+    x, y = X[0], T['CHITIETTRA'].day + 40
     f = font(CO)
     d.text((x, y), 'Chú thích', font=font(CO, True), fill='black')
     for k, (t, m) in enumerate([('PK: khóa chính', (192, 0, 0)), ('PFK: vừa khóa chính vừa khóa ngoại', (31, 78, 180)), ('FK: khóa ngoại', (46, 125, 50)),
@@ -279,7 +259,7 @@ def main():
     can = {(n, p) for n in R for _, p, _ in R[n]['fks']}
     thieu = can - co
     assert not thieu, thieu
-    assert not co - can - {('*', 'NHANVIEN')}, co - can
+    assert not co - can - {('*', 'NHANVIEN'), ('*', '*')}, co - can
     cat = dem_cat(D)
     print('khung', im.size, '| đường', len(D), '| cặp FK', len(can), '| giao cắt', len(cat), '| xuyên bảng', xuyen_bang(D, T))
     for x in cat:
