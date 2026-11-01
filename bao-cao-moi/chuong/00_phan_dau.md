@@ -18,4 +18,4 @@ Cuối cùng, nhóm cảm ơn gia đình và các bạn đã hỗ trợ nhóm tr
 
 # LỜI CAM ĐOAN
 
-Nhóm xin cam đoan nội dung đồ án học phần Cơ sở dữ liệu nâng cao “PowerTech – cơ sở dữ liệu cửa hàng bán lẻ linh kiện máy tính” là sản phẩm của nhóm 6, lớp 23DTHD6. Các tài liệu tham khảo đều có xuất xứ rõ ràng và được nêu ở phần Tài liệu tham khảo. Các phép tính phụ thuộc hàm, khóa, dạng chuẩn, bảo toàn và đồ thị đã được nhóm kiểm tra lại bằng chương trình nhỏ đi kèm báo cáo (thư mục `tools`). Nhóm xin chịu hoàn toàn trách nhiệm về lời cam đoan của mình.
+Nhóm xin cam đoan nội dung đồ án học phần Cơ sở dữ liệu nâng cao “PowerTech – cơ sở dữ liệu cửa hàng bán lẻ linh kiện máy tính” là sản phẩm của nhóm 6, lớp 23DTHD6. Các tài liệu tham khảo đều có xuất xứ rõ ràng và được nêu ở phần Tài liệu tham khảo. Các phép tính phụ thuộc hàm, khóa, dạng chuẩn, bảo toàn và đồ thị đã được nhóm kiểm tra lại bằng chương trình nhỏ do nhóm tự viết. Nhóm xin chịu hoàn toàn trách nhiệm về lời cam đoan của mình.

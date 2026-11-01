@@ -278,7 +278,7 @@ rel('HANGCOSERI', 'nghiep_vu', 'Chiếc hàng có số seri',
      ('MaSP', 'INT', 'NN', 'Mặt hàng của chiếc này'), ('MaPN', 'INT', 'NN', 'Phiếu nhập chiếc này về'),
      ('SoDongPN', 'INT', 'NN', 'Dòng của phiếu nhập'), ('MaDH', 'INT', 'NULL', 'Đơn của lần bán gần nhất'),
      ('SoDongDH', 'INT', 'NULL', 'Dòng đơn của lần bán gần nhất'), ('TinhTrangSeri', 'NVARCHAR(20)', 'NN', 'Trong kho, đã bán, chờ kiểm tra...'),
-     ('ThoiDiemNhap', 'DATETIME', 'NN', 'Thời điểm nhập kho')],
+     ('ThoiDiemNhap', 'DATETIME', 'NN', 'Thời điểm ghi seri vào kho')],
     ['MaSeri'], ['MaSeri -> SoSeri,MaSP,MaPN,SoDongPN,MaDH,SoDongDH,TinhTrangSeri,ThoiDiemNhap',
                  'MaSP,SoSeri -> MaSeri',
                  'MaPN,SoDongPN -> MaSP',
@@ -286,7 +286,9 @@ rel('HANGCOSERI', 'nghiep_vu', 'Chiếc hàng có số seri',
     'Mỗi chiếc hàng có số seri được phân biệt bằng mã nội bộ (MaSeri). Chiếc hàng ghi số seri (SoSeri), thuộc một mặt '
     'hàng (MaSP), nhập về theo một dòng của phiếu nhập (MaPN, SoDongPN) và, khi đã bán, ghi dòng đơn của lần bán gần nhất '
     '(MaDH, SoDongDH). Số seri là duy nhất trong cùng mặt hàng; hai mặt hàng khác nhau có thể có cùng số seri. Mỗi dòng '
-    'nhập hay dòng đơn chỉ chứa một mặt hàng.',
+    'nhập hay dòng đơn chỉ chứa một mặt hàng. ThoiDiemNhap là lúc chiếc đó được ghi seri vào kho, có thể khác thời điểm '
+    'nhận cả lô (ThoiDiemNhan) và thời điểm xác nhận phiếu (ThoiDiemXacNhan) vì nhân viên kho ghi seri từng chiếc sau khi '
+    'mở kiện (giả thiết của nhóm).',
     'MaSeri là số tự nhiên tăng dần. Cặp (MaSP, SoSeri) không trùng. MaSP của chiếc phải bằng MaSP của dòng nhập và '
     'của dòng đơn nếu có. Mặt hàng phải có CoSeri = 1. MaDH và SoDongDH cùng rỗng hoặc cùng có giá trị. Các PTH có vế trái '
     'chứa cột cho phép rỗng (MaDH, SoDongDH) chỉ xét trên những chiếc đã bán. Chiếc trả về rồi bán lại thì MaDH, SoDongDH '

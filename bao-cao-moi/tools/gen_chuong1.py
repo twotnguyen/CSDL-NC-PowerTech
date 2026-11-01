@@ -36,7 +36,7 @@ MOTA = {
     'PHIEUGIAO': 'Phiếu giao hàng lập cho đơn cần giao tận nơi.',
     'LANGIAO': 'Mỗi lần thử giao của một phiếu giao (tối đa 3 lần).',
     'PHIEUNHAP': 'Phiếu nhập ghi một lần nhận hàng thực tế từ nhà cung cấp.',
-    'HANGCOSERI': 'Từng chiếc hàng có số seri riêng: nhập về khi nào, bán ở đâu, tình trạng hiện tại.',
+    'HANGCOSERI': 'Từng chiếc hàng có số seri riêng: nhập về khi nào, lần bán gần nhất theo đơn nào, tình trạng hiện tại.',
     'GIAODICHKHO': 'Mỗi lần hàng vào hoặc ra kho (nhập, bán, nhận lại, chuyển nhóm).',
     'HOSODOITRA': 'Hồ sơ đổi trả của một đơn: trường hợp, lý do, tình trạng, hình thức xử lý.',
     'LANNHANLAI': 'Mỗi lần cửa hàng nhận hàng trả về để kiểm tra.',

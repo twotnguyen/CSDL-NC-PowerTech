@@ -1,5 +1,5 @@
 digraph G {
-  rankdir=LR; splines=polyline; nodesep=0.3; ranksep=0.7; pad=0.2; newrank=true;
+  rankdir=LR; splines=polyline; nodesep=0.45; ranksep=0.8; pad=0.2; newrank=true;
   node [shape=plaintext, fontname="Helvetica", fontsize=10]; edge [fontname="Helvetica", fontsize=9, color="#3A5F8F", style=dashed, dir=both, arrowtail=crow, arrowhead=tee];
   "HOSODOITRA" [label=<<TABLE BORDER="1" COLOR="#5B7FA6" CELLBORDER="0" CELLSPACING="0" CELLPADDING="2" BGCOLOR="white"><TR><TD COLSPAN="4" BGCOLOR="#BDD7EE"><B>HOSODOITRA</B></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#C00000">MaHS</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#C00000">Integer</FONT></TD><TD><FONT COLOR="#C00000">NN</FONT></TD><TD><FONT COLOR="#C00000">(PK)</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaDH</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">Integer</FONT></TD><TD><FONT COLOR="#2E7D32">NN</FONT></TD><TD><FONT COLOR="#2E7D32">(FK)</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaNV</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">Integer</FONT></TD><TD><FONT COLOR="#2E7D32">NN</FONT></TD><TD><FONT COLOR="#2E7D32">(FK)</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#000000">NgayDeNghi</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#000000">Date</FONT></TD><TD><FONT COLOR="#000000">NN</FONT></TD><TD> </TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#000000">LoaiTruongHop</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#000000">Nvarchar(30)</FONT></TD><TD><FONT COLOR="#000000">NN</FONT></TD><TD> </TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#000000">LyDoDoiTra</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#000000">Nvarchar(500)</FONT></TD><TD><FONT COLOR="#000000">NN</FONT></TD><TD> </TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#000000">TinhTrangHS</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#000000">Nvarchar(20)</FONT></TD><TD><FONT COLOR="#000000">NN</FONT></TD><TD> </TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#808080">HinhThucXuLy</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#808080">Nvarchar(20)</FONT></TD><TD> </TD><TD> </TD></TR></TABLE>>];
   "CHITIETTRA" [label=<<TABLE BORDER="1" COLOR="#5B7FA6" CELLBORDER="0" CELLSPACING="0" CELLPADDING="2" BGCOLOR="white"><TR><TD COLSPAN="4" BGCOLOR="#BDD7EE"><B>CHITIETTRA</B></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#1F4EB4">MaHS</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#1F4EB4">Integer</FONT></TD><TD><FONT COLOR="#1F4EB4">NN</FONT></TD><TD><FONT COLOR="#1F4EB4">(PFK)</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#C00000">SoDongTra</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#C00000">Integer</FONT></TD><TD><FONT COLOR="#C00000">NN</FONT></TD><TD><FONT COLOR="#C00000">(PK)</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#000000">SoDongDH</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#000000">Integer</FONT></TD><TD><FONT COLOR="#000000">NN</FONT></TD><TD> </TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#000000">SoLuongTra</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#000000">Integer</FONT></TD><TD><FONT COLOR="#000000">NN</FONT></TD><TD> </TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaSeri</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">Integer</FONT></TD><TD> </TD><TD><FONT COLOR="#2E7D32">(FK)</FONT></TD></TR></TABLE>>];
@@ -11,19 +11,19 @@ digraph G {
   "HANGCOSERI" [label=<<TABLE BORDER="1" COLOR="#5B7FA6" CELLBORDER="0" CELLSPACING="0" CELLPADDING="2" BGCOLOR="white"><TR><TD COLSPAN="4" BGCOLOR="#BDD7EE"><B>HANGCOSERI</B></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#1F4EB4">MaSeri</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#1F4EB4">Integer</FONT></TD><TD><FONT COLOR="#1F4EB4">NN</FONT></TD><TD><FONT COLOR="#1F4EB4">(PFK)</FONT></TD></TR><TR><TD COLSPAN="4"><FONT COLOR="#808080">…</FONT></TD></TR></TABLE>>];
   "THANHTOAN" [label=<<TABLE BORDER="1" COLOR="#5B7FA6" CELLBORDER="0" CELLSPACING="0" CELLPADDING="2" BGCOLOR="white"><TR><TD COLSPAN="4" BGCOLOR="#BDD7EE"><B>THANHTOAN</B></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#C00000">MaTT</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#C00000">Integer</FONT></TD><TD><FONT COLOR="#C00000">NN</FONT></TD><TD><FONT COLOR="#C00000">(PK)</FONT></TD></TR><TR><TD COLSPAN="4"><FONT COLOR="#808080">…</FONT></TD></TR></TABLE>>];
   "CHITIETDONHANG" [label=<<TABLE BORDER="1" COLOR="#5B7FA6" CELLBORDER="0" CELLSPACING="0" CELLPADDING="2" BGCOLOR="white"><TR><TD COLSPAN="4" BGCOLOR="#BDD7EE"><B>CHITIETDONHANG</B></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#1F4EB4">MaDH</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#1F4EB4">Integer</FONT></TD><TD><FONT COLOR="#1F4EB4">NN</FONT></TD><TD><FONT COLOR="#1F4EB4">(PFK)</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#C00000">SoDongDH</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#C00000">Integer</FONT></TD><TD><FONT COLOR="#C00000">NN</FONT></TD><TD><FONT COLOR="#C00000">(PK)</FONT></TD></TR><TR><TD COLSPAN="4"><FONT COLOR="#808080">…</FONT></TD></TR></TABLE>>];
-  "HOSODOITRA" -> "DONHANG" [xlabel="Đề nghị trả"];
-  "HOSODOITRA" -> "NHANVIEN" [xlabel="Tiếp nhận đổi trả"];
-  "CHITIETTRA" -> "HOSODOITRA" [xlabel=""];
-  "CHITIETTRA" -> "HANGCOSERI" [xlabel="Trả chiếc"];
-  "LANNHANLAI" -> "HOSODOITRA" [xlabel="Nhận lại"];
-  "LANNHANLAI" -> "NHANVIEN" [xlabel="Kiểm tra"];
-  "LANNHANLAI" -> "NHANVIEN" [xlabel="Duyệt hàng nhận lại"];
-  "KHOANHOAN" -> "THANHTOAN" [xlabel="Hoàn cho khoản thu"];
-  "KHOANHOAN" -> "HOSODOITRA" [xlabel="Hoàn theo hồ sơ"];
-  "KHOANHOAN" -> "PHIEUBAOHANH" [xlabel="Hoàn theo bảo hành"];
-  "KHOANHOAN" -> "NHANVIEN" [xlabel="Duyệt hoàn"];
-  "KHOANHOAN" -> "NHANVIEN" [xlabel="Chi hoàn tiền"];
-  "PHIEUBAOHANH" -> "HANGCOSERI" [xlabel="Bảo hành chiếc"];
-  "PHIEUBAOHANH" -> "CHITIETDONHANG" [xlabel="Mua tại dòng"];
-  "PHIEUBAOHANH" -> "NHANVIEN" [xlabel="Tiếp nhận bảo hành"];
+  "HOSODOITRA" -> "DONHANG" [label="Đề nghị trả"];
+  "HOSODOITRA" -> "NHANVIEN" [label="Tiếp nhận đổi trả"];
+  "CHITIETTRA" -> "HOSODOITRA" [label=""];
+  "CHITIETTRA" -> "HANGCOSERI" [label="Trả chiếc"];
+  "LANNHANLAI" -> "HOSODOITRA" [label="Nhận lại"];
+  "LANNHANLAI" -> "NHANVIEN" [label="Kiểm tra"];
+  "LANNHANLAI" -> "NHANVIEN" [label="Duyệt hàng nhận lại"];
+  "KHOANHOAN" -> "THANHTOAN" [label="Hoàn cho khoản thu"];
+  "KHOANHOAN" -> "HOSODOITRA" [label="Hoàn theo hồ sơ"];
+  "KHOANHOAN" -> "PHIEUBAOHANH" [label="Hoàn theo bảo hành"];
+  "KHOANHOAN" -> "NHANVIEN" [label="Duyệt hoàn"];
+  "KHOANHOAN" -> "NHANVIEN" [label="Chi hoàn tiền"];
+  "PHIEUBAOHANH" -> "HANGCOSERI" [label="Bảo hành chiếc"];
+  "PHIEUBAOHANH" -> "CHITIETDONHANG" [label="Mua tại dòng"];
+  "PHIEUBAOHANH" -> "NHANVIEN" [label="Tiếp nhận bảo hành"];
 }

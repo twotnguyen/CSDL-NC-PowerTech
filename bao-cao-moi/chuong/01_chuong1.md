@@ -166,7 +166,7 @@ Theo giáo trình (13.2.3) và bài giảng, loại thực thể là đối tư�
 | THANHTOAN | MaTT, LoaiKhoan, PhuongThuc, SoTien, ThoiDiemTT, KetQuaTT, MaGiaoDichNgoai, DonViThanhToan | Mỗi lần thanh toán hoặc đặt cọc cho một đơn hàng. | Phát sinh mỗi lần thu tiền; có ThoiDiemTT. |
 | PHIEUGIAO | MaGiao, ThoiDiemXuat, TinhTrangGiao | Phiếu giao hàng lập cho đơn cần giao tận nơi. | Phát sinh khi xuất hàng đi giao; có ThoiDiemXuat. |
 | PHIEUNHAP | MaPN, SoPhieu, ThoiDiemNhan, TinhTrangPN, ThoiDiemXacNhan, SoHoaDonNCC, GhiChuPN | Phiếu nhập ghi một lần nhận hàng thực tế từ nhà cung cấp. | Phát sinh mỗi lần nhận hàng; có ThoiDiemNhan. |
-| HANGCOSERI | MaSeri, SoSeri, TinhTrangSeri, ThoiDiemNhap | Từng chiếc hàng có số seri riêng: nhập về khi nào, bán ở đâu, tình trạng hiện tại. | Phát sinh khi chiếc hàng được nhập; có ThoiDiemNhap; số lượng tăng theo thời gian. |
+| HANGCOSERI | MaSeri, SoSeri, TinhTrangSeri, ThoiDiemNhap | Từng chiếc hàng có số seri riêng: nhập về khi nào, lần bán gần nhất theo đơn nào, tình trạng hiện tại. | Phát sinh khi chiếc hàng được nhập; có ThoiDiemNhap; số lượng tăng theo thời gian. |
 | GIAODICHKHO | MaGDK, NhomKho, LoaiBienDong, SoLuongGD, ThoiDiemGD, LoaiChungTu, MaChungTu, GhiChuGD | Mỗi lần hàng vào hoặc ra kho (nhập, bán, nhận lại, chuyển nhóm). | Phát sinh mỗi lần hàng vào hoặc ra kho; có ThoiDiemGD. |
 | HOSODOITRA | MaHS, NgayDeNghi, LoaiTruongHop, LyDoDoiTra, TinhTrangHS, HinhThucXuLy | Hồ sơ đổi trả của một đơn: trường hợp, lý do, tình trạng, hình thức xử lý. | Phát sinh khi khách đề nghị đổi trả; có NgayDeNghi. |
 | LANNHANLAI | MaNhanLai, ThoiDiemNhanLai, KetLuan, NhomSauKiemTra, ThoiDiemDuyet | Mỗi lần cửa hàng nhận hàng trả về để kiểm tra. | Phát sinh khi hàng trả về; có ThoiDiemNhanLai. |
@@ -203,7 +203,7 @@ Dòng chi tiết là **mối kết hợp** giữa hai thực thể, không phả
 
 ### 1.7.1 Phân tích mô hình ERD
 
-Mô hình có **20 thực thể** (hình chữ nhật), **5 mối kết hợp có thuộc tính** (oval xanh) và **37 mối kết hợp** còn lại (oval cam) đặt tên bằng động từ. Bản số (min,max) đặt cạnh thực thể: số lần mỗi thể hiện của thực thể tham gia mối kết hợp. Ví dụ DONHANG (0,1) – Đặt – KHACHHANG (0,n): một đơn có tối đa một khách (khách vãng lai thì không), một khách có thể có nhiều đơn.
+Mô hình có **20 thực thể** (hình chữ nhật), **5 mối kết hợp có thuộc tính** (oval xanh) và **38 mối kết hợp** còn lại (oval cam) đặt tên bằng động từ. Bản số (min,max) đặt cạnh thực thể: số lần mỗi thể hiện của thực thể tham gia mối kết hợp. Ví dụ DONHANG (0,1) – Đặt – KHACHHANG (0,n): một đơn có tối đa một khách (khách vãng lai thì không), một khách có thể có nhiều đơn.
 
 | Mối kết hợp | Thực thể | Bản số | Thực thể | Bản số |
 |---|---|---|---|---|
@@ -233,6 +233,7 @@ Mô hình có **20 thực thể** (hình chữ nhật), **5 mối kết hợp c�
 | Thực hiện | GIAO DỊCH KHO | (0,1) | NHÂN VIÊN | (0,n) |
 | Đề nghị trả | HỒ SƠ ĐỔI TRẢ | (1,1) | ĐƠN HÀNG | (0,n) |
 | Tiếp nhận đổi trả | HỒ SƠ ĐỔI TRẢ | (1,1) | NHÂN VIÊN | (0,n) |
+| Trả chiếc | CHI TIẾT TRẢ | (0,1) | HÀNG CÓ SERI | (0,n) |
 | Nhận lại | LẦN NHẬN LẠI | (1,1) | HỒ SƠ ĐỔI TRẢ | (0,n) |
 | Kiểm tra | LẦN NHẬN LẠI | (0,1) | NHÂN VIÊN | (0,n) |
 | Duyệt hàng nhận lại | LẦN NHẬN LẠI | (0,1) | NHÂN VIÊN | (0,n) |

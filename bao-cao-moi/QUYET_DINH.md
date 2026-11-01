@@ -297,3 +297,9 @@ Sao lưu: `chuong_docx/_sao_luu/truoc_doc_157_trang/`.
 - Hình tổng quát không ghi tên mối kết hợp trên đường nối để khỏi rối; tên có ở các hình nhóm và Chương 1.
 - Theo yêu cầu của Twot, tên của cả 61 bảng đặt bên dưới bảng và căn giữa, giống tên hình; dòng cuối bảng dính với tên bảng để tên không tách trang. `ghep_docx.py` sinh theo cùng cách.
 - Không mở file `PowerTech_CSDLNC_Bao_cao_ghep.docx` bằng Word COM ở đúng đường dẫn đó vì bị treo; xử lý trên bản sao trong thư mục tạm rồi chép về.
+
+## 29. Sau khi đọc đủ 152 trang (02/11/2026)
+
+- Hình 2.2–2.6 dùng nhãn cạnh thường thay cho xlabel để nhãn không đè bảng. Hàng tiêu đề mọi bảng dính với dòng đầu để không nằm một mình cuối trang.
+- Giả thiết mới: ThoiDiemNhap là lúc chiếc được ghi seri vào kho, có thể khác ThoiDiemNhan và ThoiDiemXacNhan. Đổi "bán ở đâu" thành "lần bán gần nhất theo đơn nào".
+- Lời cam đoan không còn nói có thư mục tools đi kèm. Các câu nhắc tools/fd.py, tools/dothi.py, sql/... ở chương 2, 3 vẫn giữ để chỉ nguồn kiểm tra.

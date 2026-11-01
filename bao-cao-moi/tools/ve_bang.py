@@ -52,7 +52,7 @@ def bang_html(n, stub=False):
 def ve_bang(key):
     ten, tables, rd = NHOM[key]
     keep = list(tables)
-    L = ['digraph G {', f'  rankdir={rd}; splines=polyline; nodesep=0.3; ranksep=0.7; pad=0.2; newrank=true;',
+    L = ['digraph G {', f'  rankdir={rd}; splines=polyline; nodesep=0.45; ranksep=0.8; pad=0.2; newrank=true;',
          '  node [shape=plaintext, fontname="Helvetica", fontsize=10]; edge [fontname="Helvetica", fontsize=9, color="#3A5F8F", style=dashed, '
          'dir=both, arrowtail=crow, arrowhead=tee];']
     stubs = []
@@ -70,7 +70,7 @@ def ve_bang(key):
         L.append(f'  "{n}" [label={bang_html(n, True)}];')
     seen = set()
     for c, p, v in edges:
-        L.append(f'  "{c}" -> "{p}" [xlabel="{v}"];' if (c, p) not in seen else f'  "{c}" -> "{p}" [xlabel="{v}"];')
+        L.append(f'  "{c}" -> "{p}" [label="{v}"];' if (c, p) not in seen else f'  "{c}" -> "{p}" [label="{v}"];')
         seen.add((c, p))
     L.append('}')
     base = os.path.join(HINH, f'sodo_quanhe_{key}')

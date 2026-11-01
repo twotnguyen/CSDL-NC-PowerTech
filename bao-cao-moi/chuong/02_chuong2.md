@@ -180,7 +180,7 @@ Ràng buộc: SoLuongNhap lớn hơn 0. GiaNhap không âm.
 
 **19/ HANGCOSERI(<u>MaSeri</u>, SoSeri, <span style="text-decoration: underline dashed">MaSP</span>, <span style="text-decoration: underline dashed">MaPN</span>, <span style="text-decoration: underline dashed">SoDongPN</span>, <span style="text-decoration: underline dashed">MaDH</span>, <span style="text-decoration: underline dashed">SoDongDH</span>, TinhTrangSeri, ThoiDiemNhap)**
 
-Tân từ: Mỗi chiếc hàng có số seri được phân biệt bằng mã nội bộ (MaSeri). Chiếc hàng ghi số seri (SoSeri), thuộc một mặt hàng (MaSP), nhập về theo một dòng của phiếu nhập (MaPN, SoDongPN) và, khi đã bán, ghi dòng đơn của lần bán gần nhất (MaDH, SoDongDH). Số seri là duy nhất trong cùng mặt hàng; hai mặt hàng khác nhau có thể có cùng số seri. Mỗi dòng nhập hay dòng đơn chỉ chứa một mặt hàng.
+Tân từ: Mỗi chiếc hàng có số seri được phân biệt bằng mã nội bộ (MaSeri). Chiếc hàng ghi số seri (SoSeri), thuộc một mặt hàng (MaSP), nhập về theo một dòng của phiếu nhập (MaPN, SoDongPN) và, khi đã bán, ghi dòng đơn của lần bán gần nhất (MaDH, SoDongDH). Số seri là duy nhất trong cùng mặt hàng; hai mặt hàng khác nhau có thể có cùng số seri. Mỗi dòng nhập hay dòng đơn chỉ chứa một mặt hàng. ThoiDiemNhap là lúc chiếc đó được ghi seri vào kho, có thể khác thời điểm nhận cả lô (ThoiDiemNhan) và thời điểm xác nhận phiếu (ThoiDiemXacNhan) vì nhân viên kho ghi seri từng chiếc sau khi mở kiện (giả thiết của nhóm).
 
 Ràng buộc: MaSeri là số tự nhiên tăng dần. Cặp (MaSP, SoSeri) không trùng. MaSP của chiếc phải bằng MaSP của dòng nhập và của dòng đơn nếu có. Mặt hàng phải có CoSeri = 1. MaDH và SoDongDH cùng rỗng hoặc cùng có giá trị. Các PTH có vế trái chứa cột cho phép rỗng (MaDH, SoDongDH) chỉ xét trên những chiếc đã bán. Chiếc trả về rồi bán lại thì MaDH, SoDongDH chuyển sang lần bán mới; lần bán trước vẫn tra được ở dòng trả (CHITIETTRA) và phiếu bảo hành.
 
@@ -456,7 +456,7 @@ Kiểu dữ liệu theo SQL chuẩn (tiền là đồng Việt Nam, kiểu DECIM
 | MaDH | Đơn của lần bán gần nhất | Integer |  | FK, Null |
 | SoDongDH | Dòng đơn của lần bán gần nhất | Integer |  | FK, Null |
 | TinhTrangSeri | Trong kho, đã bán, chờ kiểm tra... | Nvarchar | 20 | Not Null |
-| ThoiDiemNhap | Thời điểm nhập kho | Datetime |  | Not Null |
+| ThoiDiemNhap | Thời điểm ghi seri vào kho | Datetime |  | Not Null |
 
 **20/ Bảng GIAODICHKHO** (Giao dịch kho)
 
