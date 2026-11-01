@@ -1,0 +1,25 @@
+# Office lock / temporary files
+~$*
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment / local configs
+.env
+.env.local
+.venv/
+env/
+venv/
+
+# OS / Editor
+Thumbs.db
+[Dd]esktop.ini
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~

@@ -1,0 +1,26 @@
+digraph G {
+  rankdir=LR; splines=true; nodesep=0.45; ranksep=1.6; pad=0.25; newrank=true;
+  node [fontname="Helvetica"]; edge [fontname="Helvetica", fontsize=11, color="#444444"];
+  "qt" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản trị</TD></TR></TABLE>>, fontsize=13];
+  "bh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Bán hàng</TD></TR></TABLE>>, fontsize=13];
+  "kho" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Kho</TD></TR></TABLE>>, fontsize=13];
+  "cs" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Chăm sóc<BR/>khách hàng</TD></TR></TABLE>>, fontsize=13];
+  "kh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_do.png"/></TD></TR><TR><TD>Khách hàng</TD></TR></TABLE>>, fontsize=13];
+  subgraph cluster_sys { label=<<B>Quản lý đối tượng ngoài</B>>; labeljust=l; fontsize=15; fontname="Helvetica"; style=filled; fillcolor="#F4F8FD"; color="#6C8EBF"; penwidth=1.6;
+    "a1" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý khách hàng>];
+    "a2" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý nhân viên>];
+    "a3" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý nhà cung cấp>];
+    "a4" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý tài khoản<BR/>(khóa, mở khóa)>];
+    "a5" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý địa chỉ<BR/>giao hàng>];
+    "a6" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Đăng ký tài khoản>];
+  }
+  "bh" -> "a1" [arrowhead=none];
+  "cs" -> "a1" [arrowhead=none];
+  "qt" -> "a2" [arrowhead=none];
+  "kho" -> "a3" [arrowhead=none];
+  "qt" -> "a4" [arrowhead=none];
+  "kh" -> "a5" [arrowhead=none];
+  "kh" -> "a6" [arrowhead=none];
+  { rank=min; "qt"; "bh"; "kho"; "cs"; }
+  { rank=max; "kh"; }
+}

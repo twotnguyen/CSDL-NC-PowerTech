@@ -1,0 +1,10 @@
+digraph G {
+  rankdir=TB; splines=polyline; nodesep=0.5; ranksep=0.75; pad=0.25;
+  node [fontname="Helvetica", fontsize=12, margin="0.18,0.1"]; edge [fontname="Helvetica", fontsize=10.5, color="#444444"];
+  q [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#F8CECC"><B>Q: CHITIETTRA (ban đầu)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaHS</U></TD></TR><TR><TD ALIGN="LEFT"><U>SoDongTra</U></TD></TR><TR><TD ALIGN="LEFT">SoDongDH</TD></TR><TR><TD ALIGN="LEFT">MaDH</TD></TR><TR><TD ALIGN="LEFT">SoLuongTra</TD></TR><TR><TD ALIGN="LEFT">MaSeri</TD></TR></TABLE>>];
+  pth [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<PTH gây vi phạm:<BR/><B>MaHS → MaDH</B><BR/>(phụ thuộc một phần vào khóa)>];
+  q1 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#DAE8FC"><B>Q₁ = HOSODOITRA (đã có)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaHS</U></TD></TR><TR><TD ALIGN="LEFT">MaDH</TD></TR><TR><TD ALIGN="LEFT">…</TD></TR></TABLE>>];
+  q2 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#D5E8D4"><B>Q₂: CHITIETTRA (sau cải tiến)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaHS</U></TD></TR><TR><TD ALIGN="LEFT"><U>SoDongTra</U></TD></TR><TR><TD ALIGN="LEFT">SoDongDH</TD></TR><TR><TD ALIGN="LEFT">SoLuongTra</TD></TR><TR><TD ALIGN="LEFT">MaSeri</TD></TR></TABLE>>];
+  q -> q1 [label="tách theo MaHS → MaDH"]; q -> q2 [label="Q ∖ {MaDH}"]; pth -> q [style=dashed, arrowhead=none];
+  { rank=same; q; pth }
+}

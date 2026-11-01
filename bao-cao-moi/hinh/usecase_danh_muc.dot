@@ -1,0 +1,23 @@
+digraph G {
+  rankdir=LR; splines=true; nodesep=0.45; ranksep=1.6; pad=0.25; newrank=true;
+  node [fontname="Helvetica"]; edge [fontname="Helvetica", fontsize=11, color="#444444"];
+  "ql" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản lý</TD></TR></TABLE>>, fontsize=13];
+  "bh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Bán hàng</TD></TR></TABLE>>, fontsize=13];
+  "qt" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản trị</TD></TR></TABLE>>, fontsize=13];
+  subgraph cluster_sys { label=<<B>Quản lý danh mục cơ bản</B>>; labeljust=l; fontsize=15; fontname="Helvetica"; style=filled; fillcolor="#F4F8FD"; color="#6C8EBF"; penwidth=1.6;
+    "b1" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý loại hàng>];
+    "b2" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý thương hiệu>];
+    "b3" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý mặt hàng>];
+    "b4" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý ảnh mặt hàng>];
+    "b5" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý thông số<br/>và giá trị thông số>];
+    "b6" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý vai trò>];
+  }
+  "ql" -> "b1" [arrowhead=none];
+  "ql" -> "b2" [arrowhead=none];
+  "bh" -> "b3" [arrowhead=none];
+  "bh" -> "b4" [arrowhead=none];
+  "bh" -> "b5" [arrowhead=none];
+  "qt" -> "b6" [arrowhead=none];
+  { rank=min; "ql"; "bh"; "qt"; }
+  { rank=max;  }
+}

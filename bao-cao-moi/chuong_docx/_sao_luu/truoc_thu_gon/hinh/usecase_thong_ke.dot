@@ -1,0 +1,22 @@
+digraph G {
+  rankdir=LR; splines=true; nodesep=0.45; ranksep=1.6; pad=0.25; newrank=true;
+  node [fontname="Helvetica"]; edge [fontname="Helvetica", fontsize=11, color="#444444"];
+  "ql" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản lý</TD></TR></TABLE>>, fontsize=13];
+  "kho" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Kho</TD></TR></TABLE>>, fontsize=13];
+  "qt" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản trị</TD></TR></TABLE>>, fontsize=13];
+  subgraph cluster_sys { label=<<B>Thống kê</B>>; labeljust=l; fontsize=15; fontname="Helvetica"; style=filled; fillcolor="#F4F8FD"; color="#6C8EBF"; penwidth=1.6;
+    "e1" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Doanh thu tiền hàng<BR/>theo loại hàng>];
+    "e2" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Tồn kho theo<BR/>mặt hàng và nhóm kho>];
+    "e3" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Hoàn tiền: ai duyệt,<BR/>ai chi>];
+    "e4" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Vai trò đang giữ<BR/>của nhân viên>];
+    "e5" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Giỏ hàng đang dùng<BR/>và tiền tạm tính>];
+  }
+  "ql" -> "e1" [arrowhead=none];
+  "ql" -> "e3" [arrowhead=none];
+  "kho" -> "e2" [arrowhead=none];
+  "qt" -> "e4" [arrowhead=none];
+  "ql" -> "e4" [arrowhead=none];
+  "ql" -> "e5" [arrowhead=none];
+  { rank=min; "ql"; "kho"; "qt"; }
+  { rank=max;  }
+}

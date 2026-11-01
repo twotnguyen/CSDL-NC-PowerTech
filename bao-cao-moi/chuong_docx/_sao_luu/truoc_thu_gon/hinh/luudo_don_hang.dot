@@ -1,0 +1,18 @@
+digraph G {
+  rankdir=TB; splines=polyline; nodesep=0.5; ranksep=0.75; pad=0.25;
+  node [fontname="Helvetica", fontsize=12, margin="0.18,0.1"]; edge [fontname="Helvetica", fontsize=10.5, color="#444444"];
+  a [label=<<B>Chờ xác nhận</B>>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  b [label=<<B>Đã xác nhận</B>>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  c [label=<<B>Đang chuẩn bị</B>>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  d [label=<<B>Đang giao</B>>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  f [label=<<B>Hoàn tất</B>>, shape=box, style="rounded,filled", fillcolor="#D5E8D4", color="#82B366"];
+  x [label=<<B>Đã hủy</B>>, shape=box, style="rounded,filled", fillcolor="#F8CECC", color="#B85450"];
+  a -> b [label=<Bán hàng gọi khách,<BR/>xác nhận đơn>,];
+  b -> c [label=<Kho lấy hàng,<BR/>ghi số seri, niêm phong>,];
+  c -> d [label=<Giao hàng nhận giao<BR/>cùng phiếu giao>,];
+  d -> f [label=<Khách nhận hàng,<BR/>tiền thu đủ>,];
+  a -> x [label=<Khách tự hủy<BR/>(chưa xác nhận)>,];
+  b -> x [label=<Trả trước không đủ<BR/>sau 24 giờ>,];
+  d -> x [label=<3 lần giao<BR/>không thành công>,];
+  n [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Mỗi lần đổi tình trạng ghi vào <B>NHẬT KÝ ĐƠN HÀNG</B>:<BR/>ai đổi, lúc nào, lý do (bắt buộc khi hủy)>];
+}

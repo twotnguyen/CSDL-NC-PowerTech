@@ -1,0 +1,40 @@
+digraph G {
+  rankdir=LR; splines=true; nodesep=0.45; ranksep=1.6; pad=0.25; newrank=true;
+  node [fontname="Helvetica"]; edge [fontname="Helvetica", fontsize=11, color="#444444"];
+  "bh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Bán hàng</TD></TR></TABLE>>, fontsize=13];
+  "tn" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Thu ngân</TD></TR></TABLE>>, fontsize=13];
+  "kho" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Kho</TD></TR></TABLE>>, fontsize=13];
+  "gh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Giao hàng</TD></TR></TABLE>>, fontsize=13];
+  "kt" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Kỹ thuật</TD></TR></TABLE>>, fontsize=13];
+  "cs" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Chăm sóc<BR/>khách hàng</TD></TR></TABLE>>, fontsize=13];
+  "ql" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản lý</TD></TR></TABLE>>, fontsize=13];
+  "kh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_do.png"/></TD></TR><TR><TD>Khách hàng</TD></TR></TABLE>>, fontsize=13];
+  subgraph cluster_sys { label=<<B>Quản lý nghiệp vụ</B>>; labeljust=l; fontsize=15; fontname="Helvetica"; style=filled; fillcolor="#F4F8FD"; color="#6C8EBF"; penwidth=1.6;
+    "c1" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Chọn hàng vào giỏ<BR/>và đặt hàng>];
+    "c2" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Lập, xác nhận<BR/>và hủy đơn>];
+    "c3" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Thanh toán,<BR/>đặt cọc>];
+    "c4" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Giao hàng>];
+    "c5" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Nhập hàng,<BR/>ghi số seri>];
+    "c6" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Ghi giao dịch kho>];
+    "c7" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Tiếp nhận<BR/>đổi trả>];
+    "c8" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Kiểm tra<BR/>hàng nhận lại>];
+    "c9" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Duyệt và chi<BR/>hoàn tiền>];
+    "c10" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Tiếp nhận<BR/>bảo hành>];
+    "c11" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Tạo mã giảm giá>];
+  }
+  "kh" -> "c1" [arrowhead=none];
+  "bh" -> "c2" [arrowhead=none];
+  "tn" -> "c3" [arrowhead=none];
+  "gh" -> "c4" [arrowhead=none];
+  "kho" -> "c5" [arrowhead=none];
+  "kho" -> "c6" [arrowhead=none];
+  "cs" -> "c7" [arrowhead=none];
+  "kt" -> "c8" [arrowhead=none];
+  "ql" -> "c9" [arrowhead=none];
+  "tn" -> "c9" [arrowhead=none];
+  "kt" -> "c10" [arrowhead=none];
+  "bh" -> "c11" [arrowhead=none];
+  "ql" -> "c11" [arrowhead=none];
+  { rank=min; "bh"; "tn"; "kho"; "gh"; "kt"; "cs"; "ql"; }
+  { rank=max; "kh"; }
+}

@@ -1,0 +1,396 @@
+{
+"erd_tong_quat": {
+"LOAIHANG": [
+-962,
+-578
+],
+"THUONGHIEU": [
+-960,
+-573
+],
+"MATHANG": [
+-961,
+-574
+],
+"ANHMATHANG": [
+-961,
+-576
+],
+"DINHNGHIATHONGSO": [
+-962,
+-576
+],
+"KHACHHANG": [
+-965,
+-567
+],
+"DIACHIKHACH": [
+-965,
+-569
+],
+"NHANVIEN": [
+-963,
+-570
+],
+"VAITRO": [
+-964,
+-568
+],
+"TAIKHOAN": [
+-963,
+-568
+],
+"NHACUNGCAP": [
+-961,
+-569
+],
+"GIOHANG": [
+-962,
+-568
+],
+"MAGIAMGIA": [
+-965,
+-572
+],
+"DONHANG": [
+-964,
+-572
+],
+"THANHTOAN": [
+-965,
+-573
+],
+"PHIEUGIAO": [
+-962,
+-571
+],
+"PHIEUNHAP": [
+-961,
+-571
+],
+"HANGCOSERI": [
+-962,
+-573
+],
+"GIAODICHKHO": [
+-960,
+-575
+],
+"HOSODOITRA": [
+-964,
+-576
+],
+"LANNHANLAI": [
+-964,
+-578
+],
+"KHOANHOAN": [
+-965,
+-575
+],
+"PHIEUBAOHANH": [
+-963,
+-572
+],
+"CHITIETDONHANG": [
+-963,
+-574
+],
+"CHITIETPHIEUNHAP": [
+-961,
+-572
+],
+"GIATRITHONGSO": [
+-962,
+-575
+],
+"CHITIETTRA": [
+-963,
+-576
+],
+"GIUVAITRO": [
+-964,
+-569
+],
+"CHITIETGIOHANG": [
+-960,
+-568
+],
+"NHATKYDONHANG": [
+-964,
+-570
+],
+"LANGIAO": [
+-962,
+-570
+],
+"tt_LOAIHANG_Thuộc nhóm lớn": [
+-962,
+-579
+]
+},
+"erd_nhom1": {
+"LOAIHANG": [
+-211,
+-223
+],
+"THUONGHIEU": [
+-211,
+-221
+],
+"MATHANG": [
+-212,
+-222
+],
+"ANHMATHANG": [
+-212,
+-220
+],
+"DINHNGHIATHONGSO": [
+-212,
+-224
+],
+"GIATRITHONGSO": [
+-212,
+-223
+],
+"tt_LOAIHANG_Thuộc nhóm lớn": [
+-211,
+-224
+]
+},
+"erd_nhom2": {
+"MATHANG": [
+-160,
+-150
+],
+"KHACHHANG": [
+-159,
+-150
+],
+"DIACHIKHACH": [
+-159,
+-148
+],
+"TAIKHOAN": [
+-159,
+-152
+],
+"GIOHANG": [
+-160,
+-152
+],
+"CHITIETGIOHANG": [
+-160,
+-151
+]
+},
+"erd_nhom3": {
+"MATHANG": [
+-529,
+-386
+],
+"KHACHHANG": [
+-528,
+-382
+],
+"NHANVIEN": [
+-530,
+-381
+],
+"MAGIAMGIA": [
+-530,
+-383
+],
+"DONHANG": [
+-529,
+-382
+],
+"THANHTOAN": [
+-528,
+-381
+],
+"PHIEUGIAO": [
+-529,
+-380
+],
+"CHITIETDONHANG": [
+-529,
+-384
+],
+"NHATKYDONHANG": [
+-530,
+-382
+],
+"LANGIAO": [
+-530,
+-380
+]
+},
+"erd_nhom4": {
+"MATHANG": [
+-642,
+-417
+],
+"NHACUNGCAP": [
+-643,
+-419
+],
+"DONHANG": [
+-643,
+-415
+],
+"PHIEUNHAP": [
+-642,
+-420
+],
+"HANGCOSERI": [
+-643,
+-418
+],
+"GIAODICHKHO": [
+-642,
+-415
+],
+"CHITIETDONHANG": [
+-643,
+-416
+],
+"CHITIETPHIEUNHAP": [
+-642,
+-419
+]
+},
+"erd_nhom5": {
+"DONHANG": [
+-139,
+-152
+],
+"THANHTOAN": [
+-139,
+-150
+],
+"HOSODOITRA": [
+-140,
+-150
+],
+"LANNHANLAI": [
+-140,
+-148
+],
+"KHOANHOAN": [
+-139,
+-148
+],
+"CHITIETDONHANG": [
+-140,
+-152
+],
+"CHITIETTRA": [
+-140,
+-151
+]
+},
+"erd_nhom6": {
+"MATHANG": [
+-13,
+-19
+],
+"DONHANG": [
+-14,
+-18
+],
+"HANGCOSERI": [
+-13,
+-21
+],
+"PHIEUBAOHANH": [
+-14,
+-22
+],
+"CHITIETDONHANG": [
+-14,
+-20
+]
+},
+"erd_nhom7": {
+"NHANVIEN": [
+-7,
+-13
+],
+"VAITRO": [
+-7,
+-9
+],
+"TAIKHOAN": [
+-6,
+-13
+],
+"GIUVAITRO": [
+-7,
+-11
+]
+},
+"erd_nhom8": {
+"NHANVIEN": [
+-709,
+-507
+],
+"TAIKHOAN": [
+-709,
+-510
+],
+"MAGIAMGIA": [
+-708,
+-505
+],
+"DONHANG": [
+-708,
+-511
+],
+"THANHTOAN": [
+-707,
+-506
+],
+"PHIEUGIAO": [
+-710,
+-503
+],
+"PHIEUNHAP": [
+-707,
+-508
+],
+"GIAODICHKHO": [
+-710,
+-509
+],
+"HOSODOITRA": [
+-708,
+-503
+],
+"LANNHANLAI": [
+-711,
+-506
+],
+"KHOANHOAN": [
+-711,
+-508
+],
+"PHIEUBAOHANH": [
+-709,
+-504
+],
+"GIUVAITRO": [
+-710,
+-511
+],
+"NHATKYDONHANG": [
+-708,
+-509
+],
+"LANGIAO": [
+-710,
+-505
+]
+}
+}

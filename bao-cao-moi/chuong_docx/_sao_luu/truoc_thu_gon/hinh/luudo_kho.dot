@@ -1,0 +1,18 @@
+digraph G {
+  rankdir=TB; splines=polyline; nodesep=0.5; ranksep=0.75; pad=0.25;
+  node [fontname="Helvetica", fontsize=12, margin="0.18,0.1"]; edge [fontname="Helvetica", fontsize=10.5, color="#444444"];
+  n [label=<<B>Nhập hàng</B><BR/>phiếu nhập được xác nhận>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  b [label=<<B>Bán hàng</B><BR/>(xuất bán)>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  l [label=<<B>Hàng khách trả về</B><BR/>(nhận lại)>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  a [label=<<B>Đủ điều kiện bán</B>>, shape=box, style="rounded,filled", fillcolor="#D5E8D4", color="#82B366"];
+  c [label=<<B>Chờ kiểm tra</B>>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  x [label=<<B>Chờ xử lý</B><BR/>(không bán được)>, shape=box, style="rounded,filled", fillcolor="#F8CECC", color="#B85450"];
+  o [label=<Khách nhận hàng>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  n -> a [label=<ghi tăng,<BR/>một lần>,];
+  a -> b [label=<chỉ nhóm này<BR/>được bán>,dir=forward];
+  b -> o [];
+  l -> c [label=<mọi hàng nhận lại>,];
+  c -> a [label=<Kỹ thuật kiểm tra,<BR/>Quản lý duyệt>,];
+  c -> x [label=<đã mở hộp<BR/>hoặc lỗi thật>,];
+  n2 [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<Mỗi lần vào, ra, chuyển nhóm ghi một dòng <B>GIAO DỊCH KHO</B>.<BR/>Chuyển nhóm không làm tăng tổng số hàng thực tế.>];
+}

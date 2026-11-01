@@ -1,0 +1,39 @@
+digraph G {
+  rankdir=LR; splines=true; nodesep=0.45; ranksep=1.6; pad=0.25; newrank=true;
+  node [fontname="Helvetica"]; edge [fontname="Helvetica", fontsize=11, color="#444444"];
+  "qt" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản trị</TD></TR></TABLE>>, fontsize=13];
+  "ql" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Quản lý</TD></TR></TABLE>>, fontsize=13];
+  "bh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Bán hàng</TD></TR></TABLE>>, fontsize=13];
+  "tn" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Thu ngân</TD></TR></TABLE>>, fontsize=13];
+  "kt" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Kỹ thuật</TD></TR></TABLE>>, fontsize=13];
+  "kho" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Kho</TD></TR></TABLE>>, fontsize=13];
+  "gh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Giao hàng</TD></TR></TABLE>>, fontsize=13];
+  "cs" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_xanh.png"/></TD></TR><TR><TD>Chăm sóc<BR/>khách hàng</TD></TR></TABLE>>, fontsize=13];
+  "nv" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_do.png"/></TD></TR><TR><TD>Nhân viên</TD></TR></TABLE>>, fontsize=13];
+  "kh" [shape=plaintext, label=<<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0"><TR><TD><IMG SRC="/Users/twot/Documents/CODE/PowerTech/bao-cao-moi/tools/../hinh/_actor_do.png"/></TD></TR><TR><TD>Khách hàng</TD></TR></TABLE>>, fontsize=13];
+  subgraph cluster_sys { label=<<B>Tổng quát</B>>; labeljust=l; fontsize=15; fontname="Helvetica"; style=filled; fillcolor="#F4F8FD"; color="#6C8EBF"; penwidth=1.6;
+    "u1" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý<BR/>đối tượng ngoài>];
+    "u2" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý<BR/>danh mục cơ bản>];
+    "u3" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Quản lý nghiệp vụ>];
+    "u4" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Tìm kiếm>];
+    "u5" [shape=ellipse, style=filled, fillcolor="#FFF2CC", color="#D6B656", fontsize=13, margin="0.2,0.1", label=<Thống kê>];
+  }
+  "nv" -> "u1" [arrowhead=none];
+  "nv" -> "u2" [arrowhead=none];
+  "nv" -> "u3" [arrowhead=none];
+  "nv" -> "u4" [arrowhead=none];
+  "nv" -> "u5" [arrowhead=none];
+  "kh" -> "u1" [arrowhead=none];
+  "kh" -> "u3" [arrowhead=none];
+  "kh" -> "u4" [arrowhead=none];
+  "qt" -> "nv" [arrowhead=onormal, color="#444444"];
+  "ql" -> "nv" [arrowhead=onormal, color="#444444"];
+  "bh" -> "nv" [arrowhead=onormal, color="#444444"];
+  "tn" -> "nv" [arrowhead=onormal, color="#444444"];
+  "kt" -> "nv" [arrowhead=onormal, color="#444444"];
+  "kho" -> "nv" [arrowhead=onormal, color="#444444"];
+  "gh" -> "nv" [arrowhead=onormal, color="#444444"];
+  "cs" -> "nv" [arrowhead=onormal, color="#444444"];
+  { rank=min; "qt"; "ql"; "bh"; "tn"; "kt"; "kho"; "gh"; "cs"; "nv"; }
+  { rank=max; "kh"; }
+}

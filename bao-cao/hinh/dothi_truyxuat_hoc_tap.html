@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 16px;
+    background: transparent;
+    color: var(--foreground, #1e293b);
+  }
+  .container {
+    max-width: 800px;
+  }
+  .card {
+    background: var(--card, #ffffff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  h3 {
+    margin-top: 0;
+    color: var(--foreground, #0f172a);
+    font-size: 16px;
+    border-bottom: 1px solid var(--border, #e2e8f0);
+    padding-bottom: 8px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .legend {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--muted-foreground, #64748b);
+    line-height: 1.6;
+  }
+  .legend strong {
+    color: var(--foreground, #1e293b);
+  }
+  code {
+    background: rgba(0,0,0,0.05);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <h3>ĐỒ THỊ CON ĐƯỜNG TRUY XUẤT CSDL QUẢN LÝ HỌC TẬP (CHUẨN HÌNH 9.8 GIÁO TRÌNH)</h3>
+    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Single arrow head (1 bộ) -->
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#2563eb"/>
+        </marker>
+        <!-- Double arrow head (nhiều bộ n) -->
+        <marker id="arrow-many" viewBox="0 0 14 10" refX="12" refY="5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 6 5 L 0 8.5 M 5 1.5 L 11 5 L 5 8.5" fill="none" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/>
+        </marker>
+        <!-- Entry point arrow -->
+        <marker id="entry-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+          <path d="M 0 1 L 10 6 L 0 11 z" fill="#dc2626"/>
+        </marker>
+      </defs>
+
+      <!-- Vertical divider -->
+      <line x1="470" y1="20" x2="470" y2="360" stroke="#cbd5e1" stroke-dasharray="4 4"/>
+
+      <!-- ================= LEFT: GRAPH ================= -->
+
+      <!-- Entry point into Node 1 (Lop) -->
+      <line x1="15" y1="60" x2="65" y2="60" stroke="#dc2626" stroke-width="2.5" marker-end="url(#entry-arrow)"/>
+      <text x="18" y="52" font-size="11" font-weight="bold" fill="#dc2626">Ngõ vào</text>
+
+      <!-- Node 1: Lop -->
+      <circle cx="85" cy="60" r="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="85" y="66" font-size="16" font-weight="bold" fill="#1d4ed8" text-anchor="middle">①</text>
+      <text x="85" y="94" font-size="12" font-weight="bold" fill="#1e293b" text-anchor="middle">Lop</text>
+
+      <!-- Arcs between Node 1 (Lop) and Node 2 (SinhVien) -->
+      <!-- 1 -> 2: (1, -, n) -->
+      <path d="M 98 73 C 130 115 130 185 98 227" fill="none" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow-many)"/>
+      <text x="135" y="150" font-size="12" font-weight="bold" fill="#2563eb">(1, -, n)</text>
+
+      <!-- 2 -> 1: (1, 1, 1) -->
+      <path d="M 72 227 C 40 185 40 115 72 73" fill="none" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow)"/>
+      <text x="10" y="150" font-size="12" font-weight="bold" fill="#2563eb">(1, 1, 1)</text>
+
+      <!-- Entry point into Node 2 (SinhVien) -->
+      <line x1="15" y1="240" x2="65" y2="240" stroke="#dc2626" stroke-width="2.5" marker-end="url(#entry-arrow)"/>
+      <text x="18" y="232" font-size="11" font-weight="bold" fill="#dc2626">Ngõ vào</text>
+
+      <!-- Node 2: SinhVien -->
+      <circle cx="85" cy="240" r="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="85" y="246" font-size="16" font-weight="bold" fill="#1d4ed8" text-anchor="middle">②</text>
+      <text x="85" y="274" font-size="12" font-weight="bold" fill="#1e293b" text-anchor="middle">SinhVien</text>
+
+      <!-- Node 3: MonHoc (Top Right) -->
+      <!-- Entry point into Node 3 (MonHoc) -->
+      <line x1="435" y1="60" x2="385" y2="60" stroke="#dc2626" stroke-width="2.5" marker-end="url(#entry-arrow)"/>
+      <text x="390" y="52" font-size="11" font-weight="bold" fill="#dc2626">Ngõ vào</text>
+
+      <circle cx="365" cy="60" r="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="365" y="66" font-size="16" font-weight="bold" fill="#1d4ed8" text-anchor="middle">③</text>
+      <text x="365" y="94" font-size="12" font-weight="bold" fill="#1e293b" text-anchor="middle">MonHoc</text>
+
+      <!-- Node 4: KetQua (Center/Bottom Right) -->
+      <circle cx="275" cy="240" r="18" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="275" y="246" font-size="16" font-weight="bold" fill="#1d4ed8" text-anchor="middle">④</text>
+      <text x="275" y="274" font-size="12" font-weight="bold" fill="#1e293b" text-anchor="middle">KetQua</text>
+
+      <!-- Arcs between Node 2 (SinhVien) and Node 4 (KetQua) -->
+      <!-- 2 -> 4: (1, -, n) -->
+      <path d="M 103 232 C 150 215 210 215 257 232" fill="none" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow-many)"/>
+      <text x="180" y="208" font-size="12" font-weight="bold" fill="#2563eb" text-anchor="middle">(1, -, n)</text>
+
+      <!-- 4 -> 2: (1, 1, 1) -->
+      <path d="M 257 248 C 210 265 150 265 103 248" fill="none" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow)"/>
+      <text x="180" y="280" font-size="12" font-weight="bold" fill="#2563eb" text-anchor="middle">(1, 1, 1)</text>
+
+      <!-- Arcs between Node 3 (MonHoc) and Node 4 (KetQua) -->
+      <!-- 3 -> 4: (1, -, n) -->
+      <path d="M 355 75 C 325 115 300 160 283 223" fill="none" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow-many)"/>
+      <text x="280" y="145" font-size="12" font-weight="bold" fill="#2563eb">(1, -, n)</text>
+
+      <!-- 4 -> 3: (1, 1, 1) -->
+      <path d="M 291 226 C 320 180 345 135 367 78" fill="none" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow)"/>
+      <text x="355" y="165" font-size="12" font-weight="bold" fill="#2563eb">(1, 1, 1)</text>
+
+      <!-- ================= RIGHT: SCHEMA ================= -->
+      <text x="490" y="45" font-size="13" font-weight="bold" fill="#0f172a">LƯỢC ĐỒ QUAN HỆ TƯƠNG ỨNG</text>
+
+      <text x="490" y="85" font-size="12" font-weight="bold" fill="#1d4ed8">① Lop(<tspan text-decoration="underline">MaLop</tspan>, TenLop)</text>
+
+      <text x="490" y="130" font-size="12" font-weight="bold" fill="#1d4ed8">② SinhVien(<tspan text-decoration="underline">MaSV</tspan>, TenSV, <tspan stroke-dasharray="2,2" text-decoration="underline">MaLop</tspan>)</text>
+
+      <text x="490" y="175" font-size="12" font-weight="bold" fill="#1d4ed8">③ MonHoc(<tspan text-decoration="underline">MaMH</tspan>, TenMH)</text>
+
+      <text x="490" y="220" font-size="12" font-weight="bold" fill="#1d4ed8">④ KetQua(<tspan text-decoration="underline">MaSV</tspan>, <tspan text-decoration="underline">MaMH</tspan>, Diem, KetQua)</text>
+
+      <rect x="485" y="255" width="260" height="95" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+      <text x="495" y="275" font-size="11" font-weight="bold" fill="#334155">ĐẶC TẢ CON ĐƯỜNG TRUY XUẤT:</text>
+      <text x="495" y="295" font-size="11" fill="#475569">• 3 Ngõ vào ( ): Lop (①), SinhVien (②), MonHoc (③)</text>
+      <text x="495" y="313" font-size="11" fill="#475569">• Cung đơn (→): Trọng số (1, 1, 1) truy xuất đúng 1 bộ</text>
+      <text x="495" y="331" font-size="11" fill="#475569">• Cung kép (↠): Trọng số (1, -, n) truy xuất n bộ</text>
+    </svg>
+
+    <div class="legend">
+      <strong>Giải thích ngữ nghĩa các con đường truy xuất:</strong><br>
+      • <code>① Lop ↠ ② SinhVien</code>: Từ 1 Lớp tra ra danh sách gồm <em>n</em> sinh viên của lớp <code>(1, -, n)</code>.<br>
+      • <code>② SinhVien → ① Lop</code>: Từ 1 Sinh viên xác định duy nhất 1 Lớp mà SV đó trực thuộc <code>(1, 1, 1)</code>.<br>
+      • <code>② SinhVien ↠ ④ KetQua</code>: Từ 1 Sinh viên tra cứu toàn bộ bảng điểm gồm <em>n</em> môn học <code>(1, -, n)</code>.<br>
+      • <code>④ KetQua → ② SinhVien</code>: Từ 1 dòng kết quả điểm xác định duy nhất 1 Sinh viên <code>(1, 1, 1)</code>.<br>
+      • <code>③ MonHoc ↠ ④ KetQua</code>: Từ 1 Môn học tra ra danh sách điểm thi của <em>n</em> sinh viên học môn đó <code>(1, -, n)</code>.<br>
+      • <code>④ KetQua → ③ MonHoc</code>: Từ 1 dòng kết quả điểm xác định duy nhất 1 Môn học <code>(1, 1, 1)</code>.
+    </div>
+  </div>
+</div>
+</body>
+</html>

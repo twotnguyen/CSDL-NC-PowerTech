@@ -1,0 +1,31 @@
+digraph G {
+  rankdir=TB; splines=polyline; nodesep=0.5; ranksep=0.75; pad=0.25;
+  node [fontname="Helvetica", fontsize=12, margin="0.18,0.1"]; edge [fontname="Helvetica", fontsize=10.5, color="#444444"];
+  s [label=<<B>Khách đề nghị<BR/>đổi trả</B>>, shape=ellipse, style=filled, fillcolor="#DAE8FC", color="#6C8EBF"];
+  k [label=<Kỹ thuật kiểm tra<BR/>sản phẩm>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  q [label=<Đủ điều kiện<BR/>đổi trả?>, shape=diamond, style=filled, fillcolor="#FFE6CC", color="#D79B00", margin="0.05,0.05"];
+  t [label=<Từ chối,<BR/>giải thích cho khách>, shape=box, style="rounded,filled", fillcolor="#F8CECC", color="#B85450"];
+  h [label=<Chăm sóc khách hàng<BR/>lập <B>hồ sơ đổi trả</B><BR/>(đơn gốc, dòng, số lượng)>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  n [label=<Nhận hàng về:<BR/>nhóm <B>chờ kiểm tra</B>>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  k2 [label=<Kỹ thuật kiểm tra,<BR/>ghi kết luận>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  m [label=<Quản lý duyệt<BR/>chuyển nhóm>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  r [label=<Kết quả?>, shape=diamond, style=filled, fillcolor="#FFE6CC", color="#D79B00", margin="0.05,0.05"];
+  ok [label=<Nhóm <B>đủ điều kiện bán</B>>, shape=box, style="rounded,filled", fillcolor="#D5E8D4", color="#82B366"];
+  cx [label=<Nhóm <B>chờ xử lý</B><BR/>(đã mở hộp hoặc lỗi thật)>, shape=box, style="rounded,filled", fillcolor="#F8CECC", color="#B85450"];
+  y [label=<Khách muốn?>, shape=diamond, style=filled, fillcolor="#FFE6CC", color="#D79B00", margin="0.05,0.05"];
+  dn [label=<Lập đơn mới,<BR/>tính chênh lệch>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  hd [label=<Quản lý duyệt hoàn;<BR/>Thu ngân chi tiền hoàn>, shape=box, style="rounded,filled", fillcolor="#FFF2CC", color="#D6B656"];
+  s -> k [];
+  k -> q [];
+  q -> t [label=<Không>,];
+  q -> h [label=<Có>,];
+  h -> n [];
+  n -> k2 [];
+  k2 -> m [];
+  m -> r [];
+  r -> ok [label=<Còn nguyên,<BR/>không lỗi>,];
+  r -> cx [label=<Khác>,];
+  h -> y [style=dashed];
+  y -> dn [label=<Đổi sản phẩm>,];
+  y -> hd [label=<Hoàn tiền>,];
+}

@@ -1,0 +1,13 @@
+digraph G {
+  rankdir=TB; splines=polyline; nodesep=0.5; ranksep=0.75; pad=0.25;
+  node [fontname="Helvetica", fontsize=12, margin="0.18,0.1"]; edge [fontname="Helvetica", fontsize=10.5, color="#444444"];
+  q [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#F8CECC"><B>Q: HANGCOSERI (ban đầu, 3NF)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSeri</U></TD></TR><TR><TD ALIGN="LEFT">SoSeri</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaSP</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaPN</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">SoDongPN</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaDH</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">SoDongDH</FONT></TD></TR><TR><TD ALIGN="LEFT">…</TD></TR></TABLE>>];
+  pth [shape=note, style=filled, fillcolor="#FFFFFF", color="#999999", label=<PTH vi phạm BCNF:<BR/><B>MaPN,SoDongPN → MaSP</B><BR/><B>MaDH,SoDongDH → MaSP</B><BR/>Giữ: SoSeri, MaSP → MaSeri>];
+  q1 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#DAE8FC"><B>Q₁ = CHITIETPHIEUNHAP (đã có)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaPN</U></TD></TR><TR><TD ALIGN="LEFT"><U>SoDongPN</U></TD></TR><TR><TD ALIGN="LEFT">MaSP</TD></TR><TR><TD ALIGN="LEFT">…</TD></TR></TABLE>>];
+  q2 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#DAE8FC"><B>Q₂ = CHITIETDONHANG (đã có)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaDH</U></TD></TR><TR><TD ALIGN="LEFT"><U>SoDongDH</U></TD></TR><TR><TD ALIGN="LEFT">MaSP</TD></TR><TR><TD ALIGN="LEFT">…</TD></TR></TABLE>>];
+  q3 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#D5E8D4"><B>Q₃: HANGCOSERI (rút gọn)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSeri</U></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaPN</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">SoDongPN</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaDH</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">SoDongDH</FONT></TD></TR><TR><TD ALIGN="LEFT">…</TD></TR></TABLE>>];
+  q4 [shape=plaintext, label=<<TABLE BORDER="1" COLOR="#6C8EBF" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD BGCOLOR="#D5E8D4"><B>Q₄: SERIMATHANG (mới)</B></TD></TR><TR><TD ALIGN="LEFT"><U>MaSeri</U></TD></TR><TR><TD ALIGN="LEFT">SoSeri</TD></TR><TR><TD ALIGN="LEFT"><FONT COLOR="#2E7D32">MaSP</FONT></TD></TR></TABLE>>];
+  q -> q1; q -> q2; q -> q3; q -> q4; pth -> q [style=dashed, arrowhead=none];
+  { rank=same; q; pth }
+  { rank=same; q1; q2; q3; q4 }
+}
