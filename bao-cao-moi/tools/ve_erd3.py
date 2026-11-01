@@ -448,13 +448,62 @@ def lam_hinh(ten, keep, muc_tieu, nv_chon=False, chi_nv=False, so_buoc=None, moi
     return d
 
 
+def ve_hai_cot(ten, trai, phai):
+    """Hình chỉ có NHÂN VIÊN làm tâm: thực thể xếp hai cột, mỗi mối kết hợp một đường ngang nên không thể giao nhau."""
+    BUOC, W_E, W_NV, DAI, MEP = 46, 180, 130, 270, 40
+    canh = {}                                   # thực thể -> [(nhãn, bản số phía thực thể, bản số phía NHÂN VIÊN)]
+    for verb, child, parent, bc_, bp_, _ in erd.relationships():
+        if parent == 'NHANVIEN':
+            canh.setdefault(child, []).append((verb, bc_, bp_))
+    the = dict(erd.mkh_card()['LANGIAO'])
+    canh['PHIEUGIAO'].append(('LANGIAO', the['PHIEUGIAO'], the['NHANVIEN']))
+    assert sorted(trai + phai) == sorted(canh), 'thiếu thực thể trong hình trách nhiệm'
+    cao = max(sum(len(canh[e]) for e in cot) * BUOC + (len(cot) - 1) * 12 for cot in (trai, phai))
+    x_nv = MEP + W_E + DAI + W_NV // 2
+    Wp, Hp = 2 * x_nv, cao + 2 * MEP
+    g = Hinh(Wp, Hp)
+    oval, nhan = [], []
+    for cot, huong in ((trai, -1), (phai, 1)):
+        xn = x_nv + huong * W_NV / 2            # mép NHÂN VIÊN
+        xe = xn + huong * DAI                   # mép thực thể nhìn về NHÂN VIÊN
+        x_oval = (xe + xn) / 2
+        so = sum(len(canh[e]) for e in cot)
+        khe = (cao - so * BUOC) / max(len(cot) - 1, 1)
+        y = MEP
+        for e in cot:
+            ds = canh[e]
+            h = len(ds) * BUOC
+            g.rect(xe + huong * W_E / 2, y + h / 2, W_E, h - 12, erd.SHORT[e], sz=15)
+            for k, (verb, te, tn) in enumerate(ds):
+                yy = y + BUOC * (k + 0.5)
+                g.line([(xn, yy), (xe, yy)])
+                oval.append((x_oval, yy, verb))
+                nhan += [(xn + huong * LAB_OFF, yy, tn), (xe - huong * LAB_OFF, yy, te)]
+            y += h + khe
+    g.rect(x_nv, Hp / 2, W_NV, cao, 'NHÂN VIÊN', sz=15)
+    for x, y, verb in oval:
+        if verb == 'LANGIAO':
+            g.ell(x, y, 150, 40, erd.SHORT[verb], BLU, BLU_B, True, 13)
+        else:
+            g.ell(x, y, size_of(verb, 13, False, 26), 36, verb, ORG, ORG_B, False, 13)
+    for x, y, t in nhan:
+        g.text(x, y, t, 13, True, (20, 20, 20), halo=True)
+    g.save(os.path.join(HINH, ten + '.png'), box=(0, 0, Wp, Hp))
+    print(f'{ten}: hai cột, {len(oval)} đường ngang, giao cắt 0 | khung {Wp}x{Hp}')
+
+
 def main(chon=None):
     tat_ca = set(erd.ENTITIES) | set(erd.MKH)
     viec = [('erd_tong_quat', tat_ca, 0.72, True, False)]
     for k, (ten, ents) in erd.GROUPS.items():
         keep = set(ents) | {m for m in erd.MKH if m in ents or all(e in ents for e, _ in erd.mkh_card()[m])}
         viec.append((f'erd_nhom{k}', keep, 1.0, k == '3', k == '7'))
+    if not chon or 'erd_nhom7' in chon:
+        ve_hai_cot('erd_nhom7', ['TAIKHOAN', 'DONHANG', 'MAGIAMGIA', 'THANHTOAN', 'KHOANHOAN', 'HOSODOITRA'],
+                   ['PHIEUNHAP', 'GIAODICHKHO', 'PHIEUGIAO', 'LANNHANLAI', 'PHIEUBAOHANH'])
     for ten, keep, mt, nvc, cnv in viec:
+        if ten == 'erd_nhom7':
+            continue
         if chon and ten not in chon:
             continue
         lam_hinh(ten, keep, mt, nv_chon=nvc, chi_nv=cnv, moi=bool(os.environ.get('ERD_MOI')))

@@ -284,3 +284,7 @@ Sao lưu: `chuong_docx/_sao_luu/truoc_doc_157_trang/`.
 
 - Hình 2.6–2.9 có ô vuông vì font vẽ thiếu chỉ số dưới và ↠: `ve_luudo.py` đổi sang thẻ SUB và →→.
 - Thêm loại khách có hồ sơ chưa có tài khoản ở 1.3; sửa câu "số hiệu hoặc tên"; thêm ngoặc bao đóng; nới cột Bảng 3.2.
+
+## 27. Vẽ lại Hình 1.8 (02/11/2026)
+
+- Bố cục ủ mô phỏng có 5 chỗ cắt thật vì đường song song dời khỏi tâm mà `chi_phi` chỉ xét đường tâm. `ve_hai_cot` trong `ve_erd3.py` xếp thực thể hai cột, mỗi mối kết hợp một đường ngang; nội dung và bản số không đổi. Bản nộp còn 150 trang.
