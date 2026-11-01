@@ -79,9 +79,12 @@ textarea { width: 100%; min-height: 150px; font: .85rem/1.5 var(--ma); padding: 
 /* canvas */
 .thanh { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding-block: 7px; background: var(--mat); border-bottom: 1px solid var(--vien) }
 .nhomnut { display: flex; flex-wrap: wrap; gap: 3px }
-.gian { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 400px; position: relative }
+.gian { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) var(--ben, 400px); position: relative }
 .gian.an { grid-template-columns: minmax(0, 1fr) 0 }
-.gian.an .ben { display: none }
+.gian.an .ben, .gian.an .keo-ben { display: none }
+.keo-ben { position: absolute; top: 0; bottom: 0; right: calc(var(--ben, 400px) - 5px); width: 10px; z-index: 3; cursor: col-resize; touch-action: none; background: none; border: 0; padding: 0 }
+.keo-ben::after { content: ""; position: absolute; top: 50%; left: 3px; width: 4px; height: 44px; margin-top: -22px; border-radius: 2px; background: var(--vien) }
+.keo-ben:hover::after, .keo-ben.dang::after, .keo-ben:focus-visible::after { background: var(--nhan); height: 72px; margin-top: -36px }
 .ve { position: relative; min-width: 0; min-height: 0; overflow: hidden; background-color: var(--nen);
   background-image: linear-gradient(var(--luoi) 1px, transparent 1px), linear-gradient(90deg, var(--luoi) 1px, transparent 1px); background-size: 26px 26px }
 #cv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none }
@@ -136,7 +139,7 @@ textarea { width: 100%; min-height: 150px; font: .85rem/1.5 var(--ma); padding: 
 @media (max-width: 820px) {
   .gian, .gian.an { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(340px, 1fr) auto }
   .ben { border-left: 0; border-top: 1px solid var(--vien); max-height: 44vh }
-  #ban { display: none }
+  #ban, .keo-ben { display: none }
   .hai { grid-template-columns: minmax(0, 1fr) } .ds { max-height: 260px }
 }
 </style>
@@ -451,7 +454,7 @@ function veCanvas(g) {
     <input type="search" id="tim" list="dsTim" aria-label="Tìm bảng" placeholder="Tìm bảng" style="width:150px"><datalist id="dsTim">${D.bang.map(b => `<option value="${b.ten}">`).join('')}</datalist></div>
   <div class="gian ${benAn ? 'an' : ''}" id="gian"><div class="ve"><svg id="cv" role="img" aria-label="Sơ đồ phóng to được"><g id="cam"></g></svg>
     <span class="tile" id="tile">100%</span><svg id="ban" aria-label="Bản đồ thu nhỏ" preserveAspectRatio="xMidYMid meet"></svg>
-    <div class="noi-nut"><button class="nut" id="vaiTro" aria-pressed="${hienVaiTro}">Đường tới NHANVIEN</button><button class="nut" id="nhanBat" aria-pressed="${hienNhan}">Nhãn</button><button class="nut" id="xepLai">Xếp lại</button><button class="nut" id="nho" aria-label="Thu nhỏ">−</button><button class="nut" id="to" aria-label="Phóng to">+</button><button class="nut" id="vua">Vừa màn hình</button><button class="nut" id="benNut">Khung bên</button></div></div><aside class="ben" aria-label="Chi tiết"></aside></div>`;
+    <div class="noi-nut"><button class="nut" id="vaiTro" aria-pressed="${hienVaiTro}">Đường tới NHANVIEN</button><button class="nut" id="nhanBat" aria-pressed="${hienNhan}">Nhãn</button><button class="nut" id="xepLai">Xếp lại</button><button class="nut" id="nho" aria-label="Thu nhỏ">−</button><button class="nut" id="to" aria-label="Phóng to">+</button><button class="nut" id="vua">Vừa màn hình</button><button class="nut" id="benNut">Khung bên</button></div></div><div class="keo-ben" id="keoBen" role="separator" aria-orientation="vertical" aria-label="Kéo để đổi cỡ khung bên" tabindex="0" title="Kéo để đổi cỡ, bấm đúp để trả về cỡ mặc định"></div><aside class="ben" aria-label="Chi tiết"></aside></div>`;
   cv = $('#cv'); gCam = $('#cam'); ganCam();
   $('#mode').querySelectorAll('.nut').forEach(b => b.onclick = () => { ma = b.dataset.m; duongChon = null; $('#mode').querySelectorAll('.nut').forEach(x => x.setAttribute('aria-pressed', x === b)); dungCanh(); });
   $('#vua').onclick = () => vua();
@@ -460,10 +463,29 @@ function veCanvas(g) {
   $('#vaiTro').onclick = x => { hienVaiTro = vaiTroMa[ma] = !hienVaiTro; x.currentTarget.setAttribute('aria-pressed', hienVaiTro); veDuong(); };
   $('#nhanBat').onclick = x => { hienNhan = !hienNhan; x.currentTarget.setAttribute('aria-pressed', hienNhan); apCam(); };
   $('#xepLai').onclick = () => { try { localStorage.removeItem('viTri-' + ma); } catch {} dungCanh(); };
-  $('#benNut').onclick = () => { benAn = !benAn; $('#gian').classList.toggle('an', benAn); };
+  $('#benNut').onclick = () => { benAn = !benAn; $('#gian').classList.toggle('an', benAn); requestAnimationFrame(apCam); };
+  ganKeoBen();
   $('#tim').oninput = x => { const v = x.target.value.trim().toUpperCase(), k = ma === 'thi' ? String(D.thi.nut.find(n => n.ten === v)?.so) : v; if (nut[k]) { chon = k; duongChon = null; toMau(); moBen(); vua([nut[k]]); } };
   dungCanh();
   addEventListener('keydown', phim);
+}
+let rongBen = lu('rongBen') || 400;
+function datBen(w, giu) {            // giu: cửa sổ đang hẹp thì chỉ co tạm, không đổi cỡ người dùng đã chọn
+  const g = $('#gian'), toiDa = Math.min(1000, g.clientWidth - 280), ap = Math.round(Math.max(260, Math.min(toiDa, w)));
+  if (!giu) rongBen = ap;
+  g.style.setProperty('--ben', ap + 'px');
+  $('#keoBen').setAttribute('aria-valuenow', ap);
+  apCam();
+}
+function ganKeoBen() {
+  const k = $('#keoBen'), g = $('#gian');
+  datBen(rongBen, true);
+  k.onpointerdown = x => { x.preventDefault(); try { k.setPointerCapture(x.pointerId); } catch {} k.classList.add('dang'); document.body.style.userSelect = 'none';
+    const r = g.getBoundingClientRect();
+    k.onpointermove = y => datBen(r.right - y.clientX);
+    k.onpointerup = k.onpointercancel = () => { k.onpointermove = k.onpointerup = k.onpointercancel = null; k.classList.remove('dang'); document.body.style.userSelect = ''; lu('rongBen', rongBen); }; };
+  k.ondblclick = () => { datBen(400); lu('rongBen', 400); };
+  k.onkeydown = x => { const b = { ArrowLeft: 30, ArrowRight: -30 }[x.key]; if (b) { datBen(rongBen + b); lu('rongBen', rongBen); x.preventDefault(); x.stopPropagation(); } };
 }
 function phim(x) {
   if (hien !== 'canvas' || /INPUT|TEXTAREA|SELECT/.test(x.target.tagName)) return;
@@ -530,7 +552,7 @@ function ve() {
   $('#tab').querySelectorAll('button').forEach(b => b.onclick = () => { hien = b.dataset.k; ve(); });
   trang[hien]($('#noi'));
 }
-addEventListener('resize', () => { if (hien === 'canvas' && cv) apCam(); });
+addEventListener('resize', () => { if (hien === 'canvas' && $('#keoBen')) datBen(rongBen, true); });
 const dau = location.hash.slice(1); if (TABS.some(t => t[0] === dau)) hien = dau;
 ve();
 khoiDong();
