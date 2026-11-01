@@ -1,103 +1,138 @@
 <title>Sổ tay PowerTech</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Bàn làm việc của người thiết kế CSDL: nền xanh giấy can, màu khóa PK/PFK/FK lấy đúng quy ước của sơ đồ trong báo cáo */
+/* Bàn can sơ đồ: nền xanh giấy can có lưới, bảng trắng, màu khóa PK/PFK/FK lấy đúng quy ước trong báo cáo */
 :root {
-  --nen: #eef3f8; --mat: #ffffff; --mat2: #e3ecf5; --chu: #16263a; --mo: #54677c; --vien: #c6d4e2;
+  --nen: #eef3f8; --mat: #ffffff; --mat2: #e3ecf5; --chu: #16263a; --mo: #54677c; --vien: #c6d4e2; --luoi: #dbe5ef;
   --nhan: #1c5d99; --nhan-chu: #ffffff; --pk: #b3261e; --pfk: #1f4eb4; --fk: #2e7d32; --dat: #fbecd2; --dat-chu: #7a4a00;
+  --dau: #bdd7ee; --dau-chu: #10243a; --net: #3a5f8f; --sang: #d9480f; --cam: #fde3c8; --cam-v: #d98a1f; --lam: #dbe8fa; --lam-v: #5b7fa6;
+  --vang: #fff1c9; --vang-v: #d9b44a; --vung: rgba(28, 93, 153, .055);
   --than: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif; --ma: "IBM Plex Mono", Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c;
-  --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f; color-scheme: dark } }
+  --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c; --luoi: #1b2a3a;
+  --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f;
+  --dau: #2b4a6b; --dau-chu: #e6edf5; --net: #8fb2d8; --sang: #ffa45c; --cam: #4a3216; --cam-v: #e0a24a; --lam: #24405f; --lam-v: #8fb2d8;
+  --vang: #41381c; --vang-v: #c9a84a; --vung: rgba(125, 184, 238, .07); color-scheme: dark } }
 :root[data-theme="dark"] {
-  --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c;
-  --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f; color-scheme: dark }
+  --nen: #101a26; --mat: #182534; --mat2: #213244; --chu: #e6edf5; --mo: #9db0c4; --vien: #33475c; --luoi: #1b2a3a;
+  --nhan: #7db8ee; --nhan-chu: #0c1825; --pk: #ff9c94; --pfk: #a3bdff; --fk: #8fd694; --dat: #3d2f17; --dat-chu: #f5cf8f;
+  --dau: #2b4a6b; --dau-chu: #e6edf5; --net: #8fb2d8; --sang: #ffa45c; --cam: #4a3216; --cam-v: #e0a24a; --lam: #24405f; --lam-v: #8fb2d8;
+  --vang: #41381c; --vang-v: #c9a84a; --vung: rgba(125, 184, 238, .07); color-scheme: dark }
 * { box-sizing: border-box }
-body { background: var(--nen); color: var(--chu); font: 15px/1.55 var(--than); margin: 0 }
+html, body { height: 100% }
+body { background: var(--nen); color: var(--chu); font: 15px/1.55 var(--than); margin: 0; display: flex; flex-direction: column }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--mat) }
 button, input, select { font: inherit; color: inherit }
 button { cursor: pointer }
 :focus-visible { outline: 2px solid var(--nhan); outline-offset: 2px }
 code, pre, .ma { font-family: var(--ma) }
 .le { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
-.rong { max-width: 1320px; margin-inline: auto }
-header { background: var(--mat); border-bottom: 1px solid var(--vien); padding-block: 18px 0 }
-h1 { font-size: 1.5rem; line-height: 1.25; margin: 0; text-wrap: balance }
-.phu { color: var(--mo); margin: 4px 0 0; max-width: 68ch }
-.so { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 12px 0 0; font-variant-numeric: tabular-nums; color: var(--mo); font-size: .88rem }
-.so b { color: var(--chu); font-size: 1.05rem }
-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--mat); border-bottom: 1px solid var(--vien) }
-.tab { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none }
-.tab button { background: none; border: 0; border-bottom: 3px solid transparent; padding: 11px 13px 9px; white-space: nowrap; color: var(--mo); font-weight: 500 }
+header { background: var(--mat); border-bottom: 1px solid var(--vien); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; align-items: center; gap: 4px 18px; flex-wrap: wrap }
+h1 { font-size: 1.02rem; margin: 0; padding-block: 8px; white-space: nowrap }
+.tab { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1 1 320px }
+.tab button { background: none; border: 0; border-bottom: 3px solid transparent; padding: 9px 11px 7px; white-space: nowrap; color: var(--mo); font-weight: 500 }
 .tab button[aria-selected="true"] { color: var(--nhan); border-color: var(--nhan); font-weight: 600 }
-main { padding-block: 18px 40px }
-h2 { font-size: 1.15rem; margin: 0 0 4px }
-h3 { font-size: .98rem; margin: 18px 0 6px }
-.ghi { color: var(--mo); margin: 0 0 14px; max-width: 72ch; font-size: .92rem }
+main { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column }
+.cuon-trang { padding-block: 18px 40px; overflow: auto; flex: 1 1 auto; min-height: 0 }
+.rong { max-width: 1320px; margin-inline: auto }
+h2 { font-size: 1.12rem; margin: 0 0 4px }
+h3 { font-size: .94rem; margin: 16px 0 6px }
+.ghi { color: var(--mo); margin: 0 0 12px; max-width: 72ch; font-size: .9rem }
 .khung { background: var(--mat); border: 1px solid var(--vien); border-radius: 6px; min-width: 0 }
 .hai { display: grid; grid-template-columns: minmax(250px, 310px) minmax(0, 1fr); gap: 14px; align-items: start }
-.ds { max-height: 74vh; overflow: auto; padding: 6px }
+.ds { max-height: 72vh; overflow: auto; padding: 6px }
 .ds h3 { margin: 10px 8px 4px; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--mo) }
 .muc { display: block; width: 100%; text-align: left; background: none; border: 0; border-radius: 4px; padding: 6px 8px; overflow-wrap: anywhere }
 .muc:hover { background: var(--mat2) }
 .muc[aria-current="true"] { background: var(--nhan); color: var(--nhan-chu) }
 .muc small { display: block; opacity: .78; font-size: .78rem; line-height: 1.35 }
 .chi { padding: 16px; min-width: 0 }
-.nut { background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; padding: 5px 11px }
+.nut { background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; padding: 4px 10px; font-size: .86rem }
 .nut.chinh { background: var(--nhan); color: var(--nhan-chu); border-color: var(--nhan); font-weight: 600 }
+.nut[aria-pressed="true"] { background: var(--nhan); color: var(--nhan-chu); border-color: var(--nhan) }
 .loc { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 12px }
-.loc input[type=search] { flex: 1 1 200px; min-width: 0; padding: 6px 9px; background: var(--mat); border: 1px solid var(--vien); border-radius: 4px }
-.chip { background: var(--mat); border: 1px solid var(--vien); border-radius: 999px; padding: 2px 10px; font-size: .84rem }
+input[type=search], select { padding: 4px 8px; background: var(--mat); border: 1px solid var(--vien); border-radius: 4px; font-size: .86rem; min-width: 0 }
+.chip { background: var(--mat); border: 1px solid var(--vien); border-radius: 999px; padding: 1px 10px; font-size: .82rem; white-space: nowrap }
 .chip[aria-pressed="true"] { background: var(--nhan); color: var(--nhan-chu); border-color: var(--nhan) }
-.luoi { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px }
-.the { background: var(--mat); border: 1px solid var(--vien); border-radius: 6px; padding: 0; text-align: left; overflow: hidden; display: flex; flex-direction: column }
-.the:hover { border-color: var(--nhan) }
-.the .nen { background: #fff; height: 165px; display: flex; align-items: center; justify-content: center; padding: 6px }
-.the img { max-height: 100%; max-width: 100%; object-fit: contain; display: block }
-.the span { padding: 8px 10px; font-size: .86rem; line-height: 1.35 }
-.the b { display: block; color: var(--nhan); font-size: .78rem }
 .cuon { overflow-x: auto; border: 1px solid var(--vien); border-radius: 4px }
-table { border-collapse: collapse; width: 100%; font-size: .87rem; font-variant-numeric: tabular-nums }
-th { background: var(--mat2); text-align: left; font-weight: 600; white-space: nowrap }
-th, td { padding: 5px 9px; border-bottom: 1px solid var(--vien); vertical-align: top }
-tbody tr:last-child td { border-bottom: 0 }
-td.ma { white-space: nowrap }
+table.bang { border-collapse: collapse; width: 100%; font-size: .85rem; font-variant-numeric: tabular-nums }
+.bang th { background: var(--mat2); text-align: left; font-weight: 600; white-space: nowrap }
+.bang th, .bang td { padding: 4px 8px; border-bottom: 1px solid var(--vien); vertical-align: top }
+.bang tbody tr:last-child td { border-bottom: 0 }
+.bang td.ma { white-space: nowrap }
 .pk { color: var(--pk); font-weight: 600 } .pfk { color: var(--pfk); font-weight: 600 } .fk { color: var(--fk) }
 .rong-cot { color: var(--mo) }
-.lk { background: none; border: 0; padding: 0; color: var(--fk); text-decoration: underline dashed; font-family: var(--ma) }
+.lk { background: none; border: 0; padding: 0; color: var(--fk); text-decoration: underline dashed; font-family: var(--ma); font-size: .78rem; overflow-wrap: anywhere; text-align: left }
 .mach { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 10px }
-.mach .n { font-family: var(--ma); font-size: .82rem; background: var(--mat2); border: 1px solid var(--vien); border-radius: 3px; padding: 1px 7px; overflow-wrap: anywhere }
+.mach .n { font-family: var(--ma); font-size: .8rem; background: var(--mat2); border: 1px solid var(--vien); border-radius: 3px; padding: 1px 6px; overflow-wrap: anywhere }
 .mach .m { color: var(--mo) }
-pre { background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; padding: 10px 12px; font-size: .82rem; line-height: 1.5; overflow-x: auto; margin: 8px 0 }
+pre { background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; padding: 9px 11px; font-size: .79rem; line-height: 1.5; overflow-x: auto; margin: 8px 0 }
 textarea { width: 100%; min-height: 150px; font: .85rem/1.5 var(--ma); padding: 10px 12px; color: var(--chu); background: var(--mat2); border: 1px solid var(--vien); border-radius: 4px; resize: vertical }
 .dc { display: inline-block; font-size: .78rem; font-weight: 600; padding: 0 7px; border-radius: 3px; background: var(--mat2) }
 .dc.xau { background: var(--dat); color: var(--dat-chu) }
-.tt { font-size: .86rem; color: var(--mo); margin: 8px 0 }
+.tt { font-size: .84rem; color: var(--mo); margin: 8px 0 }
 .loi { background: var(--dat); color: var(--dat-chu); padding: 8px 10px; border-radius: 4px; font-size: .88rem; overflow-wrap: anywhere }
 .hang { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
-dialog { border: 0; padding: 0; background: var(--mat); color: var(--chu); width: min(96vw, 1280px); max-height: 94vh; border-radius: 6px }
-dialog::backdrop { background: rgba(8, 16, 26, .72) }
-.dau { display: flex; gap: 8px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--vien); flex-wrap: wrap }
-.dau strong { flex: 1 1 200px; min-width: 0 }
-.vung { overflow: auto; max-height: calc(94vh - 56px); background: #fff; text-align: center }
-.vung img { max-width: none; display: block; margin: auto }
-@media (max-width: 800px) { .hai { grid-template-columns: minmax(0, 1fr) } .ds { max-height: 260px } }
-@media (prefers-reduced-motion: no-preference) { .the { transition: border-color .12s } }
+
+/* canvas */
+.thanh { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding-block: 7px; background: var(--mat); border-bottom: 1px solid var(--vien) }
+.nhomnut { display: flex; flex-wrap: wrap; gap: 3px }
+.gian { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 400px; position: relative }
+.gian.an { grid-template-columns: minmax(0, 1fr) 0 }
+.gian.an .ben { display: none }
+.ve { position: relative; min-width: 0; min-height: 0; overflow: hidden; background-color: var(--nen);
+  background-image: linear-gradient(var(--luoi) 1px, transparent 1px), linear-gradient(90deg, var(--luoi) 1px, transparent 1px); background-size: 26px 26px }
+#cv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none }
+#cv.keo { cursor: grabbing }
+.ben { background: var(--mat); border-left: 1px solid var(--vien); overflow: auto; padding: 12px 14px; min-width: 0 }
+.noi-nut { position: absolute; right: 10px; bottom: 10px; display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; max-width: calc(100% - 20px) }
+.noi-nut .nut { background: var(--mat); box-shadow: 0 1px 3px rgba(10, 25, 45, .22) }
+.noi-nut .nut[aria-pressed="true"] { background: var(--nhan); color: var(--nhan-chu) }
+.cot-y { display: block; font: .76rem/1.3 var(--than); color: var(--mo); white-space: normal }
+#ban { position: absolute; left: 10px; bottom: 10px; width: 172px; height: 118px; background: var(--mat); border: 1px solid var(--vien); border-radius: 4px; box-shadow: 0 1px 3px rgba(10, 25, 45, .22); touch-action: none; cursor: pointer }
+.tile { position: absolute; left: 10px; top: 8px; font-size: .76rem; color: var(--mo); background: var(--mat); border: 1px solid var(--vien); border-radius: 3px; padding: 0 6px; font-variant-numeric: tabular-nums }
+/* các phần của sơ đồ */
+.t-vo { fill: var(--mat); stroke: var(--lam-v); stroke-width: 1.2 }
+.t-dau { fill: var(--dau) }
+.t-ten { fill: var(--dau-chu); font: 600 14px var(--than); text-anchor: middle }
+.t-cot { font: 500 12.5px var(--ma); fill: var(--chu) }
+.t-kieu { font: 12px var(--ma); fill: var(--mo) }
+.t-tag { font: 600 11px var(--ma); fill: var(--mo); text-anchor: end }
+.c-pk { fill: var(--pk) } .c-pfk { fill: var(--pfk) } .c-fk { fill: var(--fk) } .c-null { fill: var(--mo) }
+.n-hover .t-vo { stroke: var(--nhan) }
+.du { fill: none; stroke: var(--net); stroke-width: 1.5 }
+.du.dut { stroke-dasharray: 7 5 }
+.mui { fill: none; stroke: var(--net); stroke-width: 1.5 }
+.nhan-du { font: 500 12px var(--than); fill: var(--chu); text-anchor: middle; paint-order: stroke; stroke: var(--nen); stroke-width: 4px; stroke-linejoin: round }
+.ban-so { font: 600 12px var(--ma); fill: var(--chu); text-anchor: middle; paint-order: stroke; stroke: var(--nen); stroke-width: 4px; stroke-linejoin: round }
+.vung-nhom { fill: var(--vung); stroke: var(--vien); stroke-width: 1; stroke-dasharray: 3 4 }
+.vung-ten { font: 600 15px var(--than); fill: var(--mo) }
+.e-vo { fill: var(--vang); stroke: var(--vang-v); stroke-width: 1.6 }
+.e-ten { font: 600 14px var(--than); fill: var(--chu); text-anchor: middle }
+.m-vo { fill: var(--lam); stroke: var(--lam-v); stroke-width: 1.6 }
+.o-vo { fill: var(--cam); stroke: var(--cam-v); stroke-width: 1.4 }
+.o-ten { font: 500 12.5px var(--than); fill: var(--chu); text-anchor: middle }
+.g-tron { fill: var(--lam); stroke: var(--lam-v); stroke-width: 1.6 }
+.g-tron.vao { stroke: var(--sang); stroke-width: 3 }
+.g-so { font: 600 14px var(--ma); fill: var(--chu); text-anchor: middle }
+.g-ten { font: 500 12px var(--than); fill: var(--chu); text-anchor: middle; paint-order: stroke; stroke: var(--nen); stroke-width: 4px; stroke-linejoin: round }
+.mo { opacity: .13 }
+.sang .du, .du.sang, .sang .mui, .mui.sang { stroke: var(--sang); stroke-width: 2.6 }
+.nut-sang .t-vo, .nut-sang .e-vo, .nut-sang .m-vo, .nut-sang .g-tron { stroke: var(--sang); stroke-width: 2.6 }
+.giay { fill: #fff }
+[data-nut] { cursor: pointer }
+@media (max-width: 820px) {
+  .gian, .gian.an { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(340px, 1fr) auto }
+  .ben { border-left: 0; border-top: 1px solid var(--vien); max-height: 44vh }
+  #ban { display: none }
+  .hai { grid-template-columns: minmax(0, 1fr) } .ds { max-height: 260px }
+}
 </style>
 
-<header><div class="le"><div class="rong">
-  <h1>Sổ tay cơ sở dữ liệu PowerTech</h1>
-  <p class="phu">Sơ đồ, bảng, đồ thị quan hệ, con đường truy xuất và truy vấn của báo cáo Cơ sở dữ liệu nâng cao, Nhóm 6, 23DTHD6.</p>
-  <div class="so" id="so"></div>
-</div></div></header>
-<nav><div class="le"><div class="rong tab" role="tablist" id="tab"></div></div></nav>
-<main class="le"><div class="rong" id="noi"></div></main>
-<dialog id="xem"><div class="dau"><strong id="xemTen"></strong>
-  <button class="nut" data-z="-1" aria-label="Thu nhỏ">−</button><button class="nut" data-z="1" aria-label="Phóng to">+</button>
-  <button class="nut" data-z="0">Vừa khung</button><button class="nut" id="dong">Đóng</button></div>
-  <div class="vung" id="vung"><img id="xemAnh" alt=""></div></dialog>
+<header class="le"><h1>Sổ tay PowerTech</h1><div class="tab" role="tablist" id="tab"></div></header>
+<main id="noi"></main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-asm.js"></script>
 <script>
@@ -105,149 +140,377 @@ const D = /*DATA*/null;
 const $ = (s, g = document) => g.querySelector(s);
 const e = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const LOAI = { co_ban: 'Thực thể cơ bản', ngoai: 'Đối tượng ngoài', nghiep_vu: 'Nghiệp vụ', mkh: 'Mối kết hợp có thuộc tính' };
-const TABS = [['so-do', 'Sơ đồ'], ['bang', 'Bảng'], ['do-thi', 'Đồ thị'], ['duong', 'Con đường truy xuất'], ['khai-thac', 'Truy vấn khai thác'], ['sql', 'Chạy SQL']];
+const TABS = [['canvas', 'Sơ đồ'], ['bang', 'Bảng'], ['cung', 'Cung'], ['duong', 'Con đường truy xuất'], ['khai-thac', 'Truy vấn khai thác'], ['sql', 'Chạy SQL']];
+const TONG = D.bang.reduce((m, b) => (m[b.ten] = b, m), {});
+const lu = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem(k)); localStorage.setItem(k, JSON.stringify(v)); } catch { return null; } };
 let db = null, loiDb = '';
 
-function moDb() {
-  db = new SQL.Database();
-  db.exec(D.taoBang);
-  db.exec(D.duLieu);
-}
 async function khoiDong() {
-  try {
-    const SQLm = await initSqlJs();
-    window.SQL = SQLm;
-    moDb();
-  } catch (x) { loiDb = x.message || String(x); }
-  ve();
+  try { window.SQL = await initSqlJs(); moDb(); } catch (x) { loiDb = x.message || String(x); }
+  if (hien !== 'canvas') ve(); else moBen();
 }
-
-// chạy một câu và trả về HTML bảng kết quả
+function moDb() { db = new SQL.Database(); db.exec(D.taoBang); db.exec(D.duLieu); }
 function ketQua(sql, gioiHan = 200) {
-  if (!db) return `<p class="loi">Không mở được SQLite (${e(loiDb || 'đang tải')}). Trang cần mạng để tải sql.js.</p>`;
+  if (!db) return `<p class="tt">${loiDb ? 'Không mở được SQLite: ' + e(loiDb) + '. Trang cần mạng để tải sql.js.' : 'Đang mở SQLite...'}</p>`;
   try {
-    const t0 = performance.now();
-    const rs = db.exec(sql);
-    const ms = (performance.now() - t0).toFixed(1);
+    const t0 = performance.now(), rs = db.exec(sql), ms = (performance.now() - t0).toFixed(1);
     if (!rs.length) return `<p class="tt">Câu lệnh chạy xong, không có dòng trả về (${ms} ms).</p>`;
     const r = rs[rs.length - 1], n = r.values.length;
-    return `<p class="tt">${n} dòng, ${ms} ms${n > gioiHan ? `, hiện ${gioiHan} dòng đầu` : ''}</p><div class="cuon"><table><thead><tr>${r.columns.map(c => `<th>${e(c)}</th>`).join('')}</tr></thead><tbody>${
+    return `<p class="tt">${n} dòng, ${ms} ms${n > gioiHan ? `, hiện ${gioiHan} dòng đầu` : ''}</p><div class="cuon"><table class="bang"><thead><tr>${r.columns.map(c => `<th>${e(c)}</th>`).join('')}</tr></thead><tbody>${
       r.values.slice(0, gioiHan).map(h => `<tr>${h.map(v => `<td>${v === null ? '<span class="rong-cot">NULL</span>' : e(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   } catch (x) { return `<p class="loi">Lỗi SQL: ${e(x.message)}</p>`; }
 }
+function bangCot(b, gon) {
+  return `<div class="cuon"><table class="bang"><thead><tr><th>Cột</th><th>Kiểu</th><th>Khóa</th>${gon ? '' : '<th>Ý nghĩa</th>'}</tr></thead><tbody>${b.cot.map(c => {
+    const lop = c.pk && c.fk ? 'pfk' : c.pk ? 'pk' : c.fk ? 'fk' : c.rong ? 'rong-cot' : '';
+    const khoa = c.pk && c.fk ? 'PFK' : c.pk ? 'PK' : c.fk ? 'FK' : '';
+    return `<tr><td class="ma ${lop}">${c.ten}${gon ? `<span class="cot-y">${e(c.y)}</span>` : ''}</td><td class="ma">${c.kieu}${c.rong ? '' : ' NN'}</td><td>${khoa}${c.fk ? ` <button class="lk" data-t="${c.fk}">${c.fk}</button>` : ''}</td>${gon ? '' : `<td>${e(c.y)}</td>`}</tr>`;
+  }).join('')}</tbody></table></div>`;
+}
 
+/* ---------- canvas: camera ---------- */
+const NS = 'http://www.w3.org/2000/svg';
+let cam = { x: 0, y: 0, z: 1 }, cv, gCam, ma = 'quanhe', nut = {}, duongVe = [], chon = null, duongChon = null, nhomChon = null, hienVaiTro = false, hienNhan = true, hinhChon = 0, nhomI = -1, benAn = false;
+function apCam() {
+  gCam.setAttribute('transform', `translate(${cam.x} ${cam.y}) scale(${cam.z})`);
+  $('.ve').style.backgroundSize = `${26 * cam.z}px ${26 * cam.z}px`;
+  $('.ve').style.backgroundPosition = `${cam.x}px ${cam.y}px`;
+  $('#tile').textContent = Math.round(cam.z * 100) + '%';
+  cv.classList.toggle('xa', cam.z < .45);
+  gCam.querySelectorAll('.nhan-du').forEach(t => { t.style.display = hienNhan && (cam.z >= .42 || t.classList.contains('luon')) ? '' : 'none'; });
+  veBan();
+}
+function khungDo(ds) {
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  ds.forEach(n => { x0 = Math.min(x0, n.x); y0 = Math.min(y0, n.y); x1 = Math.max(x1, n.x + n.w); y1 = Math.max(y1, n.y + n.h); });
+  return { x0, y0, x1, y1 };
+}
+function vua(ds) {
+  const k = khungDo(ds || Object.values(nut)), r = cv.getBoundingClientRect(), le = 34;
+  if (r.width < 80 || r.height < 80) return;              // khung chưa hiện thì chưa tính được tỉ lệ
+  const z = Math.min(1.6, (r.width - le * 2) / (k.x1 - k.x0), (r.height - le * 2) / (k.y1 - k.y0));
+  cam = { z, x: (r.width - (k.x1 + k.x0) * z) / 2, y: (r.height - (k.y1 + k.y0) * z) / 2 };
+  apCam();
+}
+function zoomTai(px, py, h) {
+  const z = Math.min(4, Math.max(.08, cam.z * h));
+  cam.x = px - (px - cam.x) * z / cam.z; cam.y = py - (py - cam.y) * z / cam.z; cam.z = z; apCam();
+}
+function ganCam() {
+  const con = new Map(); let keo = null, vk = 0;
+  const diem = x => { const r = cv.getBoundingClientRect(); return [x.clientX - r.left, x.clientY - r.top]; };
+  cv.addEventListener('wheel', x => { x.preventDefault(); const [a, b] = diem(x); zoomTai(a, b, Math.exp(-x.deltaY * (x.ctrlKey ? .01 : .0016))); }, { passive: false });
+  cv.addEventListener('pointerdown', x => {
+    cv.setPointerCapture(x.pointerId); con.set(x.pointerId, diem(x));
+    const g = x.target.closest('[data-nut]');
+    keo = { px: x.clientX, py: x.clientY, id: g && g.dataset.nut, dao: false };
+    if (keo.id) keo.goc = [nut[keo.id].x, nut[keo.id].y];
+    cv.classList.add('keo');
+  });
+  cv.addEventListener('pointermove', x => {
+    if (!keo) return;
+    if (con.has(x.pointerId)) con.set(x.pointerId, diem(x));
+    if (con.size === 2) {
+      const [a, b] = [...con.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      if (vk) zoomTai((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, d / vk);
+      vk = d; keo.dao = true; return;
+    }
+    const dx = x.clientX - keo.px, dy = x.clientY - keo.py;
+    if (Math.hypot(dx, dy) > 3) keo.dao = true;
+    if (keo.id) { const n = nut[keo.id]; n.x = keo.goc[0] + dx / cam.z; n.y = keo.goc[1] + dy / cam.z; n.g.setAttribute('transform', `translate(${n.x} ${n.y})`); veDuong(); veVung(); veBan(); }
+    else { cam.x += dx; cam.y += dy; keo.px = x.clientX; keo.py = x.clientY; apCam(); }
+  });
+  const het = x => {
+    con.delete(x.pointerId); vk = 0; cv.classList.remove('keo');
+    if (!keo) return;
+    if (!keo.dao) { chon = keo.id && nut[keo.id].chon !== false ? keo.id : null; duongChon = null; toMau(); moBen(); }
+    else if (keo.id) luuViTri();
+    keo = null;
+  };
+  cv.addEventListener('pointerup', het); cv.addEventListener('pointercancel', het);
+}
+function veBan() {
+  const b = $('#ban'); if (!b) return;
+  const ds = Object.values(nut); if (!ds.length) { b.innerHTML = ''; return; }
+  const k = khungDo(ds), r = cv.getBoundingClientRect();
+  const X0 = Math.min(k.x0, -cam.x / cam.z), Y0 = Math.min(k.y0, -cam.y / cam.z), X1 = Math.max(k.x1, (r.width - cam.x) / cam.z), Y1 = Math.max(k.y1, (r.height - cam.y) / cam.z);
+  b.setAttribute('viewBox', `${X0} ${Y0} ${X1 - X0} ${Y1 - Y0}`);
+  const net = (X1 - X0) / 172;
+  b.innerHTML = ds.map(n => `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" fill="var(--dau)"/>`).join('') +
+    `<rect x="${-cam.x / cam.z}" y="${-cam.y / cam.z}" width="${r.width / cam.z}" height="${r.height / cam.z}" fill="none" stroke="var(--sang)" stroke-width="${net * 1.6}"/>`;
+  b.onclick = x => { const q = b.getBoundingClientRect(), s = Math.max((X1 - X0) / q.width, (Y1 - Y0) / q.height), ox = (q.width - (X1 - X0) / s) / 2, oy = (q.height - (Y1 - Y0) / s) / 2;
+    const wx = X0 + (x.clientX - q.left - ox) * s, wy = Y0 + (x.clientY - q.top - oy) * s; cam.x = r.width / 2 - wx * cam.z; cam.y = r.height / 2 - wy * cam.z; apCam(); };
+}
+const sv = (ten, a = {}, cha) => { const n = document.createElementNS(NS, ten); for (const k in a) n.setAttribute(k, a[k]); if (cha) cha.append(n); return n; };
+const chu = (s, x, y, lop, cha) => { const t = sv('text', { x, y, class: lop }, cha); t.textContent = s; return t; };
+function luuViTri() { const v = {}; for (const k in nut) v[k] = [Math.round(nut[k].x), Math.round(nut[k].y)]; lu('viTri-' + ma, v); }
+
+/* ---------- sơ đồ quan hệ ---------- */
+const CAO = 24, DAU = 32, CK = 7.8;
+const XEP = { b1: [['LOAIHANG', 'THUONGHIEU'], ['MATHANG'], ['DINHNGHIATHONGSO', 'GIATRITHONGSO', 'ANHMATHANG']],
+  b4: [['NHACUNGCAP', 'PHIEUNHAP'], ['CHITIETPHIEUNHAP', 'GIAODICHKHO'], ['SERIMATHANG', 'HANGCOSERI']],
+  b3: [['MAGIAMGIA', 'PHIEUGIAO', 'LANGIAO'], ['DONHANG'], ['CHITIETDONHANG', 'THANHTOAN']],
+  b5: [['HOSODOITRA', 'LANNHANLAI'], ['CHITIETTRA', 'PHIEUBAOHANH'], ['KHOANHOAN']],
+  b2: [['KHACHHANG'], ['TAIKHOAN'], ['NHANVIEN']] };
+function xayQuanHe(gNen, gDuong, gNut) {
+  const cu = lu('viTri-quanhe') || {}, kt = {};
+  D.bang.forEach(b => { const c1 = Math.max(...b.cot.map(c => c.ten.length)), c2 = Math.max(...b.cot.map(c => c.kieu.length));
+    kt[b.ten] = { w: Math.max(b.ten.length * 9.6 + 34, (c1 + c2) * CK + 96), h: DAU + b.cot.length * CAO + 8, c1 }; });
+  const dat = (ma_, x0, y0) => { let x = x0, cao = 0;
+    XEP[ma_].forEach(cot => { let y = y0, r = 0; cot.forEach(t => { kt[t].x = x; kt[t].y = y; y += kt[t].h + 46; r = Math.max(r, kt[t].w); }); x += r + 130; cao = Math.max(cao, y - y0); });
+    return [x - x0, cao]; };
+  const [w1, h1] = dat('b1', 0, 0), [, h4] = dat('b4', w1 + 120, 0), hd = Math.max(h1, h4) + 90;
+  const [w3, h3] = dat('b3', 0, hd), [, h5] = dat('b5', w3 + 120, hd);
+  dat('b2', w1 * .55, hd + Math.max(h3, h5) + 90);
+  D.bang.forEach(b => {
+    const k = kt[b.ten], v = cu[b.ten], n = nut[b.ten] = { id: b.ten, x: v ? v[0] : k.x, y: v ? v[1] : k.y, w: k.w, h: k.h, b };
+    const g = n.g = sv('g', { transform: `translate(${n.x} ${n.y})`, 'data-nut': b.ten }, gNut);
+    sv('rect', { class: 't-vo', width: k.w, height: k.h, rx: 4 }, g);
+    sv('path', { class: 't-dau', d: `M0 4a4 4 0 0 1 4-4H${k.w - 4}a4 4 0 0 1 4 4V${DAU - 2}H0z` }, g);
+    chu(b.ten, k.w / 2, 21, 't-ten', g);
+    b.cot.forEach((c, i) => { const y = DAU + i * CAO + 17, lop = c.pk && c.fk ? 'c-pfk' : c.pk ? 'c-pk' : c.fk ? 'c-fk' : c.rong ? 'c-null' : '';
+      chu(c.ten, 10, y, 't-cot ' + lop, g); chu(c.kieu.replace('NVARCHAR', 'Nvarchar').replace('VARCHAR', 'Varchar').replace('DECIMAL', 'Decimal').replace('INT', 'Integer').replace('DATETIME', 'Datetime').replace('DATE', 'Date').replace('BIT', 'Bit'), 10 + k.c1 * CK + 16, y, 't-kieu ' + lop, g);
+      const tag = c.pk && c.fk ? 'PFK' : c.pk ? 'PK' : c.fk ? 'FK' : c.rong ? '' : 'NN'; chu(tag, k.w - 9, y, 't-tag ' + lop, g); });
+  });
+  D.quanHe.nhom.forEach(m => { m.r = sv('rect', { class: 'vung-nhom', rx: 10 }, gNen); m.t = chu(`${m.so} · ${m.ten}`, 0, 0, 'vung-ten', gNen); });
+  duongVe = D.quanHe.canh.map(c => ({ ...c, a: c.con, b: c.cha, vt: c.cha === 'NHANVIEN', g: sv('g', {}, gDuong) }));
+  duongVe.forEach(d => { d.p = sv('path', { class: 'du' + (d.lien ? '' : ' dut') }, d.g); d.m = sv('path', { class: 'mui' }, d.g); if (d.nhan) d.t = chu(d.nhan, 0, 0, 'nhan-du', d.g); });
+}
+function yCot(n, cot) { const i = n.b.cot.findIndex(c => c.ten === cot); return n.y + DAU + Math.max(i, 0) * CAO + 12; }
+function veQuanHe() {
+  duongVe.forEach(d => {
+    const a = nut[d.con], b = nut[d.cha]; d.g.style.display = d.vt && !hienVaiTro && !(chon === d.con || chon === 'NHANVIEN' || d.sangDuong) ? 'none' : '';
+    const ya = yCot(a, d.cot[0]), yb = yCot(b, b.b.cot.find(c => c.pk)?.ten), ca = a.x + a.w / 2, cb = b.x + b.w / 2;
+    let xa, xb, sa, sb;
+    if (d.con === d.cha) { xa = xb = a.x + a.w; sa = sb = 1; }
+    else if (a.x + a.w < b.x) { xa = a.x + a.w; xb = b.x; sa = 1; sb = -1; }
+    else if (b.x + b.w < a.x) { xa = a.x; xb = b.x + b.w; sa = -1; sb = 1; }
+    else { sa = sb = ca <= cb ? -1 : 1; xa = sa < 0 ? a.x : a.x + a.w; xb = sb < 0 ? b.x : b.x + b.w; }
+    const k = Math.max(50, Math.abs(xb - xa) * .45, sa === sb ? Math.abs(yb - ya) * .3 : 0);
+    d.p.setAttribute('d', `M${xa} ${ya}C${xa + sa * k} ${ya} ${xb + sb * k} ${yb} ${xb} ${yb}`);
+    const c = 11; d.m.setAttribute('d', `M${xa} ${ya - 7}L${xa + sa * c} ${ya}L${xa} ${ya + 7}M${xa + sa * c} ${ya - 7}V${ya + 7}M${xb + sb * 7} ${yb - 7}V${yb + 7}`);
+    if (d.t) { const mx = .125 * xa + .375 * (xa + sa * k) + .375 * (xb + sb * k) + .125 * xb, my = (ya + yb) / 2; d.t.setAttribute('x', mx); d.t.setAttribute('y', my - 5); }
+  });
+}
+function veVung() {
+  if (ma !== 'quanhe') return;
+  D.quanHe.nhom.forEach(m => { const k = khungDo(m.bang.map(t => nut[t]));
+    m.r.setAttribute('x', k.x0 - 26); m.r.setAttribute('y', k.y0 - 50); m.r.setAttribute('width', k.x1 - k.x0 + 52); m.r.setAttribute('height', k.y1 - k.y0 + 76);
+    m.t.setAttribute('x', k.x0 - 12); m.t.setAttribute('y', k.y0 - 26); });
+}
+
+/* ---------- ERD ---------- */
+function xayErd(gNen, gDuong, gNut) {
+  const cu = lu('viTri-erd') || {}, giu = new Set(D.erd.giu);
+  D.erd.nut.forEach(u => {
+    const dai = u.nhan.length, E = u.loai === 'E';
+    const w = E ? Math.max(120, dai * 9.4 + 30) : Math.max(92, dai * 8 + 42), h = E ? (u.id === 'NHANVIEN' ? 76 : 46) : 50, v = cu[u.id];
+    const n = nut[u.id] = { id: u.id, x: (v ? v[0] : u.x * 1.6), y: (v ? v[1] : u.y * .72), w, h, loai: u.loai, chon: true };
+    const g = n.g = sv('g', { transform: `translate(${n.x} ${n.y})`, 'data-nut': u.id }, gNut);
+    if (E) sv('rect', { class: 'e-vo', width: w, height: h, rx: 2 }, g);
+    else sv('ellipse', { class: u.loai === 'M' ? 'm-vo' : 'o-vo', cx: w / 2, cy: h / 2, rx: w / 2, ry: h / 2 }, g);
+    chu(u.nhan, w / 2, h / 2 + 5, E ? 'e-ten' : 'o-ten', g);
+  });
+  duongVe = [];
+  D.erd.canh.forEach(c => {
+    c.mkh.forEach(([a, b, card]) => { const self = Array.isArray(card);
+      (self ? card : [card]).forEach((t, i) => { const d = { loai: 'mkh', a, b, card: t, lech: self ? (i ? 14 : -14) : 0, g: sv('g', {}, gDuong) }; d.p = sv('path', { class: 'du' }, d.g); d.c = chu(t, 0, 0, 'ban-so', d.g); duongVe.push(d); }); });
+    const m = c.ovals.length;
+    c.ovals.forEach((o, i) => { const [verb, con, cha, tc, tp] = o;
+      const d = { loai: 'oval', a: con, b: cha, verb, tc, tp, lech: (i - (m - 1) / 2) * 62, vt: cha === 'NHANVIEN' && !giu.has(con), g: sv('g', {}, gDuong) };
+      d.p = sv('path', { class: 'du' }, d.g); const w = Math.max(70, verb.length * 7.6 + 26);
+      d.vo = sv('ellipse', { class: 'o-vo', rx: w / 2, ry: 16 }, d.g); d.t = chu(verb, 0, 0, 'o-ten', d.g); d.c1 = chu(tc, 0, 0, 'ban-so', d.g); d.c2 = chu(tp, 0, 0, 'ban-so', d.g); duongVe.push(d); });
+  });
+}
+function bien(n, tx, ty) {
+  const cx = n.x + n.w / 2, cy = n.y + n.h / 2, dx = tx - cx, dy = ty - cy;
+  if (n.loai === 'E') { const s = Math.min(n.w / 2 / Math.abs(dx || 1e-6), n.h / 2 / Math.abs(dy || 1e-6)); return [cx + dx * s, cy + dy * s]; }
+  const s = 1 / Math.hypot(dx / (n.w / 2), dy / (n.h / 2)); return [cx + dx * s, cy + dy * s];
+}
+function veErd() {
+  duongVe.forEach(d => {
+    const a = nut[d.a], b = nut[d.b]; d.g.style.display = d.vt && !hienVaiTro && chon !== d.a && chon !== 'NHANVIEN' ? 'none' : '';
+    const ax = a.x + a.w / 2, ay = a.y + a.h / 2, bx = b.x + b.w / 2, by = b.y + b.h / 2, L = Math.hypot(bx - ax, by - ay) || 1, nx = -(by - ay) / L, ny = (bx - ax) / L;
+    const ox = nx * d.lech, oy = ny * d.lech, [x1, y1] = bien(a, bx + ox, by + oy), [x2, y2] = bien(b, ax + ox, ay + oy);
+    const X1 = x1 + ox * .8, Y1 = y1 + oy * .8, X2 = x2 + ox * .8, Y2 = y2 + oy * .8, l = Math.hypot(X2 - X1, Y2 - Y1) || 1, ux = (X2 - X1) / l, uy = (Y2 - Y1) / l;
+    d.p.setAttribute('d', `M${X1} ${Y1}L${X2} ${Y2}`);
+    if (d.loai === 'mkh') { d.c.setAttribute('x', X2 - ux * 30); d.c.setAttribute('y', Y2 - uy * 30 + 4); return; }
+    const mx = (X1 + X2) / 2, my = (Y1 + Y2) / 2;
+    d.vo.setAttribute('cx', mx); d.vo.setAttribute('cy', my); d.t.setAttribute('x', mx); d.t.setAttribute('y', my + 4);
+    const q = Math.min(32, l * .17);
+    d.c1.setAttribute('x', X1 + ux * q); d.c1.setAttribute('y', Y1 + uy * q + 4); d.c2.setAttribute('x', X2 - ux * q); d.c2.setAttribute('y', Y2 - uy * q + 4);
+  });
+}
+
+/* ---------- đồ thị quan hệ ---------- */
+const BK = 25;
+function xayThi(gNen, gDuong, gNut) {
+  const cu = lu('viTri-thi') || {}, vao = new Set(D.duong.map(d => d.mach[0]));
+  sv('path', { d: 'M0 0L9 3.5L0 7z', fill: 'var(--net)' }, sv('marker', { id: 'mt', viewBox: '0 0 9 7', refX: 8, refY: 3.5, markerWidth: 9, markerHeight: 7, orient: 'auto', markerUnits: 'userSpaceOnUse' }, sv('defs', {}, gNen)));
+  sv('path', { d: 'M0 0L9 3.5L0 7z', fill: 'var(--sang)' }, sv('marker', { id: 'mts', viewBox: '0 0 9 7', refX: 8, refY: 3.5, markerWidth: 11, markerHeight: 9, orient: 'auto', markerUnits: 'userSpaceOnUse' }, gNen.querySelector('defs')));
+  D.thi.nut.forEach(u => { const v = cu[u.so], k = String(u.so);
+    const n = nut[k] = { id: k, ten: u.ten, so: u.so, x: v ? v[0] : u.x, y: v ? v[1] : u.y, w: BK * 2, h: BK * 2 };
+    const g = n.g = sv('g', { transform: `translate(${n.x} ${n.y})`, 'data-nut': k }, gNut);
+    sv('circle', { class: 'g-tron' + (vao.has(u.ten) ? ' vao' : ''), cx: BK, cy: BK, r: BK }, g); chu(u.so, BK, BK + 5, 'g-so', g); chu(u.ten, BK, BK * 2 + 15, 'g-ten', g); });
+  duongVe = D.cung.map(c => { const [a, b] = c.cung.split(' → '), d = { ...c, a, b, vt: b === '8', g: sv('g', {}, gDuong) }; d.p = sv('path', { class: 'du', 'marker-end': 'url(#mt)' }, d.g); return d; });
+}
+function veThi() {
+  duongVe.forEach(d => { const a = nut[d.a], b = nut[d.b]; d.g.style.display = d.vt && !hienVaiTro && chon !== d.a && chon !== '8' && !d.sangDuong ? 'none' : '';
+    const ax = a.x + BK, ay = a.y + BK;
+    if (d.a === d.b) { d.p.setAttribute('d', `M${ax - 14} ${ay + 21}c-48 46 76 46 28 0`); return; }
+    const bx = b.x + BK, by = b.y + BK, L = Math.hypot(bx - ax, by - ay) || 1, ux = (bx - ax) / L, uy = (by - ay) / L;
+    d.p.setAttribute('d', `M${ax + ux * BK} ${ay + uy * BK}L${bx - ux * (BK + 2)} ${by - uy * (BK + 2)}`); });
+}
+
+/* ---------- ghép chung ---------- */
+function veDuong() { ({ quanhe: veQuanHe, erd: veErd, thi: veThi, hinh() {} })[ma](); }
+function toMau() {
+  const dsNut = Object.values(nut); let giu = null, canh = null;
+  if (duongChon) {
+    const mach = ma === 'thi' ? duongChon.mach.map(t => String(D.thi.nut.find(n => n.ten === t)?.so)) : duongChon.mach;
+    giu = new Set(mach); canh = new Set(mach.slice(1).map((x, i) => mach[i] + '>' + x));
+  } else if (chon) {
+    giu = new Set([chon]); canh = new Set();
+    duongVe.forEach(d => { if (d.a === chon || d.b === chon) { giu.add(d.a); giu.add(d.b); canh.add(d.a + '>' + d.b); } });
+  } else if (nhomChon) giu = new Set(nhomChon);
+  dsNut.forEach(n => { n.g.classList.toggle('mo', !!giu && !giu.has(n.id)); n.g.classList.toggle('nut-sang', !!(duongChon || chon) && giu.has(n.id)); });
+  duongVe.forEach(d => { const s = !!canh && canh.has(d.a + '>' + d.b); d.sangDuong = s;
+    d.g.classList.toggle('sang', s);
+    if (ma === 'thi') d.p.setAttribute('marker-end', s ? 'url(#mts)' : 'url(#mt)');
+    d.g.classList.toggle('mo', giu ? (canh ? !s : !(giu.has(d.a) && giu.has(d.b))) : false); if (d.t) d.t.classList.toggle('luon', s); });
+  veDuong(); apCam();
+}
+function dungCanh() {
+  const noi = $('#cam'); noi.innerHTML = ''; nut = {}; duongVe = []; chon = null; nhomChon = null; nhomI = -1;
+  const gNen = sv('g', {}, noi), gDuong = sv('g', {}, noi), gNut = sv('g', {}, noi);
+  if (ma === 'hinh') { const h = D.hinh[hinhChon], tam = document.createElement('div'); tam.innerHTML = h.svg; const s = tam.querySelector('svg'), vb = s.viewBox.baseVal;
+    s.setAttribute('x', 0); s.setAttribute('y', 0); s.setAttribute('width', vb.width); s.setAttribute('height', vb.height); sv('rect', { class: 'giay', width: vb.width, height: vb.height, rx: 6 }, gNen); gNen.append(s);
+    nut.__ = { id: '__', x: 0, y: 0, w: vb.width, h: vb.height, g: sv('g', {}, gNut) }; }
+  else ({ quanhe: xayQuanHe, erd: xayErd, thi: xayThi })[ma](gNen, gDuong, gNut);
+  veDuong(); veVung(); toMau(); requestAnimationFrame(() => { if (hien === 'canvas' && $('.ve')) vua(); });
+  veChip(); moBen();
+  ['vaiTro', 'nhanBat', 'xepLai'].forEach(k => { $('#' + k).hidden = ma === 'hinh'; });
+  $('#tim').hidden = ma === 'hinh';
+}
+function veChip() {
+  const ds = ma === 'quanhe' ? D.quanHe.nhom : ma === 'erd' ? D.erd.nhom : [];
+  const hop = $('#chip');
+  if (ma === 'hinh') { hop.innerHTML = `<select id="chonHinh" aria-label="Chọn hình">${[...new Set(D.hinh.map(h => h.nhom))].map(n => `<optgroup label="${n}">${D.hinh.map((h, i) => h.nhom === n ? `<option value="${i}" ${i === hinhChon ? 'selected' : ''}>${h.so}. ${e(h.ten)}</option>` : '').join('')}</optgroup>`).join('')}</select>`;
+    $('#chonHinh').onchange = x => { hinhChon = +x.target.value; dungCanh(); }; return; }
+  if (ma === 'thi') { hop.innerHTML = '<span class="tt" style="margin:0">Viền cam là nút vào. Chọn một con đường ở khung bên để xem nó đi qua những nút nào.</span>'; return; }
+  hop.innerHTML = `<button class="chip" aria-pressed="${nhomI < 0}" data-i="-1">Tất cả</button>` + ds.map((m, i) => `<button class="chip" title="${e(m.so + ': ' + m.ten)}" aria-pressed="${nhomI === i}" data-i="${i}">${e(m.ten.replace('Trách nhiệm: ai làm, ai duyệt từng khâu', 'Trách nhiệm'))}</button>`).join('');
+  hop.querySelectorAll('.chip').forEach(b => b.onclick = () => { nhomI = +b.dataset.i; duongChon = null; chon = null;
+    nhomChon = nhomI < 0 ? null : ds[nhomI].bang.filter(t => nut[t]);
+    if (nhomChon && ma === 'erd') Object.keys(nut).forEach(k => { if (k.startsWith('tt_') && duongVe.some(d => d.a === k && nhomChon.includes(d.b))) nhomChon.push(k); });
+    toMau(); veChip(); vua(nhomChon ? nhomChon.map(t => nut[t]) : null); moBen(); });
+}
+function moBen() {
+  const ben = $('.ben'); if (!ben) return;
+  const chonDuong = `<h3 style="margin-top:0">Con đường truy xuất</h3><select id="dgChon" aria-label="Chọn con đường truy xuất" style="width:100%"><option value="">Chọn một trong 61 đường</option>${D.duong.map(d => `<option value="${d.so}" ${duongChon === d ? 'selected' : ''}>Đường ${d.so}: ${d.mach.join(' → ')}</option>`).join('')}</select>`;
+  let noi = '';
+  if (duongChon) { const d = duongChon; noi = `<div class="mach">${d.mach.map(n => `<span class="n">${n}</span>`).join('<span class="m">→</span>')}</div><p style="font-size:.88rem;margin:0">${e(d.yNghia)}</p><pre>${e(d.sql)}</pre>${ketQua(d.sql)}`; }
+  else if (chon) {
+    const ten = ma === 'thi' ? nut[chon].ten : chon, b = TONG[ten];
+    if (b) { const vao = duongVe.filter(d => d.b === chon && d.a !== chon).length, ra = duongVe.filter(d => d.a === chon && d.b !== chon).length;
+      noi = `<h2 class="ma">${b.ten}</h2><p class="ghi" style="margin-bottom:6px">${e(b.moTa)} · ${LOAI[b.loai] || ''} · ${ra} liên kết ra, ${vao} liên kết vào</p><div class="hang"><span class="dc ${b.truoc === 'BCNF' ? '' : 'xau'}">Trước: ${e(b.truoc)}</span><span class="dc">Sau: ${e(b.sau)}</span></div><p class="tt">Khóa: <span class="ma">${e(b.khoa)}</span></p>${bangCot(b, true)}<h3>Dữ liệu minh họa</h3>${ketQua(`SELECT * FROM ${b.ten} LIMIT 8`)}`; }
+    else { const u = D.erd.nut.find(x => x.id === chon); noi = `<h2>${e(u ? u.nhan : chon)}</h2><p class="ghi">Mối kết hợp giữa ${duongVe.filter(d => d.a === chon || d.b === chon).map(d => e(d.a === chon ? d.b : d.a)).join(', ')}.</p>`; }
+  } else if (ma === 'hinh') { const h = D.hinh[hinhChon]; noi = `<h2>${h.so}. ${e(h.ten)}</h2><p class="ghi">Hình vector, phóng to không vỡ nét. Dùng con lăn chuột để phóng to, kéo để di chuyển.</p>`; }
+  else noi = `<h2>${ma === 'erd' ? 'Mô hình ERD' : ma === 'thi' ? 'Đồ thị quan hệ' : 'Sơ đồ quan hệ'}</h2><p class="ghi">Bấm một ${ma === 'quanhe' ? 'bảng' : 'nút'} để làm sáng các liên kết và xem chi tiết. Kéo ${ma === 'quanhe' ? 'bảng' : 'nút'} để xếp lại, cuộn chuột để phóng to, kéo nền để di chuyển.</p>${
+    ma === 'erd' ? '<p class="tt">Chữ nhật vàng là thực thể, oval xanh là mối kết hợp có thuộc tính, oval cam là mối kết hợp còn lại.</p>' : ma === 'quanhe' ? '<p class="tt"><span class="pk">Đỏ</span> khóa chính, <span class="pfk">xanh lam</span> vừa khóa chính vừa khóa ngoại, <span class="fk">xanh lục</span> khóa ngoại, xám cột cho phép rỗng. Nét liền: khóa ngoại nằm trong khóa chính.</p>' : '<p class="tt">25 nút, 43 cung, 8 nút vào.</p>'}`;
+  ben.innerHTML = (ma === 'hinh' ? '' : chonDuong) + `<div style="margin-top:12px">${noi}</div>`;
+  const s = $('#dgChon'); if (s) s.onchange = () => chonDg(+s.value);
+  ben.querySelectorAll('[data-t]').forEach(x => x.onclick = () => { const k = ma === 'thi' ? String(D.thi.nut.find(n => n.ten === x.dataset.t)?.so) : x.dataset.t; if (nut[k]) { chon = k; toMau(); moBen(); } });
+}
+function chonDg(so) {
+  duongChon = D.duong.find(d => d.so === so) || null; chon = null; nhomChon = null; toMau(); moBen();
+  if (duongChon) { const ten = duongChon.mach, ds = ma === 'thi' ? Object.values(nut).filter(n => ten.includes(n.ten)) : ten.map(t => nut[t]).filter(Boolean); if (ds.length) vua(ds); }
+}
+function veCanvas(g) {
+  g.innerHTML = `<div class="thanh le"><div class="nhomnut" id="mode">${[['quanhe', 'Sơ đồ quan hệ'], ['erd', 'ERD'], ['thi', 'Đồ thị quan hệ'], ['hinh', 'Use Case, lưu đồ, phân rã']].map(([k, t]) => `<button class="nut" data-m="${k}" aria-pressed="${k === ma}">${t}</button>`).join('')}</div>
+    <div class="nhomnut" id="chip" style="flex:1 1 240px;min-width:0"></div>
+    <input type="search" id="tim" list="dsTim" aria-label="Tìm bảng" placeholder="Tìm bảng" style="width:150px"><datalist id="dsTim">${D.bang.map(b => `<option value="${b.ten}">`).join('')}</datalist></div>
+  <div class="gian ${benAn ? 'an' : ''}" id="gian"><div class="ve"><svg id="cv" role="img" aria-label="Sơ đồ phóng to được"><g id="cam"></g></svg>
+    <span class="tile" id="tile">100%</span><svg id="ban" aria-label="Bản đồ thu nhỏ" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="noi-nut"><button class="nut" id="vaiTro" aria-pressed="${hienVaiTro}">Đường tới NHANVIEN</button><button class="nut" id="nhanBat" aria-pressed="${hienNhan}">Nhãn</button><button class="nut" id="xepLai">Xếp lại</button><button class="nut" id="nho" aria-label="Thu nhỏ">−</button><button class="nut" id="to" aria-label="Phóng to">+</button><button class="nut" id="vua">Vừa màn hình</button><button class="nut" id="benNut">Khung bên</button></div></div><aside class="ben" aria-label="Chi tiết"></aside></div>`;
+  cv = $('#cv'); gCam = $('#cam'); ganCam();
+  $('#mode').querySelectorAll('.nut').forEach(b => b.onclick = () => { ma = b.dataset.m; duongChon = null; $('#mode').querySelectorAll('.nut').forEach(x => x.setAttribute('aria-pressed', x === b)); dungCanh(); });
+  $('#vua').onclick = () => vua();
+  const giua = h => { const r = cv.getBoundingClientRect(); zoomTai(r.width / 2, r.height / 2, h); };
+  $('#to').onclick = () => giua(1.3); $('#nho').onclick = () => giua(.77);
+  $('#vaiTro').onclick = x => { hienVaiTro = !hienVaiTro; x.currentTarget.setAttribute('aria-pressed', hienVaiTro); veDuong(); };
+  $('#nhanBat').onclick = x => { hienNhan = !hienNhan; x.currentTarget.setAttribute('aria-pressed', hienNhan); apCam(); };
+  $('#xepLai').onclick = () => { try { localStorage.removeItem('viTri-' + ma); } catch {} dungCanh(); };
+  $('#benNut').onclick = () => { benAn = !benAn; $('#gian').classList.toggle('an', benAn); };
+  $('#tim').oninput = x => { const v = x.target.value.trim().toUpperCase(), k = ma === 'thi' ? String(D.thi.nut.find(n => n.ten === v)?.so) : v; if (nut[k]) { chon = k; duongChon = null; toMau(); moBen(); vua([nut[k]]); } };
+  dungCanh();
+  addEventListener('keydown', phim);
+}
+function phim(x) {
+  if (hien !== 'canvas' || /INPUT|TEXTAREA|SELECT/.test(x.target.tagName)) return;
+  const b = 60, m = { ArrowLeft: [b, 0], ArrowRight: [-b, 0], ArrowUp: [0, b], ArrowDown: [0, -b] }[x.key];
+  if (m) { cam.x += m[0]; cam.y += m[1]; apCam(); x.preventDefault(); }
+  if (x.key === '+' || x.key === '=') $('#to').click(); if (x.key === '-') $('#nho').click(); if (x.key === '0') vua();
+}
+
+/* ---------- các mục dạng trang ---------- */
 const trang = {
-  'so-do'(g) {
-    const nhom = [...new Set(D.hinh.map(h => h.nhom))];
-    let chon = 'Tất cả';
-    const ve1 = () => {
-      g.innerHTML = `<h2>Sơ đồ trong báo cáo</h2><p class="ghi">Bấm vào một hình để xem lớn và phóng to. Số hình giữ đúng như trong báo cáo.</p>
-      <div class="loc">${['Tất cả', ...nhom].map(n => `<button class="chip" aria-pressed="${n === chon}" data-n="${e(n)}">${e(n)}</button>`).join('')}</div>
-      <div class="luoi">${D.hinh.map((h, i) => [h, i]).filter(([h]) => chon === 'Tất cả' || h.nhom === chon).map(([h, i]) => `<button class="the" data-i="${i}"><div class="nen"><img src="${h.src}" alt="${e(h.so + ': ' + h.ten)}" loading="lazy"></div><span><b>${e(h.so)}</b>${e(h.ten)}</span></button>`).join('')}</div>`;
-      g.querySelectorAll('.chip').forEach(b => b.onclick = () => { chon = b.dataset.n; ve1(); });
-      g.querySelectorAll('.the').forEach(b => b.onclick = () => moHinh(D.hinh[+b.dataset.i]));
-    };
-    ve1();
-  },
+  canvas: veCanvas,
   bang(g, ten) {
-    const nhom = Object.keys(LOAI);
-    let chon = ten || 'MATHANG';
-    const ve1 = () => {
-      const b = D.bang.find(x => x.ten === chon);
-      g.innerHTML = `<h2>26 quan hệ sau cải tiến</h2><p class="ghi">Chữ đỏ là khóa chính, xanh lam vừa khóa chính vừa khóa ngoại, xanh lục là khóa ngoại. Dữ liệu ở cuối là dữ liệu minh họa của nhóm.</p>
-      <div class="hai"><div class="khung ds">${nhom.map(l => `<h3>${LOAI[l]}</h3>` + D.bang.filter(x => x.loai === l).map(x => `<button class="muc" aria-current="${x.ten === chon}" data-t="${x.ten}"><span class="ma">${x.ten}</span><small>${e(x.moTa)}</small></button>`).join('')).join('')}</div>
-      <div class="khung chi"><h2 class="ma">${b.ten}</h2><p class="ghi">${e(b.moTa)} · ${LOAI[b.loai] || ''}</p>
-      <div class="hang"><span>Dạng chuẩn:</span><span class="dc ${b.truoc === 'BCNF' ? '' : 'xau'}">Trước: ${e(b.truoc)}</span><span>→</span><span class="dc">Sau: ${e(b.sau)}</span></div>
-      <p class="tt">Khóa: <span class="ma">${e(b.khoa)}</span></p>
-      <div class="cuon"><table><thead><tr><th>Cột</th><th>Kiểu</th><th>Rỗng</th><th>Khóa</th><th>Ý nghĩa</th></tr></thead><tbody>${b.cot.map(c => {
-        const lop = c.pk && c.fk ? 'pfk' : c.pk ? 'pk' : c.fk ? 'fk' : '';
-        const khoa = c.pk && c.fk ? 'PFK' : c.pk ? 'PK' : c.fk ? 'FK' : '';
-        return `<tr><td class="ma ${lop}">${c.ten}</td><td class="ma">${c.kieu}</td><td>${c.rong ? 'Có' : ''}</td><td>${khoa}${c.fk ? ` → <button class="lk" data-t="${c.fk}">${c.fk}</button>` : ''}</td><td>${e(c.y)}</td></tr>`;
-      }).join('')}</tbody></table></div>
-      ${b.tanTu ? `<h3>Tân từ</h3><p class="ghi">${e(b.tanTu)}</p>` : ''}${b.rangBuoc ? `<h3>Ràng buộc</h3><p class="ghi">${e(b.rangBuoc)}</p>` : ''}
-      <h3>Dữ liệu minh họa</h3>${ketQua(`SELECT * FROM ${b.ten} LIMIT 20`)}</div></div>`;
-      g.querySelectorAll('[data-t]').forEach(x => x.onclick = () => { chon = x.dataset.t; ve1(); });
-    };
+    const nhom = Object.keys(LOAI); let c = ten || 'MATHANG';
+    const ve1 = () => { const b = TONG[c];
+      g.innerHTML = `<div class="cuon-trang le"><div class="rong"><h2>26 quan hệ sau cải tiến</h2><p class="ghi">Chữ đỏ là khóa chính, xanh lam vừa khóa chính vừa khóa ngoại, xanh lục là khóa ngoại.</p>
+      <div class="hai"><div class="khung ds">${nhom.map(l => `<h3>${LOAI[l]}</h3>` + D.bang.filter(x => x.loai === l).map(x => `<button class="muc" aria-current="${x.ten === c}" data-t="${x.ten}"><span class="ma">${x.ten}</span><small>${e(x.moTa)}</small></button>`).join('')).join('')}</div>
+      <div class="khung chi"><div class="hang" style="justify-content:space-between"><h2 class="ma" style="margin:0">${b.ten}</h2><button class="nut" id="xemSo">Xem trên sơ đồ</button></div><p class="ghi">${e(b.moTa)} · ${LOAI[b.loai] || ''}</p>
+      <div class="hang"><span class="dc ${b.truoc === 'BCNF' ? '' : 'xau'}">Trước: ${e(b.truoc)}</span><span>→</span><span class="dc">Sau: ${e(b.sau)}</span></div><p class="tt">Khóa: <span class="ma">${e(b.khoa)}</span></p>${bangCot(b)}
+      ${b.tanTu ? `<h3>Tân từ</h3><p class="ghi">${e(b.tanTu)}</p>` : ''}${b.rangBuoc ? `<h3>Ràng buộc</h3><p class="ghi">${e(b.rangBuoc)}</p>` : ''}<h3>Dữ liệu minh họa</h3>${ketQua(`SELECT * FROM ${b.ten} LIMIT 20`)}</div></div></div></div>`;
+      g.querySelectorAll('[data-t]').forEach(x => x.onclick = () => { c = x.dataset.t; ve1(); });
+      $('#xemSo', g).onclick = () => { ma = 'quanhe'; hien = 'canvas'; ve(); chon = c; toMau(); moBen(); vua([nut[c]]); }; };
     ve1();
   },
-  'do-thi'(g) {
-    const h = D.hinh.filter(x => x.nhom === 'Đồ thị');
-    g.innerHTML = `<h2>Đồ thị quan hệ</h2><p class="ghi">25 nút (HANGCOSERI và SERIMATHANG gộp một nút), 43 cung, 8 nút vào. Bấm hình để xem lớn.</p>
-    <div class="luoi">${h.map((x, i) => `<button class="the" data-i="${i}"><div class="nen"><img src="${x.src}" alt="${e(x.ten)}"></div><span><b>${e(x.so)}</b>${e(x.ten)}</span></button>`).join('')}</div>
-    <h3>43 cung</h3><div class="loc"><input type="search" id="tim" aria-label="Lọc cung" placeholder="Lọc theo tên quan hệ, ví dụ DONHANG"></div><div class="cuon"><table><thead><tr><th>Cung</th><th>Đi</th><th>Đến</th><th>Xuôi</th><th>Ngược</th><th>Ý nghĩa xuôi</th><th>Ý nghĩa ngược</th></tr></thead><tbody id="dsCung"></tbody></table></div>`;
-    g.querySelectorAll('.the').forEach(b => b.onclick = () => moHinh(h[+b.dataset.i]));
-    const loc = () => { const q = $('#tim', g).value.trim().toUpperCase();
-      $('#dsCung', g).innerHTML = D.cung.filter(c => !q || (c.di + c.den).includes(q)).map(c => `<tr><td class="ma">${e(c.cung)}</td><td class="ma">${e(c.di)}</td><td class="ma">${e(c.den)}</td><td class="ma">${e(c.xuoi)}</td><td class="ma">${e(c.nguoc)}</td><td>${e(c.yXuoi)}</td><td>${e(c.yNguoc)}</td></tr>`).join(''); };
-    $('#tim', g).oninput = loc; loc();
+  cung(g) {
+    g.innerHTML = `<div class="cuon-trang le"><div class="rong"><h2>43 cung của đồ thị quan hệ</h2><p class="ghi">Bản số xuôi và ngược cùng ngữ nghĩa của từng cung.</p><div class="loc"><input type="search" id="tim2" aria-label="Lọc cung" placeholder="Lọc theo tên quan hệ, ví dụ DONHANG"></div><div class="cuon"><table class="bang"><thead><tr><th>Cung</th><th>Đi</th><th>Đến</th><th>Xuôi</th><th>Ngược</th><th>Ý nghĩa xuôi</th><th>Ý nghĩa ngược</th></tr></thead><tbody id="dsCung"></tbody></table></div></div></div>`;
+    const loc = () => { const q = $('#tim2', g).value.trim().toUpperCase(); $('#dsCung', g).innerHTML = D.cung.filter(c => !q || (c.di + c.den).includes(q)).map(c => `<tr><td class="ma">${e(c.cung)}</td><td class="ma">${e(c.di)}</td><td class="ma">${e(c.den)}</td><td class="ma">${e(c.xuoi)}</td><td class="ma">${e(c.nguoc)}</td><td>${e(c.yXuoi)}</td><td>${e(c.yNguoc)}</td></tr>`).join(''); };
+    $('#tim2', g).oninput = loc; loc();
   },
   duong(g) {
-    const vao = [...new Set(D.duong.map(d => d.mach[0]))];
-    let chon = 1, loc = 'Tất cả', tim = '';
-    const ve1 = () => {
-      const ds = D.duong.filter(d => (loc === 'Tất cả' || d.mach[0] === loc) && (!tim || (d.mach.join(' ') + d.yNghia).toUpperCase().includes(tim)));
-      const d = D.duong.find(x => x.so === chon);
-      g.innerHTML = `<h2>61 con đường truy xuất</h2><p class="ghi">Chọn nút vào hoặc lọc theo tên quan hệ. Kết quả dưới đây do SQLite chạy ngay trong trình duyệt trên dữ liệu minh họa.</p>
-      <div class="loc">${['Tất cả', ...vao].map(n => `<button class="chip ${n === 'Tất cả' ? '' : 'ma'}" aria-pressed="${n === loc}" data-v="${n}">${n}</button>`).join('')}<input type="search" id="tim" aria-label="Lọc đường" placeholder="Lọc, ví dụ KHACHHANG" value="${e(tim)}"></div>
-      <div class="hai"><div class="khung ds">${ds.length ? ds.map(x => `<button class="muc" aria-current="${x.so === chon}" data-s="${x.so}">Đường ${x.so}<small class="ma">${x.mach.join(' → ')}</small></button>`).join('') : '<p class="tt" style="padding:8px">Không có đường nào khớp.</p>'}</div>
-      <div class="khung chi"><h2>Đường ${d.so}</h2><div class="mach">${d.mach.map(n => `<span class="n">${n}</span>`).join('<span class="m">→</span>')}</div><p>${e(d.yNghia)}</p><pre>${e(d.sql)}</pre>${ketQua(d.sql)}<p class="tt">Báo cáo ghi ${d.dong} dòng.</p></div></div>`;
+    const vao = [...new Set(D.duong.map(d => d.mach[0]))]; let c = 10, loc = 'Tất cả', tim = '';
+    const ve1 = () => { const ds = D.duong.filter(d => (loc === 'Tất cả' || d.mach[0] === loc) && (!tim || (d.mach.join(' ') + d.yNghia).toUpperCase().includes(tim))), d = D.duong.find(x => x.so === c);
+      g.innerHTML = `<div class="cuon-trang le"><div class="rong"><h2>61 con đường truy xuất</h2><p class="ghi">Kết quả do SQLite chạy ngay trong trình duyệt trên dữ liệu minh họa.</p>
+      <div class="loc">${['Tất cả', ...vao].map(n => `<button class="chip" aria-pressed="${n === loc}" data-v="${n}">${n}</button>`).join('')}<input type="search" id="tim3" aria-label="Lọc đường" placeholder="Lọc, ví dụ KHACHHANG" value="${e(tim)}"></div>
+      <div class="hai"><div class="khung ds">${ds.length ? ds.map(x => `<button class="muc" aria-current="${x.so === c}" data-s="${x.so}">Đường ${x.so}<small class="ma">${x.mach.join(' → ')}</small></button>`).join('') : '<p class="tt" style="padding:8px">Không có đường nào khớp.</p>'}</div>
+      <div class="khung chi"><div class="hang" style="justify-content:space-between"><h2 style="margin:0">Đường ${d.so}</h2><span class="hang"><button class="nut" data-xem="thi">Xem trên đồ thị</button><button class="nut" data-xem="quanhe">Xem trên sơ đồ quan hệ</button></span></div><div class="mach">${d.mach.map(n => `<span class="n">${n}</span>`).join('<span class="m">→</span>')}</div><p>${e(d.yNghia)}</p><pre>${e(d.sql)}</pre>${ketQua(d.sql)}<p class="tt">Báo cáo ghi ${d.dong} dòng.</p></div></div></div></div>`;
       g.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { loc = b.dataset.v; ve1(); });
-      g.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { chon = +b.dataset.s; ve1(); });
-      const o = $('#tim', g); o.oninput = () => { tim = o.value.trim().toUpperCase(); ve1(); const m = $('#tim', g); m.focus(); m.setSelectionRange(m.value.length, m.value.length); };
-    };
+      g.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { c = +b.dataset.s; ve1(); });
+      g.querySelectorAll('[data-xem]').forEach(b => b.onclick = () => { ma = b.dataset.xem; hien = 'canvas'; ve(); requestAnimationFrame(() => requestAnimationFrame(() => chonDg(c))); });
+      const o = $('#tim3', g); o.oninput = () => { tim = o.value.trim().toUpperCase(); ve1(); const m = $('#tim3', g); m.focus(); m.setSelectionRange(m.value.length, m.value.length); }; };
     ve1();
   },
   'khai-thac'(g) {
-    let chon = 'K4';
-    const ve1 = () => {
-      const k = D.khaiThac.find(x => x.ma === chon);
-      g.innerHTML = `<h2>9 truy vấn khai thác</h2><p class="ghi">Các yêu cầu thực tế của cửa hàng, dùng con đường cả xuôi và ngược. Có thể sửa câu lệnh rồi chạy lại.</p>
-      <div class="hai"><div class="khung ds">${D.khaiThac.map(x => `<button class="muc" aria-current="${x.ma === chon}" data-k="${x.ma}"><b>${x.ma}</b><small>${e(x.ten)}</small></button>`).join('')}</div>
-      <div class="khung chi"><h2>${k.ma}. ${e(k.ten)}</h2><p class="tt">Đường: ${e(k.duong)}</p><textarea id="ks" aria-label="Câu lệnh ${k.ma}" spellcheck="false">${e(k.sql)}</textarea>
-      <div class="hang"><button class="nut chinh" id="chay">Chạy</button><button class="nut" id="datLai">Trả lại câu gốc</button></div><div id="kq">${ketQua(k.sql)}</div><p class="tt">Báo cáo ghi ${k.dong} dòng.</p></div></div>`;
-      g.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { chon = b.dataset.k; ve1(); });
-      $('#chay', g).onclick = () => { $('#kq', g).innerHTML = ketQua($('#ks', g).value); };
-      $('#datLai', g).onclick = ve1;
-    };
+    let c = 'K4';
+    const ve1 = () => { const k = D.khaiThac.find(x => x.ma === c);
+      g.innerHTML = `<div class="cuon-trang le"><div class="rong"><h2>9 truy vấn khai thác</h2><p class="ghi">Có thể sửa câu lệnh rồi chạy lại.</p><div class="hai"><div class="khung ds">${D.khaiThac.map(x => `<button class="muc" aria-current="${x.ma === c}" data-k="${x.ma}"><b>${x.ma}</b><small>${e(x.ten)}</small></button>`).join('')}</div>
+      <div class="khung chi"><h2>${k.ma}. ${e(k.ten)}</h2><p class="tt">Đường: ${e(k.duong)}</p><textarea id="ks" aria-label="Câu lệnh ${k.ma}" spellcheck="false">${e(k.sql)}</textarea><div class="hang"><button class="nut chinh" id="chay">Chạy</button><button class="nut" id="datLai">Trả lại câu gốc</button></div><div id="kq">${ketQua(k.sql)}</div><p class="tt">Báo cáo ghi ${k.dong} dòng.</p></div></div></div></div>`;
+      g.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { c = b.dataset.k; ve1(); }); $('#chay', g).onclick = () => { $('#kq', g).innerHTML = ketQua($('#ks', g).value); }; $('#datLai', g).onclick = ve1; };
     ve1();
   },
   sql(g) {
-    g.innerHTML = `<h2>Chạy SQL tự do</h2><p class="ghi">Cơ sở dữ liệu nằm trong trình duyệt này, gồm 26 bảng và dữ liệu minh họa. Câu lệnh sửa dữ liệu chỉ có tác dụng tới khi tải lại trang hoặc khôi phục.</p>
-    <textarea id="tu" aria-label="Câu lệnh SQL" spellcheck="false">SELECT dh.SoDH, dh.TinhTrangDH, COUNT(*) AS SoDong, SUM(ct.SoLuongBan * ct.DonGiaChot) AS TienHang
+    g.innerHTML = `<div class="cuon-trang le"><div class="rong"><h2>Chạy SQL tự do</h2><p class="ghi">Cơ sở dữ liệu nằm trong trình duyệt này. Câu lệnh sửa dữ liệu chỉ có tác dụng tới khi tải lại trang hoặc khôi phục.</p><textarea id="tu" aria-label="Câu lệnh SQL" spellcheck="false">SELECT dh.SoDH, dh.TinhTrangDH, COUNT(*) AS SoDong, SUM(ct.SoLuongBan * ct.DonGiaChot) AS TienHang
 FROM DONHANG dh
 JOIN CHITIETDONHANG ct ON ct.MaDH = dh.MaDH
 GROUP BY dh.MaDH
-ORDER BY dh.MaDH;</textarea>
-    <div class="hang"><button class="nut chinh" id="chay">Chạy</button><button class="nut" id="khoiPhuc">Khôi phục dữ liệu</button><span class="tt">Ctrl + Enter để chạy</span></div><div id="kq"></div>`;
-    const chay = () => { $('#kq', g).innerHTML = ketQua($('#tu', g).value); };
-    $('#chay', g).onclick = chay;
-    $('#tu', g).onkeydown = x => { if (x.ctrlKey && x.key === 'Enter') chay(); };
-    $('#khoiPhuc', g).onclick = () => { if (db) { db.close(); moDb(); } $('#kq', g).innerHTML = '<p class="tt">Đã khôi phục dữ liệu minh họa.</p>'; };
-    chay();
+ORDER BY dh.MaDH;</textarea><div class="hang"><button class="nut chinh" id="chay">Chạy</button><button class="nut" id="khoiPhuc">Khôi phục dữ liệu</button><span class="tt">Ctrl + Enter để chạy</span></div><div id="kq"></div></div></div>`;
+    const chay = () => { $('#kq', g).innerHTML = ketQua($('#tu', g).value); }; $('#chay', g).onclick = chay; $('#tu', g).onkeydown = x => { if (x.ctrlKey && x.key === 'Enter') chay(); };
+    $('#khoiPhuc', g).onclick = () => { if (db) { db.close(); moDb(); } $('#kq', g).innerHTML = '<p class="tt">Đã khôi phục dữ liệu minh họa.</p>'; }; chay();
   },
 };
-
-let hien = 'so-do';
+let hien = 'canvas';
 function ve() {
+  removeEventListener('keydown', phim);
   $('#tab').innerHTML = TABS.map(([k, t]) => `<button role="tab" aria-selected="${k === hien}" data-k="${k}">${t}</button>`).join('');
-  $('#tab').querySelectorAll('button').forEach(b => b.onclick = () => { hien = b.dataset.k; ve(); scrollTo(0, 0); });
+  $('#tab').querySelectorAll('button').forEach(b => b.onclick = () => { hien = b.dataset.k; ve(); });
   trang[hien]($('#noi'));
 }
-let tile = 1;
-function moHinh(h) {
-  $('#xemTen').textContent = h.so + '. ' + h.ten;
-  const a = $('#xemAnh'); a.src = h.src; a.alt = h.ten; tile = 0; a.style.width = '100%';
-  const d = $('#xem'); d.open || d.showModal();
-}
-document.querySelectorAll('[data-z]').forEach(b => b.onclick = () => {
-  const a = $('#xemAnh'), z = +b.dataset.z;
-  if (!z) { tile = 0; a.style.width = '100%'; return; }
-  if (!tile) tile = a.clientWidth / a.naturalWidth;
-  tile = Math.min(3, Math.max(.2, tile * (z > 0 ? 1.3 : .77)));
-  a.style.width = Math.round(a.naturalWidth * tile) + 'px';
-});
-$('#dong').onclick = () => $('#xem').close();
-$('#xem').onclick = x => { if (x.target.id === 'xem') $('#xem').close(); };
-$('#so').innerHTML = [[26, 'quan hệ'], [D.hinh.length, 'hình'], [D.cung.length, 'cung'], [D.duong.length, 'con đường'], [D.khaiThac.length, 'truy vấn khai thác']].map(([n, t]) => `<span><b>${n}</b> ${t}</span>`).join('');
+addEventListener('resize', () => { if (hien === 'canvas' && cv) apCam(); });
 const dau = location.hash.slice(1); if (TABS.some(t => t[0] === dau)) hien = dau;
 ve();
 khoiDong();

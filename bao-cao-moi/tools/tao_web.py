@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ghép web/mau.html với hình, lược đồ và SQL của báo cáo thành một file web/index.html chạy được khi mở trực tiếp.
+"""Ghép web/mau.html với hình, lược đồ và SQL của báo cáo thành một file web/index.html chạy được khi mở trực tiếp. Sơ đồ vẽ sống bằng SVG nên phóng to không vỡ nét.
 
 SQLite chạy trong trình duyệt bằng sql.js; dữ liệu là sql/01 và sql/02. Chạy:  python3 tools/tao_web.py [file_artifact.html]
 """
@@ -7,6 +7,7 @@ import base64
 import json
 import os
 import re
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,6 +15,8 @@ BC = os.path.join(HERE, '..')
 sys.path.insert(0, HERE)
 import erd
 import luoc_do
+import ve_bang
+import ve_erd3
 
 R = luoc_do.improved()
 HINH = [
@@ -114,9 +117,51 @@ def cung():
     return list(so.values())
 
 
+def vector(ma):
+    """Hình vẽ bằng Graphviz xuất SVG để phóng to không vỡ nét; ảnh tác nhân nhúng thẳng vào SVG."""
+    # file .dot cũ ghi đường dẫn tuyệt đối của máy khác tới ảnh tác nhân nên đổi về tên file
+    nguon = re.sub(r'SRC="[^"]*/([^"/]+\.png)"', r'SRC="\1"', doc('hinh', ma + '.dot'))
+    v = subprocess.run(['dot', '-Tsvg'], input=nguon.encode('utf-8'), capture_output=True, check=True, cwd=os.path.join(BC, 'hinh')).stdout.decode('utf-8')
+    v = v[v.index('<svg'):]
+
+    def nhung(m):
+        return f'{m[1]}="{anh(os.path.splitext(os.path.basename(m[2]))[0])}"'
+    return re.sub(r'(xlink:href|href)="([^"]+\.png)"', nhung, v)
+
+
+def so_do_quan_he():
+    canh = []
+    for n in luoc_do.ORDER_IMPROVED:
+        for cols, cha, _ in R[n]['fks']:
+            canh.append(dict(con=n, cha=cha, cot=list(cols), nhan=erd.VERB.get(erd.fk_key(n, cols), ''), lien=set(cols) <= set(R[n]['pk'])))
+    return dict(nhom=[dict(ma=k, so=f'Hình 2.{i + 2}', ten=v[0], bang=v[1]) for i, (k, v) in enumerate(ve_bang.NHOM.items())], canh=canh)
+
+
+def so_do_erd():
+    nuts, canh = ve_erd3.dung(set(erd.ENTITIES) | set(erd.MKH))
+    pos = json.load(open(ve_erd3.CACHE, encoding='utf-8'))['erd_tong_quat']
+    giu = ve_erd3.NV_GIU
+    return dict(
+        nut=[dict(id=k, loai=u.loai, nhan=u.nhan.replace('\n', ' '), x=pos[k][0] * ve_erd3.PX, y=pos[k][1] * ve_erd3.PY * 1.5) for k, u in nuts.items()],
+        canh=[dict(u=c['u'], v=c['v'], ovals=[list(o) for o in c['ovals']], mkh=[[a, b, list(t) if isinstance(t, tuple) else t] for a, b, t in c['mkh']]) for c in canh.values()],
+        giu=sorted(giu), nhom=[dict(so=f'Hình 1.{int(k) + 1}', ten=t, bang=e_) for k, (t, e_) in erd.GROUPS.items()])
+
+
+def do_thi(cung_):
+    pos = json.load(open(os.path.join(HERE, 'bo_cuc_dothi.json'), encoding='utf-8'))['pos']
+    ten = {}
+    for c in cung_:
+        a, b = c['cung'].split(' → ')
+        ten[a], ten[b] = c['di'], c['den']
+    assert len(ten) == 25, len(ten)
+    return dict(nut=[dict(so=int(k), ten=v, x=pos[k][0] * 300, y=pos[k][1] * 210) for k, v in ten.items()])
+
+
 def tao():
-    data = dict(hinh=[dict(nhom=a, ma=b, so=c, ten=d, src=anh(b)) for a, b, c, d in HINH], bang=bang(), cung=cung(), duong=duong(), khaiThac=khai_thac(),
-                taoBang=doc('sql', '01_tao_bang.sql'), duLieu=doc('sql', '02_du_lieu_minh_hoa.sql'))
+    c = cung()
+    data = dict(bang=bang(), cung=c, duong=duong(), khaiThac=khai_thac(), taoBang=doc('sql', '01_tao_bang.sql'), duLieu=doc('sql', '02_du_lieu_minh_hoa.sql'),
+                quanHe=so_do_quan_he(), erd=so_do_erd(), thi=do_thi(c),
+                hinh=[dict(nhom=a, ma=b, so=c_, ten=d, svg=vector(b)) for a, b, c_, d in HINH if a in ('Use Case', 'Lưu đồ', 'Phân rã')])
     mau = open(os.path.join(BC, 'web', 'mau.html'), encoding='utf-8').read()
     # </script> trong chuỗi dữ liệu sẽ cắt thẻ script nên phải thoát
     than = mau.replace('/*DATA*/null', json.dumps(data, ensure_ascii=False).replace('</', '<\\/'))
@@ -124,7 +169,7 @@ def tao():
     open(os.path.join(BC, 'web', 'index.html'), 'w', encoding='utf-8').write(trang)
     if len(sys.argv) > 1:
         open(sys.argv[1], 'w', encoding='utf-8').write(than)
-    print('web/index.html', round(len(trang) / 1048576, 1), 'MB |', len(data['hinh']), 'hình,', len(data['bang']), 'bảng,', len(data['cung']), 'cung,', len(data['duong']), 'đường,', len(data['khaiThac']), 'truy vấn K')
+    print('web/index.html', round(len(trang) / 1048576, 1), 'MB |', len(data['hinh']), 'hình vector,', len(data['erd']['nut']), 'nút ERD,', len(data['quanHe']['canh']), 'khóa ngoại,', len(data['duong']), 'đường')
 
 
 if __name__ == '__main__':
