@@ -11,7 +11,7 @@ JOIN CHITIETDONHANG ct ON ct.MaDH = dh.MaDH
 WHERE kh.SDTKH = '0900000001'
 ORDER BY dh.ThoiDiemLap, ct.SoDongDH;
 
--- K2: Doanh thu tiền hàng theo loại hàng trong tháng 10/2026 (không tính đơn đã hủy, chưa trừ giảm giá và hoàn tiền)
+-- K2: Doanh thu tiền hàng theo loại hàng trong tháng 10/2026 (chỉ tính đơn đã hoàn tất, chưa trừ giảm giá và hoàn tiền)
 -- Con đường: CHITIETDONHANG → DONHANG; CHITIETDONHANG → MATHANG → LOAIHANG
 -- Số dòng trên dữ liệu minh họa: 3
 SELECT lh.MaLoai, lh.TenLoai, SUM(ct.SoLuongBan * ct.DonGiaChot) AS DoanhThuTienHang
@@ -19,7 +19,7 @@ FROM CHITIETDONHANG ct
 JOIN DONHANG dh ON dh.MaDH = ct.MaDH
 JOIN MATHANG mh ON mh.MaSP = ct.MaSP
 JOIN LOAIHANG lh ON lh.MaLoai = mh.MaLoai
-WHERE dh.TinhTrangDH <> 'Đã hủy'
+WHERE dh.TinhTrangDH = 'Hoàn tất'
   AND dh.ThoiDiemLap >= '2026-10-01' AND dh.ThoiDiemLap < '2026-11-01'
 GROUP BY lh.MaLoai, lh.TenLoai
 ORDER BY DoanhThuTienHang DESC;
