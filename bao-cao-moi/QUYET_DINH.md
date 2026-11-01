@@ -291,6 +291,8 @@ Sao lưu: `chuong_docx/_sao_luu/truoc_doc_157_trang/`.
 
 ## 28. Thêm sơ đồ quan hệ tổng quát kiểu Toad (02/11/2026)
 
-- Theo mục 1.7.2 của báo cáo mẫu, Twot muốn một sơ đồ toàn bộ lược đồ. Máy không cài Toad Data Modeler nên `ve_tong` trong `ve_bang.py` dựng bằng Graphviz theo ký hiệu của Toad, chú thích ghi "vẽ theo ký hiệu", không ghi là xuất từ Toad.
-- Đặt ở 2.1.5, là Hình 2.1 trên một trang ngang (trang 53), vẽ 26 quan hệ sau cải tiến. Các hình 2.1–2.19 cũ thành 2.2–2.20; các số hình trong những mục trước của file này là số cũ. Bản nộp 151 trang.
-- Hình tổng quát không ghi tên mối kết hợp trên đường nối vì Graphviz `ortho` không đặt nhãn cạnh được; tên có ở các hình nhóm và Chương 1.
+- Theo mục 1.7.2 của báo cáo mẫu, Twot muốn một sơ đồ toàn bộ lược đồ, chấp nhận chữ nhỏ nhưng không rối và in vừa một trang A4. Máy không cài Toad Data Modeler; chú thích ghi "vẽ theo ký hiệu", không ghi là xuất từ Toad.
+- `tools/ve_so_do_tong.py` tự đặt bảng và tự đi từng đường vuông góc vì Graphviz `ortho` đi đường rối. 12 bảng có khóa ngoại tới NHANVIEN gom vào một trục ngang, bảng có hai khóa ngoại tới NHANVIEN vẽ chung một nhánh. Script kiểm đủ 44 cặp bảng con – bảng cha, không đường nào xuyên bảng, còn 10 chỗ cắt đều vuông góc.
+- Đặt ở 2.1.5, là Hình 2.1 trên một trang A4 ngang lề hẹp (trang 53). Các hình 2.1–2.19 cũ thành 2.2–2.20; các số hình trong những mục trước của file này là số cũ. Bản nộp 151 trang.
+- Hình tổng quát không ghi tên mối kết hợp trên đường nối để khỏi rối; tên có ở các hình nhóm và Chương 1.
+- Không mở file `PowerTech_CSDLNC_Bao_cao_ghep.docx` bằng Word COM ở đúng đường dẫn đó vì bị treo; xử lý trên bản sao trong thư mục tạm rồi chép về.

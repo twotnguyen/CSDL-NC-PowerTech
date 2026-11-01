@@ -209,7 +209,7 @@ def sec_22(res):
       'xanh lục là khóa ngoại (FK), xám là cột cho phép rỗng; NN là NOT NULL. Bảng cha thuộc nhóm khác chỉ vẽ phần khóa.')
     w()
     import ve_bang
-    fig('sodo_quanhe_tong', 'Hình 2.0: Sơ đồ quan hệ tổng quát sau cải tiến (26 quan hệ, vẽ theo ký hiệu của Toad Data Modeler; nét liền: khóa ngoại nằm trong khóa chính)')
+    fig('sodo_quanhe_tong', 'Hình 2.0: Sơ đồ quan hệ tổng quát sau cải tiến (26 quan hệ, vẽ theo ký hiệu của Toad Data Modeler)')
     for k, (ten, tables, rd) in ve_bang.NHOM.items():
         fig(f'sodo_quanhe_{k}', f'Hình 2.{5 + int(k[1:]) - 1 + 0}: Sơ đồ quan hệ nhóm “{ten}”')
     w('## 2.2 TẬP PHỤ THUỘC HÀM, PHỦ TỐI THIỂU, KHÓA VÀ DẠNG CHUẨN CỦA TỪNG QUAN HỆ')
